@@ -7,14 +7,26 @@ s.options.numOutputBusChannels = 1;
 // define for outgoing messages:
 ~sendOSC = NetAddr("127.0.0.1", 57120);
 
+// we are defining a first simple synth:
+SynthDef(\sine,
+	{
+		|f = 100, a=0.5|
 
+		var out;
+
+		out = SinOsc.ar(f,0,a);
+
+		Out.ar(0, out);
+}).add;
 
 
 Server.default.waitForBoot({
 
 
+	~sine = Synth.new(\sine,
+
 	// create a window
-	~window = Window.new("SPRAWL Control", Rect(200,400,300,300)).front;
+	~window = Window.new("SPRAWL Control", Rect(0, 0, 600, 300)).front;
 
 	~myID = 0;
 
@@ -28,6 +40,11 @@ Server.default.waitForBoot({
 		Out.kr(~bus, input);  // write amplitude data to control bus
 		Out.ar(0,input);   // write sound to output bus
 	}.play;
+
+	~slider = Slider(~window, Rect(200, 60, 20, 150))
+      .action_({
+          c.value_(a.value)
+          });
 
 	// create indicator
 	~indicator = LevelIndicator(~window,Rect(10,10,40,200));
