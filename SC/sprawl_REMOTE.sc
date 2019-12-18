@@ -1,4 +1,4 @@
-(
+
 
 // minimize audio IO:
 s.options.numInputBusChannels  = 1;
@@ -20,10 +20,11 @@ SynthDef(\sine,
 }).add;
 
 
+
 Server.default.waitForBoot({
 
 
-	~sine = Synth.new(\sine,
+	// ~sine = Synth.new(\sine,
 
 	// create a window
 	~window = Window.new("SPRAWL Control", Rect(0, 0, 600, 300)).front;
@@ -95,7 +96,7 @@ Server.default.waitForBoot({
 
 
 });
-)
+
 
 
 
