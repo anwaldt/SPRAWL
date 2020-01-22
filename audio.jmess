@@ -1,0 +1,34 @@
+<jmess>
+  <connection>
+    <output>SuperCollider:out_5</output>
+    <input>system:playback_1</input>
+  </connection>
+  <connection>
+    <output>SuperCollider:out_6</output>
+    <input>system:playback_2</input>
+  </connection>
+  <connection>
+    <output>SuperCollider:out_7</output>
+    <input>system:playback_3</input>
+  </connection>
+  <connection>
+    <output>SuperCollider:out_8</output>
+    <input>system:playback_4</input>
+  </connection>
+  <connection>
+    <output>SuperCollider:out_9</output>
+    <input>system:playback_5</input>
+  </connection>
+  <connection>
+    <output>SuperCollider:out_10</output>
+    <input>system:playback_6</input>
+  </connection>
+  <connection>
+    <output>SuperCollider:out_11</output>
+    <input>system:playback_7</input>
+  </connection>
+  <connection>
+    <output>SuperCollider:out_12</output>
+    <input>system:playback_8</input>
+  </connection>
+</jmess>
