@@ -7,7 +7,7 @@ s.options.numInputBusChannels  = 2;
 s.options.numOutputBusChannels = 2;
 
 // define for outgoing messages:
-~sendOSC = NetAddr("127.0.0.1", 4444);
+~sendOSC = NetAddr("191.168.0.1", 57120);
 
 
 ~buffer_1 = Buffer.read(s,"/home/anwaldt/Desktop/sprawl_SYSTEM/WAV/99630__tec-studio__foghorn.wav");
