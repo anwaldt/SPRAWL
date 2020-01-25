@@ -19,7 +19,7 @@ s.options.numOutputBusChannels = 2;
 
 SynthDef( \sampler, {
 
-	arg rate=1, trigger = -1, bufnum=0, startpos = 0;
+	arg rate=1, trigger = 0, bufnum=0, startpos = 0;
 
 	Out.ar (0,
 		rate * PlayBuf.ar(1, bufnum, BufRateScale.kr(bufnum),
@@ -252,9 +252,10 @@ Server.default.waitForBoot({
 	~trigger_button.states = [["HORN", Color.black, Color.red]];
 
 	~single_sample = Synth.new(\sampler,
-		[\trigger:-1, \bufnum: ~buffer_1]);
+		[\trigger:0, \bufnum: ~buffer_1]);
 
 
+~single_sample.set(\trigger,-1);
 	~trigger_button.mouseDownAction = { ~single_sample.set(\trigger,1);
 		~single_sample.set(\rate,1)};
 
@@ -263,9 +264,9 @@ Server.default.waitForBoot({
 
 	// ~single_sample.set(\bufnum,~buffers[8].bufnum());
 
-	~single_sample.set(\trigger,1);
 
-	~single_sample.set(\trigger,-1);
+
+
 
 });
 
