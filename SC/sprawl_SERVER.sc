@@ -13,13 +13,17 @@ Henrik von Coler
 2019-11-19
 */
 
+s = Server(\sprawl_server, NetAddr("127.0.0.1", 58009));
+
+s.options.device = "SPRAWL_server";
+
 s.options.numInputBusChannels  = 64;
 s.options.numOutputBusChannels = 64;
 
 ~nSystems = 16;
 
 // number of outputs to the sound system
-~nOutputs = 16;
+~nOutputs = 20;
 
 /////////////////////////////////////////////////////////////////
 // THE BUSSES:
@@ -27,8 +31,6 @@ s.options.numOutputBusChannels = 64;
 
 // create one audio bus for each pi module:
 ~audio_BUS_pi = Bus.audio(s,  ~nSystems);
-
-
 
 // create a ~nSystems x ~nSystems routing
 // matrix by using an array ofmultichannel
@@ -44,7 +46,7 @@ s.options.numOutputBusChannels = 64;
 
 
 
-// create one audio bus for each loudspeaker module:
+// create one audio bus for each spatialization/loudspeaker module:
 ~audio_BUS_speaker = Bus.audio(s,  ~nOutputs);
 
 // create a ~nSystems x ~outputs_pi routing
@@ -58,6 +60,14 @@ s.options.numOutputBusChannels = 64;
 		Bus.control(s, ~nOutputs);
 	}
 );
+
+
+
+// create one audio bus for each system module:
+~audio_BUS_binaural = Bus.audio(s,  ~nSystems);
+
+~control_BUS_binaural = Bus.control(s,  ~nSystems);
+
 
 
 /////////////////////////////////////////////////////////////////
@@ -96,7 +106,7 @@ SynthDef(\input_module,
 		);
 
 
-		for (0, 15,
+		for (0, 19,
 			{ arg cnt;
 
 				// get the gain value from control bus:
@@ -201,11 +211,13 @@ s.waitForBoot({
 
 
 		/////////////////////////////////////////////////////////////////
+	//
+	/////////////////////////////////////////////////////////////////
 
 
 
 
-	for (0, ~nSystems -1, {arg cnt;
+	for (0, ~nOutputs -1, {arg cnt;
 
 		post('Adding speaker Output Module: ');
 		cnt.postln;
@@ -227,7 +239,9 @@ s.waitForBoot({
 	});*/
 
 
-
+post("Listening on port: ");
+postln(NetAddr.langPort);
+ServerMeter(s);
 });
 
 
@@ -312,5 +326,3 @@ s.waitForBoot({
 }, '/all_silent');
 
 
-
-ServerMeter(s);
