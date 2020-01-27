@@ -12,7 +12,7 @@
 ~horn_FILE = "/home/anwaldt/Desktop/sprawl_SYSTEM/WAV/99630__tec-studio__foghorn.wav";
 
 
-s = Server.local(\sprawl_client, NetAddr("127.0.0.1", 57140));
+// s = Server.local(\sprawl_client, NetAddr("127.0.0.1", 57140));
 
 
 s.options.device = "SPRAWL_remote";

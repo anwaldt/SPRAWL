@@ -13,7 +13,7 @@ Henrik von Coler
 2019-11-19
 */
 
-s = Server(\sprawl_server, NetAddr("127.0.0.1", 58009));
+// s = Server(\sprawl_server, NetAddr("127.0.0.1", 58009));
 
 s.options.device = "SPRAWL_server";
 
