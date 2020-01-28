@@ -9,8 +9,7 @@
 ~my_IDX = 0;
 
 // set to horn file path
-~horn_FILE = "/home/anwaldt/Desktop/sprawl_SYSTEM/WAV/99630__tec-studio__foghorn.wav";
-
+~horn_FILE = "/home/pi/concert/WAV/horn_1.wav";
 
 // s = Server.local(\sprawl_client, NetAddr("127.0.0.1", 57140));
 
@@ -23,7 +22,7 @@ s.options.numOutputBusChannels = 2;
 
 
 // define OSC address and port for outgoing messages:
-~sendOSC = NetAddr("127.0.0.1", 57121);
+~sendOSC = NetAddr("192.168.0.100", 57120);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,6 +62,7 @@ s.waitForBoot({
 
 	~window.view.background=Color.black;
 
+	~window.fullScreen;
 
 	~bus  = Bus.control();  	// create a Bus to store amplitude data
 
