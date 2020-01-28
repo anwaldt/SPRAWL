@@ -8,16 +8,8 @@
     <input>SPRAWL_remote:in_1</input>
   </connection>
   <connection>
-    <output>JackTrip:receive_1</output>
-    <input>system:playback_1</input>
-  </connection>
-  <connection>
-    <output>JackTrip:receive_1</output>
-    <input>system:playback_2</input>
-  </connection>
-  <connection>
     <output>SPRAWL_remote:out_1</output>
-    <input>JackTrip:send_1</input>
+    <input>zita-j2n:in_1</input>
   </connection>
   <connection>
     <output>SPRAWL_remote:out_2</output>
