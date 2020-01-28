@@ -775,10 +775,10 @@
 /bus/3/speaker/3/name "3"
 /bus/3/speaker/4/name "4"
 /bus/3/speakers/visible 0
-/bus/3/routing/output/1/master 1
-/bus/3/routing/output/2/master 2
-/bus/3/routing/output/3/master 3
-/bus/3/routing/output/4/master 4
+/bus/3/routing/output/1/master 9
+/bus/3/routing/output/2/master 10
+/bus/3/routing/output/3/master 11
+/bus/3/routing/output/4/master 12
 /bus/3/lock 0
 /bus/3/delay 0
 /bus/3/delay/bypass 0
@@ -966,7 +966,14 @@
 /bus/1/speaker/7/name "7"
 /bus/1/speaker/8/name "8"
 /bus/1/speakers/visible 0
-/bus/1/routing/output/empty
+/bus/1/routing/output/1/master 1
+/bus/1/routing/output/2/master 2
+/bus/1/routing/output/3/master 3
+/bus/1/routing/output/4/master 4
+/bus/1/routing/output/5/master 5
+/bus/1/routing/output/6/master 6
+/bus/1/routing/output/7/master 7
+/bus/1/routing/output/8/master 8
 /bus/1/lock 0
 /bus/1/delay 0
 /bus/1/delay/bypass 0
@@ -2040,7 +2047,7 @@
 /track/7/bus/D/gain 0
 /track/7/bus/E/gain 0
 /track/7/bus/F/gain 0
-/track/7/bus/display "B"
+/track/7/bus/display "A"
 /track/7/routing/input/1/adc 7
 /track/7/lfe/send 0
 /track/7/lfe/mute 0
@@ -2172,7 +2179,7 @@
 /track/8/bus/D/gain 0
 /track/8/bus/E/gain 0
 /track/8/bus/F/gain 0
-/track/8/bus/display "B"
+/track/8/bus/display "A"
 /track/8/routing/input/1/adc 8
 /track/8/lfe/send 0
 /track/8/lfe/mute 0
@@ -2304,7 +2311,7 @@
 /track/9/bus/D/gain 0
 /track/9/bus/E/gain 0
 /track/9/bus/F/gain 0
-/track/9/bus/display "B"
+/track/9/bus/display "A"
 /track/9/routing/input/1/adc 9
 /track/9/lfe/send 0
 /track/9/lfe/mute 0
@@ -2436,7 +2443,7 @@
 /track/10/bus/D/gain 0
 /track/10/bus/E/gain 0
 /track/10/bus/F/gain 0
-/track/10/bus/display "B"
+/track/10/bus/display "A"
 /track/10/routing/input/1/adc 10
 /track/10/lfe/send 0
 /track/10/lfe/mute 0

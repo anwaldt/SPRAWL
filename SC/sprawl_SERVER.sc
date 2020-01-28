@@ -15,7 +15,7 @@ Henrik von Coler
 
 // s = Server(\sprawl_server, NetAddr("127.0.0.1", 58009));
 
-s.options.device = "SPRAWL_server";
+// s.options.device = "SPRAWL_server";
 
 s.options.numInputBusChannels  = 64;
 s.options.numOutputBusChannels = 64;
