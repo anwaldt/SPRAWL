@@ -2,6 +2,9 @@
 
 ################################
 
+
+killall zita-j2n
+killall qjackctl
 killall pd
 killall sclang
 killall scsynth
@@ -10,9 +13,15 @@ sleep 2
 
 ################################
 
-pd PD/movement_1.pd &
+zita-j2n --16bit --chan 1 192.168.0.100 4401 &
 
-sclang SC/sprawl_REMOTE_silent-green.sc &
+qjackctl &
+
+# pd ~/concert/sprawl/PD/movement_1.pd &
+
+sleep 2
+
+sclang ~/concert/sprawl/SC/sprawl_REMOTE_silent-green.sc &
 
 sleep 6
 

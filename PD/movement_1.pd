@@ -8,7 +8,13 @@
 #X floatatom 304 151 5 0 0 0 - - -;
 #X floatatom 121 305 5 0 0 0 - - -;
 #X obj 249 511 netsend -u -b;
+<<<<<<< HEAD
 #X msg 323 445 disconnect;
+=======
+#X obj 249 473 list trim;
+#X obj 249 430 list prepend send;
+#X msg 396 442 disconnect;
+>>>>>>> 558bcd1dc1f15584973ce91b34a2b5e44499a827
 #X msg 379 475 connect 192.168.0.100 4002;
 #X obj 253 -10 vsl 15 128 0 127 0 0 empty empty empty 0 -9 0 10 -262144
 -1 -1 1000 1;
@@ -23,6 +29,7 @@
 #X obj 484 426 loadbang;
 #X obj 312 -3 loadbang;
 #X msg 312 20 10;
+<<<<<<< HEAD
 #X obj 72 431 list trim;
 #X obj 72 388 list prepend send;
 #X obj 300 410 list trim;
@@ -53,3 +60,29 @@
 #X connect 24 0 7 0;
 #X connect 25 0 24 0;
 #X connect 26 0 4 0;
+=======
+#X obj 283 207 metro 10;
+#X connect 2 0 4 0;
+#X connect 3 0 24 0;
+#X connect 4 0 15 0;
+#X connect 4 0 17 0;
+#X connect 6 0 14 0;
+#X connect 8 0 7 0;
+#X connect 9 0 8 0;
+#X connect 10 0 7 0;
+#X connect 11 0 7 0;
+#X connect 12 0 13 0;
+#X connect 13 0 2 0;
+#X connect 13 0 5 0;
+#X connect 14 0 9 0;
+#X connect 15 0 6 0;
+#X connect 16 0 9 0;
+#X connect 17 0 16 0;
+#X connect 18 0 1 0;
+#X connect 19 0 20 0;
+#X connect 20 0 3 0;
+#X connect 21 0 11 0;
+#X connect 22 0 23 0;
+#X connect 23 0 12 0;
+#X connect 24 0 4 0;
+>>>>>>> 558bcd1dc1f15584973ce91b34a2b5e44499a827
