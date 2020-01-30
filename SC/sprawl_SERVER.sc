@@ -17,8 +17,8 @@ Henrik von Coler
 
 // s.options.device = "SPRAWL_server";
 
-s.options.numInputBusChannels  = 64;
-s.options.numOutputBusChannels = 64;
+s.options.numInputBusChannels  = 16;
+s.options.numOutputBusChannels = 48;
 
 ~nSystems = 16;
 
@@ -97,7 +97,7 @@ SynthDef(\input_module,
 				input = SoundIn.ar(input_bus, 1);
 
 				// apply gain
-				output = input*gain;
+				output = input*gain*0.7;
 
 				// audio output to dedicated bus
 				Out.ar(output_bus_pi + cnt, output);
@@ -116,7 +116,7 @@ SynthDef(\input_module,
 				input = SoundIn.ar(input_bus, 1);
 
 				// apply gain
-				output = input*gain;
+				output = input*gain * 0.6;
 
 				// audio output to dedicated bus
 				Out.ar(output_bus_speaker + cnt, output);

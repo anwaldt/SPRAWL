@@ -12,23 +12,63 @@
     <input>192.168.0.14:send_1</input>
   </connection>
   <connection>
+    <output>SuperCollider:out_5</output>
+    <input>192.168.0.11:send_1</input>
+  </connection>
+  <connection>
     <output>SuperCollider:out_6</output>
     <input>192.168.0.16:send_1</input>
+  </connection>
+  <connection>
+    <output>SuperCollider:out_6</output>
+    <input>192.168.0.12:send_1</input>
   </connection>
   <connection>
     <output>SuperCollider:out_7</output>
     <input>192.168.0.17:send_1</input>
   </connection>
   <connection>
+    <output>SuperCollider:out_7</output>
+    <input>192.168.0.13:send_1</input>
+  </connection>
+  <connection>
     <output>SuperCollider:out_8</output>
     <input>192.168.0.18:send_1</input>
+  </connection>
+  <connection>
+    <output>SuperCollider:out_8</output>
+    <input>192.168.0.14:send_1</input>
   </connection>
   <connection>
     <output>SuperCollider:out_9</output>
     <input>192.168.0.19:send_1</input>
   </connection>
   <connection>
+    <output>SuperCollider:out_9</output>
+    <input>192.168.0.15:send_1</input>
+  </connection>
+  <connection>
     <output>SuperCollider:out_10</output>
+    <input>192.168.0.20:send_1</input>
+  </connection>
+  <connection>
+    <output>SuperCollider:out_10</output>
+    <input>192.168.0.16:send_1</input>
+  </connection>
+  <connection>
+    <output>SuperCollider:out_11</output>
+    <input>192.168.0.17:send_1</input>
+  </connection>
+  <connection>
+    <output>SuperCollider:out_12</output>
+    <input>192.168.0.18:send_1</input>
+  </connection>
+  <connection>
+    <output>SuperCollider:out_13</output>
+    <input>192.168.0.19:send_1</input>
+  </connection>
+  <connection>
+    <output>SuperCollider:out_14</output>
     <input>192.168.0.20:send_1</input>
   </connection>
   <connection>
@@ -73,51 +113,99 @@
   </connection>
   <connection>
     <output>SuperCollider:out_31</output>
-    <input>system:playback_1</input>
-  </connection>
-  <connection>
-    <output>SuperCollider:out_32</output>
-    <input>system:playback_2</input>
-  </connection>
-  <connection>
-    <output>SuperCollider:out_33</output>
     <input>system:playback_3</input>
   </connection>
   <connection>
-    <output>SuperCollider:out_34</output>
+    <output>SuperCollider:out_31</output>
+    <input>system:playback_15</input>
+  </connection>
+  <connection>
+    <output>SuperCollider:out_32</output>
     <input>system:playback_4</input>
   </connection>
   <connection>
-    <output>SuperCollider:out_35</output>
+    <output>SuperCollider:out_32</output>
+    <input>system:playback_15</input>
+  </connection>
+  <connection>
+    <output>SuperCollider:out_33</output>
     <input>system:playback_5</input>
   </connection>
   <connection>
-    <output>SuperCollider:out_36</output>
+    <output>SuperCollider:out_33</output>
+    <input>system:playback_15</input>
+  </connection>
+  <connection>
+    <output>SuperCollider:out_34</output>
     <input>system:playback_6</input>
   </connection>
   <connection>
-    <output>SuperCollider:out_37</output>
+    <output>SuperCollider:out_34</output>
+    <input>system:playback_15</input>
+  </connection>
+  <connection>
+    <output>SuperCollider:out_35</output>
     <input>system:playback_7</input>
   </connection>
   <connection>
-    <output>SuperCollider:out_38</output>
+    <output>SuperCollider:out_35</output>
+    <input>system:playback_15</input>
+  </connection>
+  <connection>
+    <output>SuperCollider:out_36</output>
     <input>system:playback_8</input>
   </connection>
   <connection>
-    <output>SuperCollider:out_39</output>
+    <output>SuperCollider:out_36</output>
+    <input>system:playback_15</input>
+  </connection>
+  <connection>
+    <output>SuperCollider:out_37</output>
     <input>system:playback_9</input>
   </connection>
   <connection>
-    <output>SuperCollider:out_39</output>
+    <output>SuperCollider:out_37</output>
+    <input>system:playback_15</input>
+  </connection>
+  <connection>
+    <output>SuperCollider:out_38</output>
     <input>system:playback_10</input>
   </connection>
   <connection>
-    <output>SuperCollider:out_40</output>
+    <output>SuperCollider:out_38</output>
+    <input>system:playback_15</input>
+  </connection>
+  <connection>
+    <output>SuperCollider:out_39</output>
     <input>system:playback_11</input>
   </connection>
   <connection>
-    <output>SuperCollider:out_40</output>
+    <output>SuperCollider:out_39</output>
     <input>system:playback_12</input>
+  </connection>
+  <connection>
+    <output>SuperCollider:out_39</output>
+    <input>system:playback_15</input>
+  </connection>
+  <connection>
+    <output>SuperCollider:out_40</output>
+    <input>system:playback_13</input>
+  </connection>
+  <connection>
+    <output>SuperCollider:out_40</output>
+    <input>system:playback_14</input>
+  </connection>
+  <connection>
+    <output>SuperCollider:out_40</output>
+    <input>system:playback_15</input>
+  </connection>
+  <connection>
+    <output>192.168.0.14:receive_1</output>
+    <input>SuperCollider:in_4</input>
+  </connection>
+  <connection>
+    <output>192.168.0.17:receive_1</output>
+    <input>SuperCollider:in_7</input>
   </connection>
   <connection>
     <output>192.168.0.11:receive_1</output>
@@ -126,10 +214,6 @@
   <connection>
     <output>192.168.0.12:receive_1</output>
     <input>SuperCollider:in_2</input>
-  </connection>
-  <connection>
-    <output>192.168.0.14:receive_1</output>
-    <input>SuperCollider:in_4</input>
   </connection>
   <connection>
     <output>192.168.0.16:receive_1</output>
@@ -148,8 +232,12 @@
     <input>SuperCollider:in_10</input>
   </connection>
   <connection>
-    <output>192.168.0.17:receive_1</output>
-    <input>SuperCollider:in_7</input>
+    <output>192.168.0.13:receive_1</output>
+    <input>SuperCollider:in_3</input>
+  </connection>
+  <connection>
+    <output>192.168.0.15:receive_1</output>
+    <input>SuperCollider:in_5</input>
   </connection>
   <connection>
     <output>PanoramixJack:out_1</output>
@@ -200,75 +288,7 @@
     <input>system:playback_14</input>
   </connection>
   <connection>
-    <output>ardour:Click/audio_out 1</output>
-    <input>system:playback_1</input>
-  </connection>
-  <connection>
-    <output>ardour:Click/audio_out 2</output>
-    <input>system:playback_2</input>
-  </connection>
-  <connection>
-    <output>ardour:1-hour-harbor-soundscape-seagulls-ships-ocean-sounds/audio_out 1</output>
-    <input>PanoramixJack:in_11</input>
-  </connection>
-  <connection>
-    <output>ardour:1-hour-harbor-soundscape-seagulls-ships-ocean-sounds/audio_out 2</output>
-    <input>PanoramixJack:in_12</input>
-  </connection>
-  <connection>
-    <output>ardour:323207__klankbeeld__small-city-harbour-ambience-nl-150920-0781/audio_out 1</output>
-    <input>PanoramixJack:in_13</input>
-  </connection>
-  <connection>
-    <output>ardour:323207__klankbeeld__small-city-harbour-ambience-nl-150920-0781/audio_out 2</output>
-    <input>PanoramixJack:in_14</input>
-  </connection>
-  <connection>
-    <output>ardour:187550__klankbeeld__harbour-soundscape-long-nl-130501-05-16bit/audio_out 1</output>
-    <input>PanoramixJack:in_15</input>
-  </connection>
-  <connection>
-    <output>ardour:187550__klankbeeld__harbour-soundscape-long-nl-130501-05-16bit/audio_out 2</output>
-    <input>PanoramixJack:in_16</input>
-  </connection>
-  <connection>
-    <output>ardour:323207__klankbeeld__small-city-harbour-ambience-nl-150920-0781.2/audio_out 1</output>
-    <input>PanoramixJack:in_17</input>
-  </connection>
-  <connection>
-    <output>ardour:323207__klankbeeld__small-city-harbour-ambience-nl-150920-0781.2/audio_out 1</output>
-    <input>PanoramixJack:in_14</input>
-  </connection>
-  <connection>
-    <output>ardour:323207__klankbeeld__small-city-harbour-ambience-nl-150920-0781.2/audio_out 2</output>
-    <input>PanoramixJack:in_18</input>
-  </connection>
-  <connection>
-    <output>ardour:323207__klankbeeld__small-city-harbour-ambience-nl-150920-0781.2/audio_out 2</output>
-    <input>PanoramixJack:in_13</input>
-  </connection>
-  <connection>
-    <output>ardour:187550__klankbeeld__harbour-soundscape-long-nl-130501-05-16bit.2/audio_out 1</output>
-    <input>PanoramixJack:in_19</input>
-  </connection>
-  <connection>
-    <output>ardour:187550__klankbeeld__harbour-soundscape-long-nl-130501-05-16bit.2/audio_out 1</output>
-    <input>PanoramixJack:in_12</input>
-  </connection>
-  <connection>
-    <output>ardour:187550__klankbeeld__harbour-soundscape-long-nl-130501-05-16bit.2/audio_out 2</output>
-    <input>PanoramixJack:in_20</input>
-  </connection>
-  <connection>
-    <output>ardour:187550__klankbeeld__harbour-soundscape-long-nl-130501-05-16bit.2/audio_out 2</output>
-    <input>PanoramixJack:in_11</input>
-  </connection>
-  <connection>
-    <output>ardour:auditioner/audio_out 1</output>
-    <input>system:playback_1</input>
-  </connection>
-  <connection>
-    <output>ardour:auditioner/audio_out 2</output>
-    <input>system:playback_2</input>
+    <output>PanoramixJack:out_13</output>
+    <input>system:playback_15</input>
   </connection>
 </jmess>
