@@ -295,7 +295,7 @@ ServerMeter(s);
 		msg[3].postln;
 
 		s = max(0,min(msg[1],15));
-		r = max(0,min(msg[2],15));
+		r = max(0,min(msg[2],19));
 
 		// set the bus value:
 		~gain_BUS_speaker[s].setAt(r,msg[3]);

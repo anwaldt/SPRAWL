@@ -7,7 +7,8 @@ killall jacktrip
 killall sclang
 killall scsynth
 killall qjackctl
-killall jackd 
+killall jackd
+killall pd
 
 sleep 2
 
@@ -32,13 +33,13 @@ sleep 4
 
 qjackctl &
 
-zita-n2j --jname PI_01 --chan 1 --buff 5 192.168.0.100 4401 >> log/zita_01.log &
+zita-n2j --jname PI_01 --chan 1 192.168.0.100 4401 &
 sleep 4
-zita-n2j --jname PI_02 --chan 1 --buff 5 192.168.0.100 4422 >> log/zita_02.log &
+zita-n2j --jname PI_02 --chan 1 192.168.0.100 4422 &
 sleep 4
-zita-n2j --jname PI_03 --chan 1 --buff 5 192.168.0.100 4431 >> log/zita_03.log &
+zita-n2j --jname PI_03 --chan 1 192.168.0.100 4431 &
 sleep 4
-zita-n2j --jname PI_04 --chan 1 --buff 5 192.168.0.100 4434 >> log/zita_04.log &
+zita-n2j --jname PI_04 --chan 1 192.168.0.100 4434 &
 sleep 4
 zita-n2j --jname PI_05 --chan 1 192.168.0.100 4455 &
 sleep 4
