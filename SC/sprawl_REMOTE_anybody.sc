@@ -91,7 +91,7 @@ s.waitForBoot({
 	c.font = Font("Monaco", 22);
 
 	// create indicator
-	~indicator = LevelIndicator(~window,Rect(190,60,60,180));
+	~indicator = LevelIndicator(~window,Rect(220,60,40,180));
 	~indicator.style_(\led).value_(1/3).stepWidth_(4);
 
 	~meter_ROUTINE = Routine({
@@ -170,7 +170,7 @@ s.waitForBoot({
 	a.stringColor = Color.new255(255, 0, 147);
 	a.font = Font("Monaco", 22);
 
-		a = StaticText(~window, Rect(660, 5, 300, 20));
+	a = StaticText(~window, Rect(660, 5, 300, 20));
 	a.string = "UPPER";
 	a.stringColor =Color.new255(77, 220, 147);
 	a.font = Font("Monaco", 22);
@@ -211,7 +211,7 @@ s.waitForBoot({
 
 		if(i>5)
 		{
-					~sliders_MOVEMENTS[i].background = Color.new255(77, 220, 147);
+			~sliders_MOVEMENTS[i].background = Color.new255(77, 220, 147);
 
 		};
 
@@ -279,7 +279,7 @@ s.waitForBoot({
 
 		if(i>7)
 		{
-					~sliders_SPEAKERS[i].background = Color.new255(77, 220, 147);
+			~sliders_SPEAKERS[i].background = Color.new255(77, 220, 147);
 
 		};
 		~sliders_SPEAKERS[i].action_(
@@ -291,37 +291,52 @@ s.waitForBoot({
 	});
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// HORN
+	// buttons
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	~trigger_button = Button(~window, Rect( 30, 100 ,130, 130));
+	~buttons = Array.fill(16,
+		{arg i;
 
-	~trigger_button.states = [["HORN", Color.black, Color.red]];
+			// define coordinates
+			var x = 10+((i%4)*50);
+			var y = 0 + (round((i+2)/4,1)*50);
 
-	~single_sample = Synth.new(\sampler,
-		[\trigger:0, \bufnum: ~buffer_1]);
-
-
-	~single_sample.set(\trigger,-1);
-	~trigger_button.mouseDownAction = { ~single_sample.set(\trigger,1);
-		~single_sample.set(\rate,1)};
-
-	~trigger_button.mouseUpAction = { ~single_sample.set(\trigger,-1);
-		~single_sample.set(\rate,0)};
-
-	// ~single_sample.set(\bufnum,~buffers[8].bufnum());
+			Button(~window, Rect( x, y ,40, 40));
+		}
+	);
 
 
+	for (0, 15, {arg i;
+
+		~buttons[i].states = [[i.asString, Color.black, Color.gray],
+			[i.asString, Color.white, Color.new255(255, 20, 147)]];
+
+		~buttons[i].action = {
+
+			~my_IDX = i;
+
+			for (0, 15, {arg j;
+
+				if(j!=i)
+				{
+				~buttons[j].value = 0;
+				}
+			});
+
+			// ~sendOSC.sendMsg("/route",i, 0 ,~buttons[i].value);
 
 
 
+		};
+
+	});
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// toogle full screen
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-	~fullscreen_BUTTON = Button(~window, Rect(0, 0, 100, 50))
+	~fullscreen_BUTTON = Button(~window, Rect(0, 0, 80, 40))
 	.states_([
 		["Fullscreen", Color.black, Color.gray],
 		["Quit fullscreen", Color.black, Color.gray]
