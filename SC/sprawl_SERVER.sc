@@ -13,7 +13,7 @@ Henrik von Coler
 2019-11-19
 */
 
-// s = Server(\sprawl_server, NetAddr("127.0.0.1", 58009));
+s = Server(\sprawl_server, NetAddr("127.0.0.1", 58009));
 
 // s.options.device = "SPRAWL_server";
 
@@ -24,6 +24,9 @@ s.options.numOutputBusChannels = 48;
 
 // number of outputs to the sound system
 ~nOutputs = 20;
+
+~sendOSC = NetAddr("127.0.0.1", 57120);
+
 
 /////////////////////////////////////////////////////////////////
 // THE BUSSES:
@@ -210,7 +213,7 @@ s.waitForBoot({
 	// });
 
 
-		/////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////
 	//
 	/////////////////////////////////////////////////////////////////
 
@@ -232,17 +235,18 @@ s.waitForBoot({
 		);)
 	});
 
-/*	for (0, ~nSystems-1,
-		{
-			arg cnt;
-			~outputs_speaker[cnt].set(\output, cnt+16);
+	/*	for (0, ~nSystems-1,
+	{
+	arg cnt;
+	~outputs_speaker[cnt].set(\output, cnt+16);
 	});*/
 
 
-post("Listening on port: ");
-postln(NetAddr.langPort);
-ServerMeter(s);
-});
+	post("Listening on port: ");
+	postln(NetAddr.langPort);
+	ServerMeter(s);
+
+
 
 
 
@@ -324,5 +328,43 @@ ServerMeter(s);
 		);
 
 }, '/all_silent');
+
+
+
+~sendOSC_routine = Routine({
+
+	inf.do({
+
+
+		for (0, ~nSystems-1, { arg i;
+
+				var gains    = ~gain_BUS_speaker[i].getnSynchronous(~nOutputs);
+
+			for (0, ~nOutputs-1, { arg j;
+
+
+					~sendOSC.sendMsg('/route/speaker', i, j, gains[j]);
+
+					0.001.wait;
+
+			});
+
+
+		});
+
+		0.001.wait;
+	});
+
+});
+
+
+~sendOSC_routine.play;
+
+
+
+
+});
+
+
 
 

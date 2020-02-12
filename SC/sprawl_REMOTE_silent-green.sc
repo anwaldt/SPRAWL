@@ -11,7 +11,7 @@
 // set to horn file path
 ~horn_FILE = "/home/pi/concert/WAV/horn_1.wav";
 
-// s = Server.local(\sprawl_client, NetAddr("127.0.0.1", 57140));
+s = Server.local(\sprawl_client, NetAddr("127.0.0.1", 57140));
 
 
 s.options.device = "SPRAWL_remote";
@@ -22,7 +22,8 @@ s.options.numOutputBusChannels = 2;
 
 
 // define OSC address and port for outgoing messages:
-~sendOSC = NetAddr("192.168.0.100", 57120);
+// ~sendOSC = NetAddr("192.168.0.100", 57120);
+~sendOSC = NetAddr("127.0.0.1", 57122);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,7 +63,7 @@ s.waitForBoot({
 
 	~window.view.background=Color.black;
 
-	~window.fullScreen;
+	//~window.fullScreen;
 
 	~bus  = Bus.control();  	// create a Bus to store amplitude data
 
@@ -338,6 +339,40 @@ s.waitForBoot({
 
 		};
 	};
+
+
+
+
+
+
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// OSC receiver for send sliders
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+	~send_gain_OSC = OSCFunc(
+
+		{ arg msg, time, addr, recvPort;
+
+
+
+			if(msg[1]==~my_IDX)
+			{
+				if(	msg[2]<10)
+				{
+					{~sliders_MOVEMENTS[msg[2]].value_(msg[3])}.defer;
+				}
+			}
+
+
+
+	}, '/route/speaker');
+
+
 
 });
 
