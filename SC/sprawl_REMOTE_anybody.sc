@@ -8,8 +8,6 @@
 
 ~my_IDX = 0;
 
-// set to horn file path
-~horn_FILE = "/home/pi/concert/WAV/horn_1.wav";
 
 s = Server.local(\sprawl_client, NetAddr("127.0.0.1", 57140));
 
@@ -20,28 +18,14 @@ s.options.device = "SPRAWL_remote";
 s.options.numInputBusChannels  = 2;
 s.options.numOutputBusChannels = 2;
 
+// thisProcess.openUDPPort(57120);
 
 // define OSC address and port for outgoing messages:
 // ~sendOSC = NetAddr("192.168.0.100", 57120);
-~sendOSC = NetAddr("127.0.0.1", 57122);
+~sendOSC = NetAddr("127.0.0.1", 57120);
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Synthdef for the ship's horn
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-SynthDef( \sampler, {
-
-	arg rate=1, trigger = 0, bufnum=0, startpos = 0;
-
-	Out.ar ([0, 1],
-		rate * PlayBuf.ar(1, bufnum, BufRateScale.kr(bufnum),
-			trigger,
-			startpos*BufFrames.kr(bufnum)),
-		0)
-
-}).add;
 
 
 
@@ -52,9 +36,6 @@ SynthDef( \sampler, {
 
 s.waitForBoot({
 
-
-	// read horn file to buffer
-	~buffer_1 = Buffer.read(s,~horn_FILE);
 
 
 	// create a window
@@ -165,7 +146,7 @@ s.waitForBoot({
 
 
 
-	a = StaticText(~window, Rect(310, 5, 300, 20));
+/*	a = StaticText(~window, Rect(310, 5, 300, 20));
 	a.string = "TO LOWER MOVEMENTS";
 	a.stringColor = Color.new255(255, 0, 147);
 	a.font = Font("Monaco", 22);
@@ -173,7 +154,7 @@ s.waitForBoot({
 	a = StaticText(~window, Rect(660, 5, 300, 20));
 	a.string = "UPPER";
 	a.stringColor =Color.new255(77, 220, 147);
-	a.font = Font("Monaco", 22);
+	a.font = Font("Monaco", 22);*/
 
 	~sliders_MOVEMENTS = Array.fill(10,
 		{arg i;
@@ -205,7 +186,7 @@ s.waitForBoot({
 		txt.string = i.asString;
 		txt.stringColor = Color.grey;
 		txt.font = Font("Monaco", 22);*/
-
+/*
 		~sliders_MOVEMENTS[i].background = Color.new255(255, 0, 147);
 
 
@@ -213,7 +194,7 @@ s.waitForBoot({
 		{
 			~sliders_MOVEMENTS[i].background = Color.new255(77, 220, 147);
 
-		};
+		};*/
 
 
 		~sliders_MOVEMENTS[i].action_(
@@ -234,16 +215,16 @@ s.waitForBoot({
 
 
 
-	a = StaticText(~window, Rect(390, 450, 300, 20));
-	a.string = "TO LOWER SPEAKERS";
-	a.stringColor = Color.new255(255, 220, 147);
-	a.font = Font("Monaco", 22);
-
-
-	a = StaticText(~window, Rect(710, 450, 300, 20));
-	a.string = "UPPER";
-	a.stringColor = Color.new255(77, 220, 147);
-	a.font = Font("Monaco", 22);
+	// a = StaticText(~window, Rect(390, 450, 300, 20));
+	// a.string = "TO LOWER SPEAKERS";
+	// a.stringColor = Color.new255(255, 220, 147);
+	// a.font = Font("Monaco", 22);
+	//
+	//
+	// a = StaticText(~window, Rect(710, 450, 300, 20));
+	// a.string = "UPPER";
+	// a.stringColor = Color.new255(77, 220, 147);
+	// a.font = Font("Monaco", 22);
 
 
 
@@ -275,13 +256,13 @@ s.waitForBoot({
 		txt.stringColor = Color.grey;
 		txt.font = Font("Monaco", 22);
 
-		~sliders_SPEAKERS[i].background = Color.new255(255, 220, 147);
+		/*~sliders_SPEAKERS[i].background = Color.new255(255, 220, 147);
 
 		if(i>7)
 		{
 			~sliders_SPEAKERS[i].background = Color.new255(77, 220, 147);
 
-		};
+		};*/
 		~sliders_SPEAKERS[i].action_(
 			{
 				postln(~sliders_SPEAKERS[i].value);
@@ -330,6 +311,8 @@ s.waitForBoot({
 		};
 
 	});
+
+	~buttons[~my_IDX].value = 1;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// toogle full screen
@@ -385,6 +368,15 @@ s.waitForBoot({
 
 
 	}, '/route/speaker');
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// INFORMATION
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+	post("Listening on port: ");
+	postln(NetAddr.langPort);
 
 
 
