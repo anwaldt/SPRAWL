@@ -5,7 +5,7 @@ killall jackd
 
 BUFFER=$(zenity --list \
 column=Check --height 800 \
---text="Please select a buffer size. Ask your session admin if you don't know the correct number!" \
+--text="Please select a buffer size by checking only one number! Ask your session admin if you don't know the correct value!" \
 --column="Select" --column="Buffersize"  64 FALSE 128 FALSE 256 FALSE 512 FALSE 1024   --checklist);
 
 echo $BUFFER
