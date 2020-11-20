@@ -13,6 +13,10 @@ Henrik von Coler
 2019-11-19
 */
 
+// get script's directory for relative paths
+~root_DIR = thisProcess.nowExecutingPath.dirname++"/";
+
+
 s.options.numInputBusChannels  = 64;
 s.options.numOutputBusChannels = 64;
 
@@ -21,124 +25,79 @@ s.options.numOutputBusChannels = 64;
 // number of outputs to the sound system
 ~nOutputs = 16;
 
-/////////////////////////////////////////////////////////////////
-// THE BUSSES:
-/////////////////////////////////////////////////////////////////
+// HOA Order
+~hoa_order = 3;
 
-// create one audio bus for each pi module:
-~audio_BUS_pi = Bus.audio(s,  ~nSystems);
+~n_hoa_channnels = pow(~hoa_order + 1.0 ,2.0);
 
 
 
-// create a ~nSystems x ~nSystems routing
-// matrix by using an array ofmultichannel
-// control busses:
-~gain_BUS_pi = Array.fill(~nSystems,
-	{
-		// arg i;
-		// "Creating control busses for system: ".post;
-		// i.postln;
-		Bus.control(s, ~nSystems);
-	}
-);
 
-
-
-// create one audio bus for each loudspeaker module:
-~audio_BUS_speaker = Bus.audio(s,  ~nOutputs);
-
-// create a ~nSystems x ~outputs_pi routing
-// matrix by using an array ofmultichannel
-// control busses:
-~gain_BUS_speaker = Array.fill(~nSystems,
-	{
-		// arg i;
-		// "Creating control busses for system: ".post;
-		// i.postln;
-		Bus.control(s, ~nOutputs);
-	}
-);
-
-
-/////////////////////////////////////////////////////////////////
-// THE SYNTHDEFS:
-/////////////////////////////////////////////////////////////////
-
-SynthDef(\input_module,
-	{
-		|
-		input_bus   = 0,
-		control_bus_pi = 0,
-		output_bus_pi  = 0,
-		control_bus_speaker = 0,
-		output_bus_speaker  = 0,
-		n_systems   = 16
-		|
-
-		var input, output, gain;
-
-		for (0, 15,
-			{ arg cnt;
-
-				// get the gain value from control bus:
-				gain = In.kr(control_bus_pi + cnt);
-
-				// get the audio input from hardware input:
-				input = SoundIn.ar(input_bus, 1);
-
-				// apply gain
-				output = input*gain;
-
-				// audio output to dedicated bus
-				Out.ar(output_bus_pi + cnt, output);
-
-			}
-		);
-
-
-		for (0, 15,
-			{ arg cnt;
-
-				// get the gain value from control bus:
-				gain = In.kr(control_bus_speaker + cnt);
-
-				// get the audio input from hardware input:
-				input = SoundIn.ar(input_bus, 1);
-
-				// apply gain
-				output = input*gain;
-
-				// audio output to dedicated bus
-				Out.ar(output_bus_speaker + cnt, output);
-
-			}
-		);
-
-
-}).add;
-
-
-SynthDef(\output_module,
-	{
-		|
-		audio_bus   = 0,
-		output      = 0
-		|
-
-		var input;
-
-		input = In.ar(audio_bus,1);
-
-		Out.ar(output+4, input*0.5);
-
-}).add;
-
-
+s.boot;
 
 
 
 s.waitForBoot({
 
+
+	HOABinaural.loadbinauralIRs(s);
+	HOABinaural.loadHeadphoneCorrections(s);
+	HOABinaural.binauralIRs;
+	HOABinaural.headPhoneIRs;
+
+
+	load(~root_DIR++"sprawl_SYNTHDEFS.scd","r");
+
+
+
+	/////////////////////////////////////////////////////////////////
+	// THE BUSSES:
+	/////////////////////////////////////////////////////////////////
+
+
+	~ambi_BUS             = Bus.audio(s, ~n_hoa_channnels);
+
+
+	~control_azim_BUS     = Bus.control(s,~nSystems);
+	~control_elev_BUS     = Bus.control(s,~nSystems);
+	~control_dist_BUS     = Bus.control(s,~nSystems);
+
+
+	// create one audio bus for each pi module:
+	~audio_BUS_pi = Bus.audio(s,  ~nSystems);
+
+
+
+	// create a ~nSystems x ~nSystems routing
+	// matrix by using an array ofmultichannel
+	// control busses:
+	~gain_BUS_pi = Array.fill(~nSystems,
+		{
+			// arg i;
+			// "Creating control busses for system: ".post;
+			// i.postln;
+			Bus.control(s, ~nSystems);
+		}
+	);
+
+
+
+	// create one audio bus for each loudspeaker module:
+	~rendering_send_BUS = Bus.audio(s,  ~nOutputs);
+
+	// create a ~nSystems x ~outputs_pi routing
+	// matrix by using an array ofmultichannel
+	// control busses:
+	~rendering_gain_BUS = Array.fill(~nSystems,
+		{
+			// arg i;
+			// "Creating control busses for system: ".post;
+			// i.postln;
+			Bus.control(s, ~nOutputs);
+		}
+	);
+
+	s.sync;
 
 	/////////////////////////////////////////////////////////////////
 	// INPUT SECTION
@@ -156,8 +115,8 @@ s.waitForBoot({
 					\input_bus, idx,
 					\output_bus_pi, ~audio_BUS_pi,
 					\control_bus_pi, ~gain_BUS_pi[idx].index,
-					\output_bus_speaker, ~audio_BUS_speaker,
-					\control_bus_speaker, ~gain_BUS_speaker[idx].index,
+					\output_bus_rendering, ~rendering_send_BUS,
+					\control_bus_rendering, ~rendering_gain_BUS[idx].index,
 				],
 				target: ~input_GROUP
 		);)
@@ -165,17 +124,52 @@ s.waitForBoot({
 
 	for (0, ~nSystems-1, {arg cnt;
 		~inputs[cnt].set(\input_bus, cnt+0);
+
+
+
 	});
+
+	/////////////////////////////////////////////////////////////////
+	// Encoder SECTION
+
+
+	~encoder_GROUP = Group.after(~input_GROUP);
+
+
+	for (0, ~nSystems -1, {arg cnt;
+
+		post('Adding binaural encoder: ');
+		cnt.postln;
+
+		~binaural_encoders = ~binaural_encoders.add(
+			Synth(\binaural_mono_encoder_3,
+				[
+					\audio_bus, ~audio_BUS_pi.index+cnt,
+					\output, cnt,
+				],
+				target: ~output_GROUP
+		);)
+	});
+
+
+
+
+
 
 	/////////////////////////////////////////////////////////////////
 	// OUTPUT SECTION
 
 
-	~output_GROUP = Group.after(~input_GROUP);
+	~output_GROUP = Group.after(~encoder_GROUP);
 
 
-	/////////////////////////////////////////////////////////////////
 
+	~decoder = Synth(\hoa_binaural_decoder_3,
+		[
+			\in_bus,~ambi_BUS.index,
+			\out_bus, 0
+		],
+		target: ~output_GROUP);
 
 
 	for (0, ~nSystems -1, {arg cnt;
@@ -200,7 +194,7 @@ s.waitForBoot({
 	// });
 
 
-		/////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////
 
 
 
@@ -213,17 +207,17 @@ s.waitForBoot({
 		~outputs_speaker = ~outputs_speaker.add(
 			Synth(\output_module,
 				[
-					\audio_bus, ~audio_BUS_speaker.index+cnt,
+					\audio_bus, ~rendering_send_BUS.index+cnt,
 					\output, cnt+16,
 				],
 				target: ~output_GROUP
 		);)
 	});
 
-/*	for (0, ~nSystems-1,
-		{
-			arg cnt;
-			~outputs_speaker[cnt].set(\output, cnt+16);
+	/*	for (0, ~nSystems-1,
+	{
+	arg cnt;
+	~outputs_speaker[cnt].set(\output, cnt+16);
 	});*/
 
 
@@ -266,14 +260,14 @@ s.waitForBoot({
 
 
 // the routing function
-~route_speaker_OSC = OSCFunc(
+~route_binaural_OSC = OSCFunc(
 
 	{arg msg, time, addr, recvPort;
 
 		var s, r;
 
 		/// User feedback:
-		"Set speaker gain: ".post;
+		"Set binaural gain: ".post;
 		msg[1].post;
 		" -> ".post;
 		msg[2].post;
@@ -284,9 +278,9 @@ s.waitForBoot({
 		r = max(0,min(msg[2],15));
 
 		// set the bus value:
-		~gain_BUS_speaker[s].setAt(r,msg[3]);
+		~rendering_gain_BUS[s].setAt(r,msg[3]);
 
-}, '/route/speaker');
+}, '/route/binaural');
 
 
 
