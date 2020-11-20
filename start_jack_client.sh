@@ -10,9 +10,9 @@ column=Check --height 800 \
 
 echo $BUFFER
 
-sleep 1
+# sleep 1
 
-knock wintermute.ak.tu-berlin.de 4464:udp 4466:udp 61000:udp 4464:tcp  -d 10 &&
+# knock wintermute.ak.tu-berlin.de 4464:udp 4466:udp 61000:udp 4464:tcp  -d 10 &&
 
 sleep 1
 
@@ -20,4 +20,4 @@ jackd -d alsa -d hw:CODEC -r 48000 -p $BUFFER &
 
 sleep 2
 
-jacktrip -C 176.9.142.35 -n 2
+jacktrip -C 85.214.78.6 -n 2
