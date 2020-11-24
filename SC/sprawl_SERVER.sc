@@ -16,9 +16,9 @@ Henrik von Coler
 // get script's directory for relative paths
 ~root_DIR = thisProcess.nowExecutingPath.dirname++"/";
 
-
-s.options.numInputBusChannels  = 64;
-s.options.numOutputBusChannels = 64;
+s.options.device               = "SPRAWL_Server";
+s.options.numInputBusChannels  = 32;
+s.options.numOutputBusChannels = 32;
 
 ~nSystems = 16;
 
@@ -31,11 +31,7 @@ s.options.numOutputBusChannels = 64;
 ~n_hoa_channnels = pow(~hoa_order + 1.0 ,2.0);
 
 
-
-
 s.boot;
-
-
 
 s.waitForBoot({
 
