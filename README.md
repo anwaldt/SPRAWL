@@ -41,5 +41,15 @@ Mind the capital letters for both server and client parameters.
 The Basic Server
 ----------------
 
+The basic SC server offers binaural rendering with OSC control:
+
+```console
+$ sclang sprawl_SERVER.sc &
+```
+
+It is per default configured for up to 16 access points,
+each contributing a mono signal. The inputs and outputs 
+of the SC Jack client are assigned as follows:
+
 <img src="./graphics/basic_server_connections.png" width="800">
 
