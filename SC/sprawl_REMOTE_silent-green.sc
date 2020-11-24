@@ -12,10 +12,6 @@ s.options.numOutputBusChannels = 2;
 // get script's directory for relative paths
 ~root_DIR = thisProcess.nowExecutingPath.dirname++"/";
 
-~buffer_1 = Buffer.read(s,"/home/anwaldt/Desktop/sprawl_SYSTEM/WAV/99630__tec-studio__foghorn.wav");
-
-
-
 
 SynthDef( \sampler, {
 

@@ -57,7 +57,7 @@ s.waitForBoot({
 	~control_elev_BUS     = Bus.control(s,~nSystems);
 	~control_dist_BUS     = Bus.control(s,~nSystems);
 
-	~control_reverb_BUS     = Bus.control(s,~nSystems);
+	~control_reverb_BUS   = Bus.control(s,~nSystems);
 
 	// create one audio bus for each pi module:
 	~audio_BUS_pi = Bus.audio(s,  ~nSystems);
