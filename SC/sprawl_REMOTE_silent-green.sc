@@ -1,6 +1,6 @@
 
 
-~my_IDX = 0;
+~my_IDX = 1;
 
 // minimize audio IO:
 s.options.numInputBusChannels  = 2;
@@ -9,10 +9,10 @@ s.options.numOutputBusChannels = 2;
 // define for outgoing messages:
 ~sendOSC = NetAddr("191.168.0.1", 57120);
 
+// get script's directory for relative paths
+~root_DIR = thisProcess.nowExecutingPath.dirname++"/";
 
 ~buffer_1 = Buffer.read(s,"/home/anwaldt/Desktop/sprawl_SYSTEM/WAV/99630__tec-studio__foghorn.wav");
-
-
 
 
 
@@ -33,6 +33,20 @@ SynthDef( \sampler, {
 
 Server.default.waitForBoot({
 
+
+	~sample_PATH = PathName.new(~root_DIR++"../WAV/SHIP_HORNS");
+
+	~sample_PATH.filesDo
+	{
+		|afile| // loop argument
+		var tmp_path = afile.pathOnly.asSymbol++afile.fileName.asSymbol;
+		~sample_BUFFERS = ~sample_BUFFERS.add(Buffer.readChannel(s,tmp_path,0,-1,0));
+	};
+
+	"Read "++~sample_BUFFERS.size()++" samples!";
+
+
+	s.sync;
 
 	// ~sine = Synth.new(\sine,
 
@@ -252,10 +266,10 @@ Server.default.waitForBoot({
 	~trigger_button.states = [["HORN", Color.black, Color.red]];
 
 	~single_sample = Synth.new(\sampler,
-		[\trigger:0, \bufnum: ~buffer_1]);
+		[\trigger:0, \bufnum: ~sample_BUFFERS[~my_IDX]]);
 
 
-~single_sample.set(\trigger,-1);
+	~single_sample.set(\trigger,-1);
 	~trigger_button.mouseDownAction = { ~single_sample.set(\trigger,1);
 		~single_sample.set(\rate,1)};
 
@@ -269,6 +283,7 @@ Server.default.waitForBoot({
 
 
 });
+
 
 
 
