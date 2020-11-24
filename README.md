@@ -41,5 +41,5 @@ Mind the capital letters for both server and client parameters.
 The Basic Server
 ----------------
 
-<img src="./graphics/sc_server_connections.svg" width="800">
+<img src="./graphics/basic_server_connections.svg" width="800">
 
