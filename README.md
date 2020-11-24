@@ -24,3 +24,14 @@ The startup of the SPRAWL system is managed through bash scripts:
 
 
 All startup scripts of the access points are invoked when the devices are powered on.
+
+On the server JackTrip starts in hub server mode (-S) with the SPRAWL jack connection preset (-p 3):
+```
+jacktrip -S -p 3
+```
+
+All clients (access points) connect to the server with the number of channels to be used:
+```
+jacktrip -n <nr of channels> -C <server-ip>
+```
+Mind the capital letters for both server and client parameters.
