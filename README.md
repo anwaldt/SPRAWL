@@ -35,3 +35,11 @@ All clients (access points) connect to the server with the number of channels to
 jacktrip -n <nr of channels> -C <server-ip>
 ```
 Mind the capital letters for both server and client parameters.
+
+
+
+The Basic Server
+----------------
+
+<img src="./graphics/sc_server_connections.svg" width="800">
+
