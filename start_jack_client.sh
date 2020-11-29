@@ -20,4 +20,4 @@ jackd -P 90 -d alsa -d hw:CODEC -r 48000 -p $BUFFER &
 
 sleep 2
 
-bin/jacktrip -C 85.214.78.6 -n 2
+bin/jacktrip -C 85.214.78.6 -n 2 -K AP
