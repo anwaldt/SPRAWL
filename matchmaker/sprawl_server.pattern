@@ -1,2 +1,35 @@
-AP_(?P<nr>[1-9]|1[0-6]):receive_*$
-	SPRAWL_Server:in_{nr}
+AP_(?P<nr>[1-9]|1[1-6]):receive_\d$
+        SPRAWL_Server:in_{nr}$
+
+AP_1:receive_\d$
+        SPRAWL_Server:in_17
+AP_2:receive_\d$
+        SPRAWL_Server:in_18
+AP_3:receive_\d$
+        SPRAWL_Server:in_19
+AP_4:receive_\d$
+        SPRAWL_Server:in_20
+AP_5:receive_\d$
+        SPRAWL_Server:in_21
+AP_6:receive_\d$
+        SPRAWL_Server:in_22
+AP_7:receive_\d$
+        SPRAWL_Server:in_23
+AP_8:receive_\d$
+        SPRAWL_Server:in_24
+AP_9:receive_\d$
+        SPRAWL_Server:in_25
+AP_10:receive_\d$
+        SPRAWL_Server:in_26
+AP_11:receive_\d$
+        SPRAWL_Server:in_27
+AP_12:receive_\d$
+        SPRAWL_Server:in_28
+AP_13:receive_\d$
+        SPRAWL_Server:in_29
+AP_14:receive_\d$
+        SPRAWL_Server:in_30
+AP_15:receive_\d$
+        SPRAWL_Server:in_31
+AP_16:receive_\d$
+        SPRAWL_Server:in_32
