@@ -1,6 +1,9 @@
+## Direct Input
+
 AP_(?P<nr>[1-9]|1[1-6]):receive_\d$
         SPRAWL_Server:in_{nr}$
 
+## Not sure about this
 AP_1:receive_\d$
         SPRAWL_Server:in_17
 AP_2:receive_\d$
@@ -33,3 +36,19 @@ AP_15:receive_\d$
         SPRAWL_Server:in_31
 AP_16:receive_\d$
         SPRAWL_Server:in_32
+
+## Direct output to the APs
+AP_(?P<nr>[1-9]|1[1-6]):send_\d$
+        SPRAWL_Server:out_{nr}$
+
+## Binaural mix to APs
+SPRAWL_Server:out_17$
+	AP_\d:send_1$
+SPRAWL_Server:out_18$
+	AP_\d:send_2$
+
+## Reverb to APs
+SPRAWL_Server:out_19$
+	AP_\d:send_1$
+SPRAWL_Server:out_20$
+	AP_\d:send_2$
