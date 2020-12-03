@@ -12,5 +12,6 @@ rm log/SC.log
 
 sclang SC/sprawl_SERVER.sc > log/SC.log &
 
-~/Development/jacktrip-recent/src/jacktrip -S -p 3 -n 1 > log/jacktrip.log &
+~/Development/jacktrip/builddir/jacktrip -S -p 5 -D --udprt > log/jacktrip.log &
+jack-matchmaker -p matchmaker/sprawl_server.pattern &
 
