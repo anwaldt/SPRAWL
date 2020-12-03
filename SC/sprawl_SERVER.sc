@@ -76,6 +76,9 @@ s.waitForBoot({
 	);
 
 
+
+
+
 	// create one audio bus for each loudspeaker module:
 	~rendering_send_BUS = Bus.audio(s,  ~nOutputs);
 
@@ -90,6 +93,10 @@ s.waitForBoot({
 			Bus.control(s, ~nOutputs);
 		}
 	);
+
+		for (0, ~nSystems -1, {arg idx;
+		~rendering_gain_BUS[idx].setAt(idx,1);
+	});
 
 	~reverb_send_BUS = Bus.audio(s,2);
 
