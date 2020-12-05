@@ -1,4 +1,4 @@
-#N canvas 1107 390 698 453 10;
+#N canvas 1107 379 698 453 10;
 #X text 26 106 Set azimuth;
 #X text 491 102 Set reverb amount;
 #X text 343 100 Set distance;
@@ -38,6 +38,7 @@ on the SPRAWL server.;
 #X floatatom 344 128 5 0 0 0 - - -, f 5;
 #X obj 344 208 i;
 #X obj 344 150 t b f, f 13;
+#X text 396 310 1: connect;
 #X connect 7 0 8 0;
 #X connect 10 0 9 0;
 #X connect 11 0 10 0;

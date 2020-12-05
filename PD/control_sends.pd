@@ -1,4 +1,4 @@
-#N canvas 937 440 629 443 10;
+#N canvas 937 429 629 443 10;
 #X obj 433 250 bng 15 250 50 0 empty empty empty 17 7 0 10 -258113
 -1 -1;
 #X obj 248 369 netsend -u -b;
@@ -11,7 +11,7 @@
 #X floatatom 384 96 5 0 0 0 - - -, f 5;
 #X obj 325 170 i;
 #X obj 369 170 i;
-#X msg 395 300 disconnect;
+#X msg 377 344 disconnect;
 #X obj 433 270 oscformat all_silent;
 #X obj 122 230 oscformat route pi;
 #X obj 122 202 pack i i f;
@@ -30,7 +30,8 @@
 on the SPRAWL server., f 83;
 #X text 39 59 Send to specific access point;
 #X text 316 69 Send to virtual sound source;
-#X msg 375 335 connect 85.214.78.6 57120;
+#X msg 377 321 connect 85.214.78.6 57120;
+#X text 376 301 1: connect;
 #X connect 0 0 12 0;
 #X connect 2 0 1 0;
 #X connect 3 0 2 0;
