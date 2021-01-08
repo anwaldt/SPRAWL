@@ -19,6 +19,8 @@ Henrik von Coler
 s.options.device               = "SPRAWL_Server";
 s.options.numInputBusChannels  = 32;
 s.options.numOutputBusChannels = 32;
+s.options.maxLogins            = 4;
+s.options.bindAddress          = "0.0.0.0";
 
 ~nSystems = 16;
 
