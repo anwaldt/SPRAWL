@@ -392,4 +392,4 @@ var amnt = msg[2];
 
 
 
-ServerMeter(s);
+// ServerMeter(s);

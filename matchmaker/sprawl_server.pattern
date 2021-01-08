@@ -1,45 +1,46 @@
-## Direct Input
+#
+# Direct Input
 
 AP_(?P<nr>[1-9]|1[1-6]):receive_\d$
         SPRAWL_Server:in_{nr}$
 
-## Not sure about this
-#AP_1:receive_\d$
-#        SPRAWL_Server:in_17
-#AP_2:receive_\d$
-#        SPRAWL_Server:in_18
-#AP_3:receive_\d$
-#        SPRAWL_Server:in_19
-#AP_4:receive_\d$
-#        SPRAWL_Server:in_20
-#AP_5:receive_\d$
-#        SPRAWL_Server:in_21
-#AP_6:receive_\d$
-#        SPRAWL_Server:in_22
-#AP_7:receive_\d$
-#        SPRAWL_Server:in_23
-#AP_8:receive_\d$
-#        SPRAWL_Server:in_24
-#AP_9:receive_\d$
-#        SPRAWL_Server:in_25
-#AP_10:receive_\d$
-#        SPRAWL_Server:in_26
-#AP_11:receive_\d$
-#        SPRAWL_Server:in_27
-#AP_12:receive_\d$
-#        SPRAWL_Server:in_28
-#AP_13:receive_\d$
-#        SPRAWL_Server:in_29
-#AP_14:receive_\d$
-#        SPRAWL_Server:in_30
-#AP_15:receive_\d$
-#        SPRAWL_Server:in_31
-#AP_16:receive_\d$
-#        SPRAWL_Server:in_32
+## Direct output to the APs (mono)
+SPRAWL_Server:out_(?P<nr>[1-9]|1[1-6])$
+	AP_{nr}:send_\d$
 
-## Direct output to the APs
-AP_(?P<nr>[1-9]|1[1-6]):send_\d$
-        SPRAWL_Server:out_{nr}$
+## Direct output to the APs (stereo)
+#AP_1:send_1
+#   SPRAWL_Server:out_1
+#AP_1:send_2
+#   SPRAWL_Server:out_2
+#AP_2:send_1
+#   SPRAWL_Server:out_3
+#AP_2:send_2
+#   SPRAWL_Server:out_4
+#AP_3:send_1
+#   SPRAWL_Server:out_5
+#AP_3:send_2
+#   SPRAWL_Server:out_6
+#AP_4:send_1
+#   SPRAWL_Server:out_7
+#AP_4:send_2
+#   SPRAWL_Server:out_8
+#AP_5:send_1
+#   SPRAWL_Server:out_9
+#AP_5:send_2
+#   SPRAWL_Server:out_10
+#AP_6:send_1
+#   SPRAWL_Server:out_11
+#AP_6:send_2
+#   SPRAWL_Server:out_12
+#AP_7:send_1
+#   SPRAWL_Server:out_13
+#AP_7:send_2
+#   SPRAWL_Server:out_14
+#AP_8:send_1
+#   SPRAWL_Server:out_15
+#AP_8:send_2
+#   SPRAWL_Server:out_16
 
 ## Binaural mix to APs
 SPRAWL_Server:out_17$
