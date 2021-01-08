@@ -15,7 +15,7 @@ Henrik von Coler
 
 s.options.device               = "SPRAWL_Server";
 s.options.numInputBusChannels  = 32;
-s.options.numOutputBusChannels = 32;
+s.options.numOutputBusChannels = 64;
 s.options.maxLogins            = 4;
 s.options.bindAddress          = "0.0.0.0";
 
@@ -196,7 +196,7 @@ s.waitForBoot({
 	~decoder = Synth(\hoa_binaural_decoder_3,
 		[
 			\in_bus,  ~ambi_BUS.index,
-			\out_bus, ~nSystems
+			\out_bus, ~nSystems*~nChannels,
 		],
 		target: ~output_GROUP);
 
@@ -280,8 +280,8 @@ s.waitForBoot({
 	~conv.set(\inbus_1, ~reverb_send_BUS.index);
 	~conv.set(\inbus_2, ~reverb_send_BUS.index);
 
-	~conv.set(\outbus_1, ~nSystems+2);
-	~conv.set(\outbus_2, ~nSystems+3);
+	~conv.set(\outbus_1, ~nSystems*~nChannels+2);
+	~conv.set(\outbus_2, ~nSystems*~nChannels+3);
 
 
 });
