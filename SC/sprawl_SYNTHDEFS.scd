@@ -10,47 +10,51 @@ SynthDef(\input_module,
 		input_bus           = 0,
 		control_bus_pi      = 0,
 		output_bus_pi       = 0,
-		control_bus_rendering = 0,
-		output_bus_rendering  = 0,
+		control_bus_spatial = 0,
+		output_bus_spatial  = 0,
 		n_systems           = 16
 		|
 
 		var input, output, gain;
 
-						// get the audio input from hardware input:
-				input = SoundIn.ar(input_bus, 1);
-
-		for (0, ~nSystems-1,
-			{ arg cnt;
-
-				// get the gain value from control bus:
-				gain = In.kr(control_bus_pi + cnt);
-
-				// apply gain
-				output = input*gain;
-
-				// audio output to dedicated bus
-				Out.ar(output_bus_pi + cnt, output);
-
-			}
-		);
+		// get the audio input from hardware input:
 
 
-		for (0, ~nOutputs-1,
-			{ arg cnt;
+		/*		for (0, ~nSystemSends-1,
+		{ arg cnt;
 
-				// get the gain value from control bus:
-				gain = In.kr(control_bus_rendering + cnt);
+		// get the gain value from control bus:
+		gain = In.kr(control_bus_pi + cnt);
 
-				// apply gain
-				output = input*gain;
+		// apply gain
+		output = input*gain;
 
-				// audio output to dedicated bus
-				Out.ar(output_bus_rendering + cnt, output);
+		// audio output to dedicated bus
+		Out.ar(output_bus_pi + cnt, output);
 
-			}
-		);
+		}
+		);*/
 
+		for (0, ~nChannels-1,
+			{ arg chanCNT;
+
+				input = SoundIn.ar(input_bus+chanCNT, 1);
+
+				for (0, ~nVirtualSources-1,
+					{ arg cnt;
+
+						// get the gain value from control bus:
+						gain = In.kr(control_bus_spatial + cnt);
+
+						// apply gain
+						output = input*gain;
+
+						// audio output to dedicated bus
+						Out.ar(output_bus_spatial + cnt, output);
+
+					}
+				);
+		});
 
 }).add;
 
@@ -84,6 +88,7 @@ SynthDef(\binaural_mono_encoder_3,
 
 
 
+
 SynthDef(\hoa_binaural_decoder_3,
 	{
 		|
@@ -113,22 +118,22 @@ SynthDef(\output_module,
 }).add;
 
 
-	SynthDef(\convolve,
-		{
-			|
-			bufnum_1 = nil,
-			bufnum_2 = nil,
-			inbus_1  = 0,
-			inbus_2  = 1,
-			outbus_1 = 0,
-			outbus_2 = 1,
-			fftsize  = 1024
-			|
+SynthDef(\convolve,
+	{
+		|
+		bufnum_1 = nil,
+		bufnum_2 = nil,
+		inbus_1  = 0,
+		inbus_2  = 1,
+		outbus_1 = 0,
+		outbus_2 = 1,
+		fftsize  = 1024
+		|
 
-			var input1 =   In.ar(inbus_1);
-			var input2 =   In.ar(inbus_2);
+		var input1 =   In.ar(inbus_1);
+		var input2 =   In.ar(inbus_2);
 
-			Out.ar(outbus_1, PartConv.ar(input1, fftsize, bufnum_1, 0.05));
-			Out.ar(outbus_2, PartConv.ar(input2, fftsize, bufnum_2, 0.05));
-		}
-	).add;
+		Out.ar(outbus_1, PartConv.ar(input1, fftsize, bufnum_1, 0.05));
+		Out.ar(outbus_2, PartConv.ar(input2, fftsize, bufnum_2, 0.05));
+	}
+).add;

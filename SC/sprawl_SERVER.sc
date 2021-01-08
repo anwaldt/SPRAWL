@@ -6,9 +6,6 @@ Simple version of an OSC-controllable
 audio routing matrix.
 
 
-NOTE: there is an offset -
-SC outputs start from index 4!
-
 Henrik von Coler
 2019-11-19
 */
@@ -22,10 +19,17 @@ s.options.numOutputBusChannels = 32;
 s.options.maxLogins            = 4;
 s.options.bindAddress          = "0.0.0.0";
 
+// maximum number of access points
 ~nSystems = 16;
 
-// number of rendering outputs (virtual sound sources)
-~nOutputs = 16;
+// number of in/out channels per access point (and jacktrip connection)
+~nChannels = 2;
+
+// number of rendering outputs (to virtual sound sources)
+~nSystemSends    = ~nSystems * ~nChannels;
+
+// number of direct outputs (to access points)
+~nVirtualSources = ~nSystems * ~nChannels;
 
 // HOA Order
 ~hoa_order = 3;
@@ -33,10 +37,10 @@ s.options.bindAddress          = "0.0.0.0";
 ~n_hoa_channnels = pow(~hoa_order + 1.0 ,2.0);
 
 
+
 s.boot;
 
 s.waitForBoot({
-
 
 	HOABinaural.loadbinauralIRs(s);
 	HOABinaural.loadHeadphoneCorrections(s);
@@ -45,7 +49,6 @@ s.waitForBoot({
 
 
 	load(~root_DIR++"sprawl_SYNTHDEFS.scd","r");
-
 
 
 	/////////////////////////////////////////////////////////////////
@@ -65,44 +68,46 @@ s.waitForBoot({
 	~audio_BUS_pi = Bus.audio(s,  ~nSystems);
 
 
+	~audio_BUS_pi = Array.fill(~nSystems,
+		{
+					Bus.control(s, ~nSystemSends);
+		}
+	);
+
 	// create a ~nSystems x ~nSystems routing
 	// matrix by using an array ofmultichannel
 	// control busses:
 	~gain_BUS_pi = Array.fill(~nSystems,
 		{
-			// arg i;
-			// "Creating control busses for system: ".post;
-			// i.postln;
-			Bus.control(s, ~nSystems);
+
+					// arg i;
+					// "Creating control busses for system: ".post;
+					// i.postln;
+					Bus.control(s, ~nVirtualSources*~nChannels);
+
 		}
 	);
 
 
+	// create one audio bus for each virtual sound source:
+	~rendering_send_BUS = Bus.audio(s,  ~nVirtualSources);
 
-
-
-	// create one audio bus for each loudspeaker module:
-	~rendering_send_BUS = Bus.audio(s,  ~nOutputs);
-
-	// create a ~nSystems x ~outputs_pi routing
-	// matrix by using an array ofmultichannel
-	// control busses:
 	~rendering_gain_BUS = Array.fill(~nSystems,
 		{
-			// arg i;
-			// "Creating control busses for system: ".post;
-			// i.postln;
-			Bus.control(s, ~nOutputs);
+					Bus.control(s, ~nVirtualSources*~nChannels);
 		}
 	);
 
-		for (0, ~nSystems -1, {arg idx;
-		~rendering_gain_BUS[idx].setAt(idx,1);
+	for(0, ~nSystems -1, {arg sysIDX;
+		for (0, ~nChannels -1, {arg chanIDX;
+		~rendering_gain_BUS[sysIDX].setAt((2*sysIDX)+chanIDX,0);
+		});
 	});
 
 	~reverb_send_BUS = Bus.audio(s,2);
 
 	s.sync;
+
 	/////////////////////////////////////////////////////////////////
 	// INPUT SECTION
 
@@ -117,10 +122,10 @@ s.waitForBoot({
 			Synth(\input_module,
 				[
 					\input_bus, idx,
-					\output_bus_pi, ~audio_BUS_pi,
-					\control_bus_pi, ~gain_BUS_pi[idx].index,
-					\output_bus_rendering,  ~rendering_send_BUS,
-					\control_bus_rendering, ~rendering_gain_BUS[idx].index,
+					\output_bus_pi,         ~audio_BUS_pi,
+					\control_bus_pi,        ~gain_BUS_pi[idx].index,
+					\output_bus_spatial,  ~rendering_send_BUS,
+					\control_bus_spatial, ~rendering_gain_BUS[idx].index,
 				],
 				target: ~input_GROUP
 		);)
@@ -170,7 +175,7 @@ s.waitForBoot({
 
 	~output_GROUP = Group.after(~encoder_GROUP);
 
-	for (0, ~nSystems -1, {arg cnt;
+/*	for (0, ~nSystems -1, {arg cnt;
 
 		post('Adding PI Output Module: ');
 		cnt.postln;
@@ -183,7 +188,7 @@ s.waitForBoot({
 				],
 				target: ~output_GROUP
 		);)
-	});
+	});*/
 
 
 
@@ -288,7 +293,7 @@ s.waitForBoot({
 
 
 // the routing function
-~route_pi_OSC = OSCFunc(
+/*~route_pi_OSC = OSCFunc(
 
 	{arg msg, time, addr, recvPort;
 
@@ -308,34 +313,40 @@ s.waitForBoot({
 		// set the bus value:
 		~gain_BUS_pi[s].setAt(r,msg[3]);
 
-}, '/route/pi');
+}, '/route/pi');*/
 
 
 
 
 
 // the routing function
-~route_binaural_OSC = OSCFunc(
+~route_spatial_OSC = OSCFunc(
 
 	{arg msg, time, addr, recvPort;
 
-		var s, r;
+		var send, receive, channel, gain, index;
 
 		/// User feedback:
-		"Set binaural gain: ".post;
+		"Set spatial gain: ".post;
 		msg[1].post;
-		" -> ".post;
+		" (".post;
 		msg[2].post;
+		") -> ".post;
+		msg[3].post;
 		" = ".post;
-		msg[3].postln;
+		msg[4].postln;
 
-		s = max(0,min(msg[1],15));
-		r = max(0,min(msg[2],15));
+		send    = max(0,min(msg[1],~nSystems-1));
+		channel = max(0,min(msg[2],~nChannels-1));
+		receive = max(0,min(msg[3],~nVirtualSources-1));
+		gain    = max(0,msg[4]);
+
+		index = (~nVirtualSources*receive) + channel;
 
 		// set the bus value:
-		~rendering_gain_BUS[s].setAt(r,msg[3]);
+		~rendering_gain_BUS[send].setAt(index,gain);
 
-}, '/route/binaural');
+}, '/route/spatial');
 
 
 
@@ -385,13 +396,16 @@ s.waitForBoot({
 
 
 ~dist_OSC = OSCFunc(
-{
-arg msg, time, addr, recvPort;
-var amnt = msg[2];
-~control_reverb_BUS.setAt(msg[1],amnt);
+	{
+		arg msg, time, addr, recvPort;
+		var amnt = msg[2];
+		~control_reverb_BUS.setAt(msg[1],amnt);
 
 }, '/source/reverb');
 
 
 
-// ServerMeter(s);
+{
+	ServerMeter(s);
+	s.scope(1,~rendering_gain_BUS[0].index);
+}
