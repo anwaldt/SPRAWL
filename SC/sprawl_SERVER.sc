@@ -79,12 +79,7 @@ s.waitForBoot({
 	// control busses:
 	~gain_BUS_pi = Array.fill(~nSystems,
 		{
-
-					// arg i;
-					// "Creating control busses for system: ".post;
-					// i.postln;
 					Bus.control(s, ~nVirtualSources*~nChannels);
-
 		}
 	);
 

@@ -54,8 +54,7 @@ $ sclang sprawl_SERVER.sc &
 ```
 
 It is per default configured for up to 16 access points,
-each contributing a mono signal. The inputs and outputs 
+each contributing a stereo signal. The inputs and outputs
 of the SC Jack client are assigned as follows:
 
 <img src="./graphics/basic_server_connections.png" width="800">
-
