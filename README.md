@@ -47,7 +47,8 @@ Mind the capital letters for both server and client parameters.
 The Basic Server
 ----------------
 
-The basic SC server offers binaural rendering with OSC control:
+The basic SC server offers binaural rendering with OSC control.
+It can be started as follows:
 
 ```console
 $ sclang sprawl_SERVER.sc &

@@ -20,40 +20,52 @@ SynthDef(\input_module,
 		// get the audio input from hardware input:
 
 
-		/*		for (0, ~nSystemSends-1,
-		{ arg cnt;
+		for (0, ~nSystems-1,
+			{ arg cnt;
 
-		// get the gain value from control bus:
-		gain = In.kr(control_bus_pi + cnt);
 
-		// apply gain
-		output = input*gain;
+				input = [SoundIn.ar(input_bus), SoundIn.ar(input_bus+1)];
 
-		// audio output to dedicated bus
-		Out.ar(output_bus_pi + cnt, output);
 
-		}
-		);*/
+				// get the gain value from control bus:
+				gain = In.kr(control_bus_pi + cnt);
+
+				// apply gain
+				output = input*gain;
+
+				// audio output to dedicated bus
+				Out.ar((2*output_bus_pi) + cnt, output);
+
+			}
+		);
+
 
 		for (0, ~nChannels-1,
 			{ arg chanCNT;
 
-				input = SoundIn.ar(input_bus+chanCNT, 1);
+				input = SoundIn.ar(input_bus+chanCNT);
 
 				for (0, ~nVirtualSources-1,
-					{ arg cnt;
+					{ arg srcCNT;
 
 						// get the gain value from control bus:
-						gain = In.kr(control_bus_spatial + cnt);
+						gain = In.kr((control_bus_spatial + ~nChannels*srcCNT) +  chanCNT);
 
 						// apply gain
 						output = input*gain;
 
 						// audio output to dedicated bus
-						Out.ar(output_bus_spatial + cnt, output);
+						Out.ar((output_bus_spatial )+ chanCNT, output);
 
 					}
 				);
+
+
+
+
+
+
+
 		});
 
 }).add;

@@ -65,21 +65,14 @@ s.waitForBoot({
 	~control_reverb_BUS   = Bus.control(s,~nSystems);
 
 	// create one audio bus for each pi module:
-	~audio_BUS_pi = Bus.audio(s,  ~nSystems);
-
-
-	~audio_BUS_pi = Array.fill(~nSystems,
-		{
-					Bus.control(s, ~nSystemSends);
-		}
-	);
+	~audio_BUS_pi = Bus.audio(s,  ~nSystemSends);
 
 	// create a ~nSystems x ~nSystems routing
-	// matrix by using an array ofmultichannel
+	// matrix by using an array of multichannel
 	// control busses:
 	~gain_BUS_pi = Array.fill(~nSystems,
 		{
-					Bus.control(s, ~nVirtualSources*~nChannels);
+			Bus.control(s, ~nSystems);
 		}
 	);
 
@@ -89,14 +82,16 @@ s.waitForBoot({
 
 	~rendering_gain_BUS = Array.fill(~nSystems,
 		{
-					Bus.control(s, ~nVirtualSources*~nChannels);
+			Bus.control(s, ~nVirtualSources*~nChannels);
 		}
 	);
 
-	for(0, ~nSystems -1, {arg sysIDX;
-		for (0, ~nChannels -1, {arg chanIDX;
-		~rendering_gain_BUS[sysIDX].setAt((2*sysIDX)+chanIDX,0);
-		});
+	for(0, ~nSystems -1,
+		{ arg sysIDX;
+			for (0, ~nChannels -1,
+				{arg chanIDX;
+					~rendering_gain_BUS[sysIDX].setAt((2*sysIDX)+chanIDX,0);
+			});
 	});
 
 	~reverb_send_BUS = Bus.audio(s,2);
@@ -116,9 +111,9 @@ s.waitForBoot({
 		~inputs = ~inputs.add(
 			Synth(\input_module,
 				[
-					\input_bus, idx,
-					\output_bus_pi,         ~audio_BUS_pi,
-					\control_bus_pi,        ~gain_BUS_pi[idx].index,
+					\input_bus,           idx,
+					\output_bus_pi,       ~audio_BUS_pi,
+					\control_bus_pi,      ~gain_BUS_pi[idx].index,
 					\output_bus_spatial,  ~rendering_send_BUS,
 					\control_bus_spatial, ~rendering_gain_BUS[idx].index,
 				],
@@ -170,7 +165,7 @@ s.waitForBoot({
 
 	~output_GROUP = Group.after(~encoder_GROUP);
 
-/*	for (0, ~nSystems -1, {arg cnt;
+	for (0, ~nSystems -1, {arg cnt;
 
 		post('Adding PI Output Module: ');
 		cnt.postln;
@@ -178,12 +173,12 @@ s.waitForBoot({
 		~outputs_pi = ~outputs_pi.add(
 			Synth(\output_module,
 				[
-					\audio_bus, ~audio_BUS_pi.index+cnt,
+					\audio_bus, (~audio_BUS_pi.index*2)+cnt,
 					\output, cnt,
 				],
 				target: ~output_GROUP
 		);)
-	});*/
+	});
 
 
 
@@ -288,7 +283,7 @@ s.waitForBoot({
 
 
 // the routing function
-/*~route_pi_OSC = OSCFunc(
+~route_pi_OSC = OSCFunc(
 
 	{arg msg, time, addr, recvPort;
 
@@ -302,16 +297,13 @@ s.waitForBoot({
 		" = ".post;
 		msg[3].postln;
 
-		s = max(0,min(msg[1],15));
-		r = max(0,min(msg[2],15));
+		s = max(0,min(msg[1],~nSystems));
+		r = 2*max(0,min(msg[2],~nSystems));
 
 		// set the bus value:
 		~gain_BUS_pi[s].setAt(r,msg[3]);
 
-}, '/route/pi');*/
-
-
-
+}, '/route/pi');
 
 
 // the routing function
