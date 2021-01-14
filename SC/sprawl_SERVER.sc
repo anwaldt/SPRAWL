@@ -3,37 +3,42 @@
 sprawl_SERVER.sc
 
 Simple version of an OSC-controllable
-audio routing matrix.
-
+audio routing matrix for access points with
+multiple inputs and outputs.
 
 Henrik von Coler
-2019-11-19
+2021-01-14
+
 */
 
 // get script's directory for relative paths
 ~root_DIR = thisProcess.nowExecutingPath.dirname++"/";
 
+
+// some server parameters
 s.options.device               = "SPRAWL_Server";
 s.options.numInputBusChannels  = 32;
 s.options.numOutputBusChannels = 64;
 s.options.maxLogins            = 4;
 s.options.bindAddress          = "0.0.0.0";
 
-// maximum number of access points
+// maximum number of access points to be used
+// @todo: this could be dynamic
 ~nSystems = 16;
 
 // number of in/out channels per access point (and jacktrip connection)
+// @todo: at this point, all access points need to have the same number
+//        on in/outputs
 ~nChannels = 2;
 
-// number of rendering outputs (to virtual sound sources)
+// number of direct outputs is the same as all channels from all access points
 ~nSystemSends    = ~nSystems * ~nChannels;
 
-// number of direct outputs (to access points)
+// number of virtual sound sources
 ~nVirtualSources = ~nSystems * ~nChannels;
 
 // HOA Order
 ~hoa_order = 3;
-
 ~n_hoa_channnels = pow(~hoa_order + 1.0 ,2.0);
 
 
@@ -42,11 +47,13 @@ s.boot;
 
 s.waitForBoot({
 
+	// load HOA stuff
 	HOABinaural.loadbinauralIRs(s);
 	HOABinaural.loadHeadphoneCorrections(s);
 	HOABinaural.binauralIRs;
 	HOABinaural.headPhoneIRs;
 
+	s.sync
 
 	load(~root_DIR++"sprawl_SYNTHDEFS.scd","r");
 
@@ -83,8 +90,6 @@ s.waitForBoot({
 	);
 
 
-
-
 	// create one audio bus for each virtual sound source:
 	~rendering_send_BUS = Bus.audio(s,  ~nVirtualSources);
 
@@ -94,15 +99,14 @@ s.waitForBoot({
 		}
 	);
 
-	/*
+    // per default each access points is routed to two sources
 	for(0, ~nSystems -1,
 		{ arg sysIDX;
 			for (0, ~nChannels -1,
 				{arg chanIDX;
-					~rendering_gain_BUS[sysIDX].setAt((2*sysIDX)+chanIDX,0);
+					~rendering_gain_BUS[sysIDX].setAt((2*sysIDX)+chanIDX,1);
 			});
 	});
-	*/
 
 
 	s.sync;
@@ -398,12 +402,12 @@ OSCdef(\route_spat,
 }, '/source/reverb');
 
 
+
+
+// Bus monitoring
+{
 	ServerMeter(s);
 
-
-"SC_JACK_DEFAULT_OUTPUTS".setenv("system");
-
-{
 	s.scope(1,~rendering_gain_BUS[0].index);
 
 
