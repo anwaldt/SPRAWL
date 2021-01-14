@@ -56,15 +56,21 @@ s.waitForBoot({
 	/////////////////////////////////////////////////////////////////
 
 
+	// for the encoded ambisonics signal
 	~ambi_BUS             = Bus.audio(s, ~n_hoa_channnels);
 
+	// for the spherical control parameters
 	~control_azim_BUS     = Bus.control(s,~nSystems);
 	~control_elev_BUS     = Bus.control(s,~nSystems);
 	~control_dist_BUS     = Bus.control(s,~nSystems);
 
+	// reverb send level
 	~control_reverb_BUS   = Bus.control(s,~nSystems);
+	// audio reverb bus
+	~reverb_send_BUS      = Bus.audio(s,2);
 
-	// create one audio bus for each pi module:
+
+	// audio bus with mutliple channels for each pi module:
 	~audio_BUS_pi = Bus.audio(s,  ~nSystemSends);
 
 	// create a ~nSystems x ~nSystems routing
@@ -72,9 +78,11 @@ s.waitForBoot({
 	// control busses:
 	~gain_BUS_pi = Array.fill(~nSystems,
 		{
-			Bus.control(s, ~nSystems);
+			Bus.control(s, ~nSystems*~nChannels*~nChannels);
 		}
 	);
+
+
 
 
 	// create one audio bus for each virtual sound source:
@@ -86,6 +94,7 @@ s.waitForBoot({
 		}
 	);
 
+	/*
 	for(0, ~nSystems -1,
 		{ arg sysIDX;
 			for (0, ~nChannels -1,
@@ -93,8 +102,8 @@ s.waitForBoot({
 					~rendering_gain_BUS[sysIDX].setAt((2*sysIDX)+chanIDX,0);
 			});
 	});
+	*/
 
-	~reverb_send_BUS = Bus.audio(s,2);
 
 	s.sync;
 
@@ -111,7 +120,7 @@ s.waitForBoot({
 		~inputs = ~inputs.add(
 			Synth(\input_module,
 				[
-					\input_bus,           idx,
+					\input_bus,           idx*~nChannels,
 					\output_bus_pi,       ~audio_BUS_pi,
 					\control_bus_pi,      ~gain_BUS_pi[idx].index,
 					\output_bus_spatial,  ~rendering_send_BUS,
@@ -121,9 +130,9 @@ s.waitForBoot({
 		);)
 	});
 
-	for (0, ~nSystems-1, {arg cnt;
+/*	for (0, ~nSystems-1, {arg cnt;
 		~inputs[cnt].set(\input_bus, cnt+0);
-	});
+	});*/
 
 	/////////////////////////////////////////////////////////////////
 	// Encoder SECTION
@@ -173,7 +182,7 @@ s.waitForBoot({
 		~outputs_pi = ~outputs_pi.add(
 			Synth(\output_module,
 				[
-					\audio_bus, (~audio_BUS_pi.index*2)+cnt,
+					\audio_bus, (~audio_BUS_pi.index)+cnt,
 					\output, cnt,
 				],
 				target: ~output_GROUP
@@ -283,57 +292,55 @@ s.waitForBoot({
 
 
 // the routing function
-~route_pi_OSC = OSCFunc(
+OSCdef(\route_pi,
 
 	{arg msg, time, addr, recvPort;
 
-		var s, r;
+		var from_ID, from_CH, to_ID, to_CH, gain, bus_IDX;
+
+
+		from_ID = msg[1];
+		from_CH = msg[2];
+		to_ID   = msg[3];
+		to_CH   = msg[4];
+		gain    = msg[5];
 
 		/// User feedback:
-		"Set pi gain: ".post;
-		msg[1].post;
-		" -> ".post;
-		msg[2].post;
-		" = ".post;
-		msg[3].postln;
+		("Set pi gain from "+from_ID+"["+from_CH+"] to "+to_ID+"["+to_CH+"] = "+gain).postln;
 
-		s = max(0,min(msg[1],~nSystems));
-		r = 2*max(0,min(msg[2],~nSystems));
+		bus_IDX = ((to_ID*~nChannels*~nChannels) + from_CH + (~nChannels*to_CH));
+		bus_IDX.postln;
+
 
 		// set the bus value:
-		~gain_BUS_pi[s].setAt(r,msg[3]);
+		~gain_BUS_pi[from_ID].setAt(bus_IDX  ,msg[5]);
 
-}, '/route/pi');
+}, '/route/pi',n);
 
 
 // the routing function
-~route_spatial_OSC = OSCFunc(
+OSCdef(\route_spat,
 
 	{arg msg, time, addr, recvPort;
 
-		var send, receive, channel, gain, index;
+		var from_ID, from_CH, to_ID, gain, index;
 
-		/// User feedback:
-		"Set spatial gain: ".post;
-		msg[1].post;
-		" (".post;
-		msg[2].post;
-		") -> ".post;
-		msg[3].post;
-		" = ".post;
-		msg[4].postln;
 
-		send    = max(0,min(msg[1],~nSystems-1));
-		channel = max(0,min(msg[2],~nChannels-1));
-		receive = max(0,min(msg[3],~nVirtualSources-1));
-		gain    = max(0,msg[4]);
+		from_ID = msg[1];   // = max(0,min(msg[1],~nSystems-1));
+		from_CH = msg[2];   //max(0,min(msg[2],~nChannels-1));
+		to_ID   = msg[3];   //max(0,min(msg[3],~nVirtualSources-1));
+		gain    = msg[4];   //max(0,msg[4]);
 
-		index = (~nVirtualSources*receive) + channel;
+
+		("Set pi gain from "+from_ID+"["+from_CH+"] to source "+to_ID+" = "+gain).postln;
+
+
+		index = (~nChannels*to_ID) + from_CH;
 
 		// set the bus value:
-		~rendering_gain_BUS[send].setAt(index,gain);
+		~rendering_gain_BUS[from_ID].setAt(index,gain);
 
-}, '/route/spatial');
+}, '/route/spatial',n);
 
 
 
@@ -391,8 +398,16 @@ s.waitForBoot({
 }, '/source/reverb');
 
 
+	ServerMeter(s);
+
+
+"SC_JACK_DEFAULT_OUTPUTS".setenv("system");
 
 {
-	ServerMeter(s);
 	s.scope(1,~rendering_gain_BUS[0].index);
+
+
+	s.scope(16,~rendering_gain_BUS[0].index);
+	s.scope(16,~gain_BUS_pi[1].index);
+
 }

@@ -20,49 +20,53 @@ SynthDef(\input_module,
 		// get the audio input from hardware input:
 
 
-		for (0, ~nSystems-1,
-			{ arg cnt;
 
-
-				input = [SoundIn.ar(input_bus), SoundIn.ar(input_bus+1)];
-
-
-				// get the gain value from control bus:
-				gain = In.kr(control_bus_pi + cnt);
-
-				// apply gain
-				output = input*gain;
-
-				// audio output to dedicated bus
-				Out.ar((2*output_bus_pi) + cnt, output);
-
-			}
-		);
 
 
 		for (0, ~nChannels-1,
-			{ arg chanCNT;
+			{ arg from_chanCNT;
 
-				input = SoundIn.ar(input_bus+chanCNT);
+				input = SoundIn.ar(input_bus+from_chanCNT);
+
+
 
 				for (0, ~nVirtualSources-1,
 					{ arg srcCNT;
 
 						// get the gain value from control bus:
-						gain = In.kr((control_bus_spatial + ~nChannels*srcCNT) +  chanCNT);
+						gain = In.kr((control_bus_spatial + (~nChannels*srcCNT)) +  from_chanCNT);
 
 						// apply gain
 						output = input*gain;
 
 						// audio output to dedicated bus
-						Out.ar((output_bus_spatial )+ chanCNT, output);
+						Out.ar(output_bus_spatial+ srcCNT, output);
 
 					}
 				);
 
 
 
+				for (0, ~nSystems-1,
+					{ arg sysCNT;
 
+
+						for (0, ~nChannels-1,
+							{ arg to_chanCNT;
+
+								// get the gain value from control bus:
+								gain = In.kr((control_bus_pi + (sysCNT*~nChannels*~nChannels) + from_chanCNT + (~nChannels*to_chanCNT)));
+
+								// apply gain
+								output = input*gain;
+
+								// audio output to dedicated bus
+								Out.ar(output_bus_pi+ (~nChannels*sysCNT) +  to_chanCNT, output);
+
+							}
+						);
+					}
+				);
 
 
 

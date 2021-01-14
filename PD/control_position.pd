@@ -1,4 +1,4 @@
-#N canvas 2740 569 1077 487 10;
+#N canvas 2560 58 1920 1022 10;
 #X text 26 106 Set azimuth;
 #X text 491 102 Set reverb amount;
 #X text 343 100 Set distance;
