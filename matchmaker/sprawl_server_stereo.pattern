@@ -141,13 +141,13 @@ AP_16:send_2
 
 
 ## Binaural mix to APs
-SPRAWL_Server:out_33$
-	AP_\d:send_1$
-SPRAWL_Server:out_34$
-	AP_\d:send_2$
+/SPRAWL_Server:out_33$/
+	/AP_\d:send_1$/
+/SPRAWL_Server:out_34$/
+	/AP_\d:send_2$/
 
 ## Reverb to APs
-SPRAWL_Server:out_35$
-	AP_\d:send_1$
-SPRAWL_Server:out_36$
-	AP_\d:send_2$
+/SPRAWL_Server:out_35$/
+	/AP_\d:send_1$/
+/SPRAWL_Server:out_36$/
+	/AP_\d:send_2$/

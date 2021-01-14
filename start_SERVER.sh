@@ -13,5 +13,5 @@ rm log/SC.log
 sclang SC/sprawl_SERVER.sc > log/SC.log &
 
 ~/Development/jacktrip/builddir/jacktrip -S -p 5 -D --udprt > log/jacktrip.log &
-jack-matchmaker -p matchmaker/sprawl_server_stereo.pattern &
+jack-matchmaker -e -p matchmaker/sprawl_server_stereo.pattern &
 
