@@ -53,7 +53,7 @@ s.waitForBoot({
 	HOABinaural.binauralIRs;
 	HOABinaural.headPhoneIRs;
 
-	s.sync
+	s.sync;
 
 	load(~root_DIR++"sprawl_SYNTHDEFS.scd","r");
 
