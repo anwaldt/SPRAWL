@@ -3,49 +3,59 @@
 sprawl_SERVER.sc
 
 Simple version of an OSC-controllable
-audio routing matrix.
-
-
-NOTE: there is an offset -
-SC outputs start from index 4!
+audio routing matrix for access points with
+multiple inputs and outputs.
 
 Henrik von Coler
-2019-11-19
+2021-01-14
+
 */
 
 // get script's directory for relative paths
 ~root_DIR = thisProcess.nowExecutingPath.dirname++"/";
 
+
+// some server parameters
 s.options.device               = "SPRAWL_Server";
 s.options.numInputBusChannels  = 32;
-s.options.numOutputBusChannels = 32;
+s.options.numOutputBusChannels = 64;
 s.options.maxLogins            = 4;
 s.options.bindAddress          = "0.0.0.0";
 
+// maximum number of access points to be used
+// @todo: this could be dynamic
 ~nSystems = 16;
 
-// number of rendering outputs (virtual sound sources)
-~nOutputs = 16;
+// number of in/out channels per access point (and jacktrip connection)
+// @todo: at this point, all access points need to have the same number
+//        on in/outputs
+~nChannels = 2;
+
+// number of direct outputs is the same as all channels from all access points
+~nSystemSends    = ~nSystems * ~nChannels;
+
+// number of virtual sound sources
+~nVirtualSources = ~nSystems * ~nChannels;
 
 // HOA Order
 ~hoa_order = 3;
-
 ~n_hoa_channnels = pow(~hoa_order + 1.0 ,2.0);
+
 
 
 s.boot;
 
 s.waitForBoot({
 
-
+	// load HOA stuff
 	HOABinaural.loadbinauralIRs(s);
 	HOABinaural.loadHeadphoneCorrections(s);
 	HOABinaural.binauralIRs;
 	HOABinaural.headPhoneIRs;
 
+	s.sync;
 
 	load(~root_DIR++"sprawl_SYNTHDEFS.scd","r");
-
 
 
 	/////////////////////////////////////////////////////////////////
@@ -53,56 +63,54 @@ s.waitForBoot({
 	/////////////////////////////////////////////////////////////////
 
 
+	// for the encoded ambisonics signal
 	~ambi_BUS             = Bus.audio(s, ~n_hoa_channnels);
 
+	// for the spherical control parameters
 	~control_azim_BUS     = Bus.control(s,~nSystems);
 	~control_elev_BUS     = Bus.control(s,~nSystems);
 	~control_dist_BUS     = Bus.control(s,~nSystems);
 
+	// reverb send level
 	~control_reverb_BUS   = Bus.control(s,~nSystems);
+	// audio reverb bus
+	~reverb_send_BUS      = Bus.audio(s,2);
 
-	// create one audio bus for each pi module:
-	~audio_BUS_pi = Bus.audio(s,  ~nSystems);
 
+	// audio bus with mutliple channels for each pi module:
+	~audio_BUS_pi = Bus.audio(s,  ~nSystemSends);
 
 	// create a ~nSystems x ~nSystems routing
-	// matrix by using an array ofmultichannel
+	// matrix by using an array of multichannel
 	// control busses:
 	~gain_BUS_pi = Array.fill(~nSystems,
 		{
-			// arg i;
-			// "Creating control busses for system: ".post;
-			// i.postln;
-			Bus.control(s, ~nSystems);
+			Bus.control(s, ~nSystems*~nChannels*~nChannels);
 		}
 	);
 
 
+	// create one audio bus for each virtual sound source:
+	~rendering_send_BUS = Bus.audio(s,  ~nVirtualSources);
 
-
-
-	// create one audio bus for each loudspeaker module:
-	~rendering_send_BUS = Bus.audio(s,  ~nOutputs);
-
-	// create a ~nSystems x ~outputs_pi routing
-	// matrix by using an array ofmultichannel
-	// control busses:
 	~rendering_gain_BUS = Array.fill(~nSystems,
 		{
-			// arg i;
-			// "Creating control busses for system: ".post;
-			// i.postln;
-			Bus.control(s, ~nOutputs);
+			Bus.control(s, ~nVirtualSources*~nChannels);
 		}
 	);
 
-		for (0, ~nSystems -1, {arg idx;
-		~rendering_gain_BUS[idx].setAt(idx,1);
+    // per default each access points is routed to two sources
+	for(0, ~nSystems -1,
+		{ arg sysIDX;
+			for (0, ~nChannels -1,
+				{arg chanIDX;
+					~rendering_gain_BUS[sysIDX].setAt((2*sysIDX)+chanIDX,1);
+			});
 	});
 
-	~reverb_send_BUS = Bus.audio(s,2);
 
 	s.sync;
+
 	/////////////////////////////////////////////////////////////////
 	// INPUT SECTION
 
@@ -116,19 +124,19 @@ s.waitForBoot({
 		~inputs = ~inputs.add(
 			Synth(\input_module,
 				[
-					\input_bus, idx,
-					\output_bus_pi, ~audio_BUS_pi,
-					\control_bus_pi, ~gain_BUS_pi[idx].index,
-					\output_bus_rendering,  ~rendering_send_BUS,
-					\control_bus_rendering, ~rendering_gain_BUS[idx].index,
+					\input_bus,           idx*~nChannels,
+					\output_bus_pi,       ~audio_BUS_pi,
+					\control_bus_pi,      ~gain_BUS_pi[idx].index,
+					\output_bus_spatial,  ~rendering_send_BUS,
+					\control_bus_spatial, ~rendering_gain_BUS[idx].index,
 				],
 				target: ~input_GROUP
 		);)
 	});
 
-	for (0, ~nSystems-1, {arg cnt;
+/*	for (0, ~nSystems-1, {arg cnt;
 		~inputs[cnt].set(\input_bus, cnt+0);
-	});
+	});*/
 
 	/////////////////////////////////////////////////////////////////
 	// Encoder SECTION
@@ -178,7 +186,7 @@ s.waitForBoot({
 		~outputs_pi = ~outputs_pi.add(
 			Synth(\output_module,
 				[
-					\audio_bus, ~audio_BUS_pi.index+cnt,
+					\audio_bus, (~audio_BUS_pi.index)+cnt,
 					\output, cnt,
 				],
 				target: ~output_GROUP
@@ -191,7 +199,7 @@ s.waitForBoot({
 	~decoder = Synth(\hoa_binaural_decoder_3,
 		[
 			\in_bus,  ~ambi_BUS.index,
-			\out_bus, ~nSystems
+			\out_bus, ~nSystems*~nChannels,
 		],
 		target: ~output_GROUP);
 
@@ -275,123 +283,26 @@ s.waitForBoot({
 	~conv.set(\inbus_1, ~reverb_send_BUS.index);
 	~conv.set(\inbus_2, ~reverb_send_BUS.index);
 
-	~conv.set(\outbus_1, ~nSystems+2);
-	~conv.set(\outbus_2, ~nSystems+3);
+	~conv.set(\outbus_1, ~nSystems*~nChannels+2);
+	~conv.set(\outbus_2, ~nSystems*~nChannels+3);
+
+
+
+	load(~root_DIR++"sprawl_OSC.scd","r");
 
 
 });
 
 
-/////////////////////////////////////////////////////////////////
-// OSC listeners:
-/////////////////////////////////////////////////////////////////
 
-
-// the routing function
-~route_pi_OSC = OSCFunc(
-
-	{arg msg, time, addr, recvPort;
-
-		var s, r;
-
-		/// User feedback:
-		"Set pi gain: ".post;
-		msg[1].post;
-		" -> ".post;
-		msg[2].post;
-		" = ".post;
-		msg[3].postln;
-
-		s = max(0,min(msg[1],15));
-		r = max(0,min(msg[2],15));
-
-		// set the bus value:
-		~gain_BUS_pi[s].setAt(r,msg[3]);
-
-}, '/route/pi');
-
-
-
-
-
-// the routing function
-~route_binaural_OSC = OSCFunc(
-
-	{arg msg, time, addr, recvPort;
-
-		var s, r;
-
-		/// User feedback:
-		"Set binaural gain: ".post;
-		msg[1].post;
-		" -> ".post;
-		msg[2].post;
-		" = ".post;
-		msg[3].postln;
-
-		s = max(0,min(msg[1],15));
-		r = max(0,min(msg[2],15));
-
-		// set the bus value:
-		~rendering_gain_BUS[s].setAt(r,msg[3]);
-
-}, '/route/binaural');
-
-
-
-
-// the routing function
-~all_silent_OSC = OSCFunc(
-
-	{arg msg, time, addr, recvPort;
-
-		(0..~nSystems-1).do(
-			{arg i;
-				(0..~nSystems-1).do(
-					{arg j;
-						"Resetting: ".post; i.post; " -> ".post; j.postln;
-						~gain_BUS_pi[i].setAt(j,0.0)
-					}
-				);
-			}
-		);
-
-}, '/all_silent');
-
-
-~azim_OSC = OSCFunc(
-	{
-		arg msg, time, addr, recvPort;
-		var azim = msg[2];
-		~control_azim_BUS.setAt(msg[1],azim);
-
-}, '/source/azim');
-
-~elev_OSC = OSCFunc(
-	{
-		arg msg, time, addr, recvPort;
-		var elev = msg[2];
-		~control_elev_BUS.setAt(msg[1],elev);
-
-}, '/source/elev');
-
-~dist_OSC = OSCFunc(
-	{
-		arg msg, time, addr, recvPort;
-		var dist = msg[2];
-		~control_dist_BUS.setAt(msg[1],dist);
-
-}, '/source/dist');
-
-
-~dist_OSC = OSCFunc(
+// Bus monitoring
 {
-arg msg, time, addr, recvPort;
-var amnt = msg[2];
-~control_reverb_BUS.setAt(msg[1],amnt);
+	ServerMeter(s);
 
-}, '/source/reverb');
+	s.scope(1,~rendering_gain_BUS[0].index);
 
 
+	s.scope(16,~rendering_gain_BUS[0].index);
+	s.scope(16,~gain_BUS_pi[1].index);
 
-// ServerMeter(s);
+}

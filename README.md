@@ -1,18 +1,98 @@
-SPRAWL
-======
+# SPRAWL
+
 
 SPRAWL is a network system for enhanced interaction in
-musical performances. The client-server approach can be used
-in local and global networks.
+musical performances. The client-server approach for distributing
+audio and control data can be used in local and global networks.
 
 
-Dependencies
-------------
+## The Basic Server
 
-- git-lfs for wav files
 
-Startup
--------
+The basic SC server offers binaural rendering with OSC control.
+In the recent version, all access points send and receive two
+channels of audio to the server. Signals from the access
+points can be raouted to specific targets via OSC command.
+All access points receive the full binaural mix and selected
+sources.
+The server is per default configured for up to 16 access points.
+Inputs and outputs of the SC Jack client are assigned as follows:
+
+<img src="./graphics/basic_server_connections.png" width="800">
+
+### OSC Messages
+
+Sending OSC messages can be tested with the PD patches
+`control_position.pd` and `control_sends.pd`.
+The default server listens to the following messages:
+
+
+#### Routing
+
+For each access point, the server adds two virtual sound sources.
+Individual channels from each access point can be routed to any virtual sound source:
+
+    /route/spatial i i i f
+
+    - first argument: send access point index (0...16)
+    - second argument: send channel to use (0,1)
+    - third argument: virtual sound source index (0...32)
+    - fourth argument: gain (0...1)
+
+Individual channels from each access point can be routed
+to individual channels of other access points:
+
+    /route/pi i i i f
+
+    - first argument: send access point index (0...16)
+    - second argument: send channel to use (0,1)
+    - third argument: receive access point index (0...16)
+    - fourth argument: receive channel to use (0,1)
+    - fifth argument: gain (0...1)
+
+
+#### Spatial
+
+Source positions are controlled in spherical coordinates.
+
+    /source/azim i f
+
+    - first argument: virtual sound source index (0...32)
+    - second argument: azimuth angle (-pi ... pi)
+
+    /source/elev i f
+
+    - first argument: virtual sound source index (0...32)
+    - second argument: elevation angle (-pi ... pi)
+
+    /source/dist i f
+
+    - first argument: virtual sound source index (0...32)
+    - second argument: distance in meters (0 ... 10)
+
+Sources can be routed to a convolution reverb, which is
+independent from the spatial source position:
+
+    /source/reverb i f
+
+    - first argument: virtual sound source index (0...32)
+    - second argument: reverb gain (0 ... 1)
+
+## Dependencies
+
+- jacktrip
+- SuperCollider
+    - SC-HOA
+- Puredata
+
+## Install
+
+### Client
+
+### Server
+
+## Startup
+
 
 The startup of the SPRAWL system is managed through bash scripts:
 
@@ -44,18 +124,5 @@ Mind the capital letters for both server and client parameters.
 
 
 
-The Basic Server
-----------------
 
-The basic SC server offers binaural rendering with OSC control:
-
-```console
-$ sclang sprawl_SERVER.sc &
-```
-
-It is per default configured for up to 16 access points,
-each contributing a mono signal. The inputs and outputs 
-of the SC Jack client are assigned as follows:
-
-<img src="./graphics/basic_server_connections.png" width="800">
 

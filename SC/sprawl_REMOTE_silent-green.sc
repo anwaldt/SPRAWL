@@ -1,4 +1,14 @@
+/*
 
+sprawl_REMOTE_silent-green.sc
+
+Access point software used for the concert
+'BUB Mode' (Feb. 2020, Silent Green, Berlin)
+
+Henrik von Coler
+2020-01-20
+
+*/
 
 ~my_IDX = 1;
 
