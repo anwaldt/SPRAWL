@@ -34,21 +34,21 @@ Individual channels from each access point can be routed to any virtual sound so
 
     /route/spatial i i i f
 
-    - first argument: send access point index (0...16)
-    - second argument: send channel to use (0,1)
-    - third argument: virtual sound source index (0...32)
-    - fourth argument: gain (0...1)
+- first argument: send access point index (0...16)
+- second argument: send channel to use (0,1)
+- third argument: virtual sound source index (0...32)
+- fourth argument: gain (0...1)
 
 Individual channels from each access point can be routed
 to individual channels of other access points:
 
     /route/pi i i i f
 
-    - first argument: send access point index (0...16)
-    - second argument: send channel to use (0,1)
-    - third argument: receive access point index (0...16)
-    - fourth argument: receive channel to use (0,1)
-    - fifth argument: gain (0...1)
+- first argument: send access point index (0...16)
+- second argument: send channel to use (0,1)
+- third argument: receive access point index (0...16)
+- fourth argument: receive channel to use (0,1)
+- fifth argument: gain (0...1)
 
 
 #### Spatial
@@ -57,26 +57,26 @@ Source positions are controlled in spherical coordinates.
 
     /source/azim i f
 
-    - first argument: virtual sound source index (0...32)
-    - second argument: azimuth angle (-pi ... pi)
+- first argument: virtual sound source index (0...32)
+- second argument: azimuth angle (-pi ... pi)
 
     /source/elev i f
 
-    - first argument: virtual sound source index (0...32)
-    - second argument: elevation angle (-pi ... pi)
+- first argument: virtual sound source index (0...32)
+- second argument: elevation angle (-pi ... pi)
 
     /source/dist i f
 
-    - first argument: virtual sound source index (0...32)
-    - second argument: distance in meters (0 ... 10)
+- first argument: virtual sound source index (0...32)
+- second argument: distance in meters (0 ... 10)
 
 Sources can be routed to a convolution reverb, which is
 independent from the spatial source position:
 
     /source/reverb i f
 
-    - first argument: virtual sound source index (0...32)
-    - second argument: reverb gain (0 ... 1)
+- first argument: virtual sound source index (0...32)
+- second argument: reverb gain (0 ... 1)
 
 ## Dependencies
 
@@ -89,7 +89,11 @@ independent from the spatial source position:
 
 ### Client
 
+more
+
 ### Server
+
+more
 
 ## Startup
 
