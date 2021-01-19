@@ -1,3 +1,14 @@
+/*
+
+sprawl_SERVER_CTL.sc
+
+Examples for connecting to the remote
+server for monitoring.
+
+Henrik von Coler
+2021-01-18
+
+*/
 
 // connect to the sprawl server
 
