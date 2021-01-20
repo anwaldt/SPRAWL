@@ -1,0 +1,17 @@
+[Unit]
+Description=Jacktrip Hubserver
+After=jack.service
+Requires=jack.service
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=idle
+PrivateTmp=true
+ExecStartPre=/bin/sleep 1
+ExecStart=/home/studio/Development/jacktrip/builddir/jacktrip -S -p 5 -D --udprt
+LimitRTPRIO=95
+LimitRTTIME=infinity
+LimitMEMLOCK=infinity
+User=studio
