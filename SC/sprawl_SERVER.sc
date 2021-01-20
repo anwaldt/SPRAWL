@@ -294,7 +294,7 @@ s.waitForBoot({
 });
 
 
-
+/*
 // Bus monitoring
 {
 	ServerMeter(s);
@@ -306,3 +306,4 @@ s.waitForBoot({
 	s.scope(16,~gain_BUS_pi[1].index);
 
 }
+*/
