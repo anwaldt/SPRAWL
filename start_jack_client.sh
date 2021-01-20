@@ -16,7 +16,7 @@ echo $BUFFER
 
 sleep 1
 
-jackd -P 90 -d alsa -d hw:CODEC -r 48000 -p $BUFFER &
+jackd -P 90 -d alsa -d hw:1,0 -r 48000 -p $BUFFER &
 
 sleep 2
 
