@@ -58,6 +58,18 @@ OSCdef(\route_spat,
 
 
 
+
+~azim_OSC = OSCFunc(
+	{
+		arg msg, time, addr, recvPort;
+		var gain = msg[2];
+		~binaural_gain_BUS.setAt(msg[1],gain);
+
+}, '/route/monitor');
+
+
+
+
 // the routing function
 ~all_silent_OSC = OSCFunc(
 
@@ -78,8 +90,10 @@ OSCdef(\route_spat,
 
 
 
+
+
 /////////////////////////////////////////////////////////////////
-// OSC routing listeners:
+// OSC spatial listeners:
 /////////////////////////////////////////////////////////////////
 
 

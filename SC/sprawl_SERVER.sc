@@ -316,12 +316,26 @@ s.waitForBoot({
 		[
 			\binaural_bus, ~binaural_mix_BUS.index,
 			\gain_bus,	   ~binaural_gain_BUS.index,
-			\output_bus,   34
+			\output_bus,   32
 		],
 		target: ~output_GROUP);
 
 
 
+	for (0, 1, {arg cnt;
+
+		post('Adding MAIN Output Module: ');
+		cnt.postln;
+
+		~outputs_main = ~outputs_main.add(
+			Synth(\output_module,
+				[
+					\audio_bus, (~binaural_mix_BUS.index)+cnt,
+					\output, 64+cnt,
+				],
+				target: ~output_GROUP
+		);)
+	});
 
 
 
