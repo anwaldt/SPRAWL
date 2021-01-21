@@ -129,7 +129,30 @@ SynthDef(\output_module,
 
 		input = In.ar(audio_bus,1);
 
-		Out.ar(output, input*0.5);
+		Out.ar(output, input);
+
+}).add;
+
+
+SynthDef(\binaural_send,
+	{
+		|
+		binaural_bus = nil,
+		gain_bus     = nil
+		output_bus   = nil
+		|
+
+		var input, gain, output;
+
+		for (0, ~nSystems-1,
+			{arg sysCNT;
+
+				input = In.ar(binaural_bus,2);
+				gain  = In.kr(gain_bus+sysCNT);
+				Out.ar(output_bus+(2*sysCNT), input*gain);
+
+		});
+
 
 }).add;
 
