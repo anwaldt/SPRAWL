@@ -74,145 +74,79 @@ AP_16:receive_2
 #	AP_{nr}:send_\d$
 
 ## Direct output to the APs (stereo)
-AP_1:send_1
-   SPRAWL_Server:out_1
-AP_1:send_2
-   SPRAWL_Server:out_2
-AP_2:send_1
-   SPRAWL_Server:out_3
-AP_2:send_2
-   SPRAWL_Server:out_4
-AP_3:send_1
-   SPRAWL_Server:out_5
-AP_3:send_2
-   SPRAWL_Server:out_6
-AP_4:send_1
-   SPRAWL_Server:out_7
-AP_4:send_2
-   SPRAWL_Server:out_8
-AP_5:send_1
-   SPRAWL_Server:out_9
-AP_5:send_2
-   SPRAWL_Server:out_10
-AP_6:send_1
-   SPRAWL_Server:out_11
-AP_6:send_2
-   SPRAWL_Server:out_12
-AP_7:send_1
-   SPRAWL_Server:out_13
-AP_7:send_2
-   SPRAWL_Server:out_14
-AP_8:send_1
-   SPRAWL_Server:out_15
-AP_8:send_2
-   SPRAWL_Server:out_16
-AP_9:send_1
-   SPRAWL_Server:out_17
-AP_9:send_2
-   SPRAWL_Server:out_18
-AP_10:send_1
-   SPRAWL_Server:out_19
-AP_10:send_2
-   SPRAWL_Server:out_20
-AP_11:send_1
-   SPRAWL_Server:out_21
-AP_11:send_2
-   SPRAWL_Server:out_22
-AP_12:send_1
-   SPRAWL_Server:out_23
-AP_12:send_2
-   SPRAWL_Server:out_24
-AP_13:send_1
-   SPRAWL_Server:out_25
-AP_13:send_2
-   SPRAWL_Server:out_26
-AP_14:send_1
-   SPRAWL_Server:out_27
-AP_14:send_2
-   SPRAWL_Server:out_28
-AP_15:send_1
-   SPRAWL_Server:out_29
-AP_15:send_2
-   SPRAWL_Server:out_30
-AP_16:send_1
-   SPRAWL_Server:out_31
-AP_16:send_2
-   SPRAWL_Server:out_32
-
-
 ## Binaural mix to APs
-AP_1:send_1
-   SPRAWL_Server:out_33
-AP_1:send_2
-   SPRAWL_Server:out_34
-AP_2:send_1
-   SPRAWL_Server:out_35
-AP_2:send_2
-   SPRAWL_Server:out_36
-AP_3:send_1
-   SPRAWL_Server:out_37
-AP_3:send_2
-   SPRAWL_Server:out_38
-AP_4:send_1
-   SPRAWL_Server:out_39
-AP_4:send_2
-   SPRAWL_Server:out_40
-AP_5:send_1
-   SPRAWL_Server:out_41
-AP_5:send_2
-   SPRAWL_Server:out_42
-AP_6:send_1
-   SPRAWL_Server:out_43
-AP_6:send_2
-   SPRAWL_Server:out_44
-AP_7:send_1
-   SPRAWL_Server:out_45
-AP_7:send_2
-   SPRAWL_Server:out_46
-AP_8:send_1
-   SPRAWL_Server:out_47
-AP_8:send_2
-   SPRAWL_Server:out_48
-AP_9:send_1
-   SPRAWL_Server:out_49
-AP_9:send_2
-   SPRAWL_Server:out_50
-AP_10:send_1
-   SPRAWL_Server:out_51
-AP_10:send_2
-   SPRAWL_Server:out_52
-AP_11:send_1
-   SPRAWL_Server:out_53
-AP_11:send_2
-   SPRAWL_Server:out_54
-AP_12:send_1
-   SPRAWL_Server:out_55
-AP_12:send_2
-   SPRAWL_Server:out_56
-AP_13:send_1
-   SPRAWL_Server:out_57
-AP_13:send_2
-   SPRAWL_Server:out_58
-AP_14:send_1
-   SPRAWL_Server:out_59
-AP_14:send_2
-   SPRAWL_Server:out_60
-AP_15:send_1
-   SPRAWL_Server:out_61
-AP_15:send_2
-   SPRAWL_Server:out_62
-AP_16:send_1
-   SPRAWL_Server:out_63
-AP_16:send_2
-   SPRAWL_Server:out_64
+/SPRAWL_Server:out_?(1|33)$/
+	AP_1:send_1
+/SPRAWL_Server:out_?(2|34)$/
+	AP_1:send_2
+/SPRAWL_Server:out_?(3|35)$/
+	AP_2:send_1
+/SPRAWL_Server:out_?(4|36)$/
+	AP_2:send_2
+/SPRAWL_Server:out_?(5|37)$/
+	AP_3:send_1
+/SPRAWL_Server:out_?(6|38)$/
+	AP_3:send_2
+/SPRAWL_Server:out_?(7|39)$/
+	AP_4:send_1
+/SPRAWL_Server:out_?(8|40)$/
+	AP_4:send_2
+/SPRAWL_Server:out_?(9|41)$/
+	AP_5:send_1
+/SPRAWL_Server:out_?(10|42)$/
+	AP_5:send_2
+/SPRAWL_Server:out_?(11|43)$/
+	AP_6:send_1
+/SPRAWL_Server:out_?(12|44)$/
+	AP_6:send_2
+/SPRAWL_Server:out_?(13|45)$/
+	AP_7:send_1
+/SPRAWL_Server:out_?(14|46)$/
+	AP_7:send_2
+/SPRAWL_Server:out_?(15|47)$/
+	AP_8:send_1
+/SPRAWL_Server:out_?(16|48)$/
+	AP_8:send_2
+/SPRAWL_Server:out_?(17|49)$/
+	AP_9:send_1
+/SPRAWL_Server:out_?(18|50)$/
+	AP_9:send_2
+/SPRAWL_Server:out_?(19|51)$/
+	AP_10:send_1
+/SPRAWL_Server:out_?(20|52)$/
+	AP_10:send_2
+/SPRAWL_Server:out_?(21|53)$/
+	AP_11:send_1
+/SPRAWL_Server:out_?(22|54)$/
+	AP_11:send_2
+/SPRAWL_Server:out_?(23|55)$/
+	AP_12:send_1
+/SPRAWL_Server:out_?(24|56)$/
+	AP_12:send_2
+/SPRAWL_Server:out_?(25|57)$/
+	AP_13:send_1
+/SPRAWL_Server:out_?(26|58)$/
+	AP_13:send_2
+/SPRAWL_Server:out_?(27|59)$/
+	AP_14:send_1
+/SPRAWL_Server:out_?(28|60)$/
+	AP_14:send_2
+/SPRAWL_Server:out_?(29|61)$/
+	AP_15:send_1
+/SPRAWL_Server:out_?(30|62)$/
+	AP_15:send_2
+/SPRAWL_Server:out_?(31|63)$/
+	AP_16:send_1
+/SPRAWL_Server:out_?(32|64)$/
+	AP_16:send_2
 
 #/SPRAWL_Server:out_33$/
 #	/AP_\d:send_1$/
 #/SPRAWL_Server:out_34$/
 #	/AP_\d:send_2$/
 
-## Reverb to APs
-/SPRAWL_Server:out_65$/
-	/AP_\d:send_1$/
-/SPRAWL_Server:out_66$/
-	/AP_\d:send_2$/
+## Streaming
+#/SPRAWL_Server:out_65$/
+#	/AP_\d:send_1$/
+#/SPRAWL_Server:out_66$/
+#	/AP_\d:send_2$/
