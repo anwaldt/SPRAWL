@@ -74,8 +74,8 @@ AP_16:receive_2
 #	AP_{nr}:send_\d$
 
 ## Direct output to the APs (stereo)
-AP_1:send_1
-   SPRAWL_Server:out_1
+/SPRAWL_Server:out_?(1|33)$/
+   AP_1:send_1
 AP_1:send_2
    SPRAWL_Server:out_2
 AP_2:send_1
@@ -141,8 +141,6 @@ AP_16:send_2
 
 
 ## Binaural mix to APs
-AP_1:send_1
-   SPRAWL_Server:out_33
 AP_1:send_2
    SPRAWL_Server:out_34
 AP_2:send_1
@@ -211,8 +209,8 @@ AP_16:send_2
 #/SPRAWL_Server:out_34$/
 #	/AP_\d:send_2$/
 
-## Reverb to APs
-/SPRAWL_Server:out_65$/
-	/AP_\d:send_1$/
-/SPRAWL_Server:out_66$/
-	/AP_\d:send_2$/
+## Streaming
+#/SPRAWL_Server:out_65$/
+#	/AP_\d:send_1$/
+#/SPRAWL_Server:out_66$/
+#	/AP_\d:send_2$/
