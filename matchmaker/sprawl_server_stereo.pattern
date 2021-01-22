@@ -141,13 +141,78 @@ AP_16:send_2
 
 
 ## Binaural mix to APs
-/SPRAWL_Server:out_33$/
-	/AP_\d:send_1$/
-/SPRAWL_Server:out_34$/
-	/AP_\d:send_2$/
+AP_1:send_1
+   SPRAWL_Server:out_33
+AP_1:send_2
+   SPRAWL_Server:out_34
+AP_2:send_1
+   SPRAWL_Server:out_35
+AP_2:send_2
+   SPRAWL_Server:out_36
+AP_3:send_1
+   SPRAWL_Server:out_37
+AP_3:send_2
+   SPRAWL_Server:out_38
+AP_4:send_1
+   SPRAWL_Server:out_39
+AP_4:send_2
+   SPRAWL_Server:out_40
+AP_5:send_1
+   SPRAWL_Server:out_41
+AP_5:send_2
+   SPRAWL_Server:out_42
+AP_6:send_1
+   SPRAWL_Server:out_43
+AP_6:send_2
+   SPRAWL_Server:out_44
+AP_7:send_1
+   SPRAWL_Server:out_45
+AP_7:send_2
+   SPRAWL_Server:out_46
+AP_8:send_1
+   SPRAWL_Server:out_47
+AP_8:send_2
+   SPRAWL_Server:out_48
+AP_9:send_1
+   SPRAWL_Server:out_49
+AP_9:send_2
+   SPRAWL_Server:out_50
+AP_10:send_1
+   SPRAWL_Server:out_51
+AP_10:send_2
+   SPRAWL_Server:out_52
+AP_11:send_1
+   SPRAWL_Server:out_53
+AP_11:send_2
+   SPRAWL_Server:out_54
+AP_12:send_1
+   SPRAWL_Server:out_55
+AP_12:send_2
+   SPRAWL_Server:out_56
+AP_13:send_1
+   SPRAWL_Server:out_57
+AP_13:send_2
+   SPRAWL_Server:out_58
+AP_14:send_1
+   SPRAWL_Server:out_59
+AP_14:send_2
+   SPRAWL_Server:out_60
+AP_15:send_1
+   SPRAWL_Server:out_61
+AP_15:send_2
+   SPRAWL_Server:out_62
+AP_16:send_1
+   SPRAWL_Server:out_63
+AP_16:send_2
+   SPRAWL_Server:out_64
+
+#/SPRAWL_Server:out_33$/
+#	/AP_\d:send_1$/
+#/SPRAWL_Server:out_34$/
+#	/AP_\d:send_2$/
 
 ## Reverb to APs
-/SPRAWL_Server:out_35$/
+/SPRAWL_Server:out_65$/
 	/AP_\d:send_1$/
-/SPRAWL_Server:out_36$/
+/SPRAWL_Server:out_66$/
 	/AP_\d:send_2$/
