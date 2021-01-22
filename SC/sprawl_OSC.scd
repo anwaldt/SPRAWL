@@ -65,7 +65,15 @@ OSCdef(\route_spat,
 		var gain = msg[2];
 		~binaural_gain_BUS.setAt(msg[1],gain);
 
-}, '/route/monitor');
+}, '/monitor/gain');
+
+~azim_OSC = OSCFunc(
+	{
+		arg msg, time, addr, recvPort;
+		var gain = msg[2];
+		~binaural_mono_BUS.setAt(msg[1],gain);
+
+}, '/monitor/mono');
 
 
 

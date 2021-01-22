@@ -104,15 +104,15 @@ s.waitForBoot({
 		{ arg sysIDX;
 			for (0, ~nChannels -1,
 				{arg chanIDX;
-					~rendering_gain_BUS[sysIDX].setAt((2*sysIDX)+chanIDX,1);
+
+					~rendering_gain_BUS[sysIDX].setAt((2*chanIDX) + sysIDX, 1);
+
 			});
 	});
 
-
-
-
 	~binaural_mix_BUS  = Bus.audio(s,  2);
 	~binaural_gain_BUS = Bus.control(s,  ~nSystems);
+	~binaural_mono_BUS = Bus.control(s,  ~nSystems);
 
 	// every pi is monitoring the binaural mix by default:
 	for(0, ~nSystems -1,
@@ -316,6 +316,7 @@ s.waitForBoot({
 		[
 			\binaural_bus, ~binaural_mix_BUS.index,
 			\gain_bus,	   ~binaural_gain_BUS.index,
+			\mono_bus,     ~binaural_mono_BUS.index,
 			\output_bus,   32
 		],
 		target: ~output_GROUP);
@@ -350,17 +351,19 @@ s.waitForBoot({
 });
 
 
-// s.scope(8,~binaural_mix_BUS.index)
+// s.scope(2,~binaural_mix_BUS.index)
 
 /*
 // Bus monitoring
 {
 ServerMeter(s);
 
-s.scope(1,~rendering_gain_BUS[0].index);
-
-
 s.scope(16,~rendering_gain_BUS[0].index);
+
+
+s.scope(16,~rendering_send_BUS.index);
+s.scope(16,~binaural_mono_BUS.index);
+
 s.scope(16,~gain_BUS_pi[1].index);
 
 }

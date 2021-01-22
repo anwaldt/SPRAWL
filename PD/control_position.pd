@@ -1,10 +1,9 @@
-#N canvas 2934 655 748 403 10;
+#N canvas 600 748 748 403 10;
 #X text 8 7 Example patch for controlling spatial properties of a sound
 on the SPRAWL server.;
 #X obj 195 316 netsend -u -b;
 #X msg 349 293 disconnect;
 #X text 348 251 1: connect;
-#X msg 349 270 connect 85.214.78.6 57120;
 #N canvas 742 692 1302 626 sub1 0;
 #X text 108 203 Set azimuth;
 #X text 543 199 Set reverb amount;
@@ -74,6 +73,7 @@ on the SPRAWL server.;
 #X connect 32 1 29 1;
 #X coords 0 -1 1 1 555 155 2 100 100;
 #X restore 74 62 pd sub1;
+#X msg 349 270 connect localhost 57120;
 #X connect 2 0 1 0;
 #X connect 4 0 1 0;
 #X connect 5 0 1 0;

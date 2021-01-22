@@ -139,17 +139,26 @@ SynthDef(\binaural_send,
 		|
 		binaural_bus = nil,
 		gain_bus     = nil
-		output_bus   = nil
+		output_bus   = nil,
+		mono_bus     = nil
 		|
 
-		var input, gain, output;
+		var input, gain, output, mono;
 
 		for (0, ~nSystems-1,
 			{arg sysCNT;
 
 				input = In.ar(binaural_bus,2);
 				gain  = In.kr(gain_bus+sysCNT);
-				Out.ar(output_bus+(2*sysCNT), input*gain);
+
+				mono = In.kr(mono_bus+sysCNT);
+				mono = max(0,min(1,mono));
+
+				// left
+				Out.ar(output_bus+(2*sysCNT),    ((input[0]*gain) + (input[1]*gain*mono)) * (1-(0.75*mono)));
+
+				// right
+				Out.ar(output_bus+(2*sysCNT)+1,  (input[1]*gain*(1-mono)));
 
 		});
 
