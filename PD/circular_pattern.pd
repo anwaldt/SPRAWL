@@ -1,4 +1,4 @@
-#N canvas 2560 58 1920 1022 10;
+#N canvas 1 119 836 478 10;
 #X text 24 250 2: Set source to control (0...16);
 #X obj 243 453 netsend -u -b;
 #X obj 243 425 list trim;
@@ -24,7 +24,7 @@ the SPRAWL server., f 95;
 #X obj 118 153 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 384 148 hsl 128 15 0 6 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 6366 1;
+-1 -1 0 1;
 #X obj 118 112 metro 10;
 #X obj 723 31 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;

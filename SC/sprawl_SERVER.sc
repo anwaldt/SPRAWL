@@ -18,7 +18,7 @@ Henrik von Coler
 // some server parameters
 s.options.device               = "SPRAWL_Server";
 s.options.numInputBusChannels  = 32;
-s.options.numOutputBusChannels = 64;
+s.options.numOutputBusChannels = 80;
 s.options.maxLogins            = 4;
 s.options.bindAddress          = "0.0.0.0";
 
@@ -99,15 +99,28 @@ s.waitForBoot({
 		}
 	);
 
-    // per default each access points is routed to two sources
+	// per default each access points is routed to two sources
 	for(0, ~nSystems -1,
 		{ arg sysIDX;
 			for (0, ~nChannels -1,
 				{arg chanIDX;
-					~rendering_gain_BUS[sysIDX].setAt((2*sysIDX)+chanIDX,1);
+
+					~rendering_gain_BUS[sysIDX].setAt((2*chanIDX) + sysIDX, 1);
+
 			});
 	});
 
+	~binaural_mix_BUS  = Bus.audio(s,  2);
+	~binaural_gain_BUS = Bus.control(s,  ~nSystems);
+	~binaural_mono_BUS = Bus.control(s,  ~nSystems);
+
+	// every pi is monitoring the binaural mix by default:
+	for(0, ~nSystems -1,
+		{ arg sysIDX;
+			~binaural_gain_BUS.setAt(sysIDX,1);
+	});
+
+	~binaural_send_BUS = Bus.audio(s,  2*~nSystems);
 
 	s.sync;
 
@@ -134,8 +147,8 @@ s.waitForBoot({
 		);)
 	});
 
-/*	for (0, ~nSystems-1, {arg cnt;
-		~inputs[cnt].set(\input_bus, cnt+0);
+	/*	for (0, ~nSystems-1, {arg cnt;
+	~inputs[cnt].set(\input_bus, cnt+0);
 	});*/
 
 	/////////////////////////////////////////////////////////////////
@@ -176,22 +189,8 @@ s.waitForBoot({
 	/////////////////////////////////////////////////////////////////
 	// OUTPUT SECTION
 
-	~output_GROUP = Group.after(~encoder_GROUP);
+	~spatial_GROUP = Group.after(~encoder_GROUP);
 
-	for (0, ~nSystems -1, {arg cnt;
-
-		post('Adding PI Output Module: ');
-		cnt.postln;
-
-		~outputs_pi = ~outputs_pi.add(
-			Synth(\output_module,
-				[
-					\audio_bus, (~audio_BUS_pi.index)+cnt,
-					\output, cnt,
-				],
-				target: ~output_GROUP
-		);)
-	});
 
 
 
@@ -199,17 +198,20 @@ s.waitForBoot({
 	~decoder = Synth(\hoa_binaural_decoder_3,
 		[
 			\in_bus,  ~ambi_BUS.index,
-			\out_bus, ~nSystems*~nChannels,
+			\out_bus, ~binaural_mix_BUS.index,
 		],
-		target: ~output_GROUP);
+		target: ~spatial_GROUP);
+
+
+	~decoder.set(\out_bus, ~binaural_mix_BUS);
 
 	/////////////////////////////////////////////////////////////////
 
 
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////
 	// partitioned convolution stuff (to be used with convolve-synthdef)
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////
 
 
 	~fftsize = 4096;
@@ -269,7 +271,7 @@ s.waitForBoot({
 
 	2.sleep;
 
-	post('Adding convolution reverb!');
+	postln('Adding convolution reverb!');
 	~conv = Synth.new(\convolve,
 		[
 			\outbus_1, 0,
@@ -278,15 +280,70 @@ s.waitForBoot({
 			\bufnum_2, ~irspectrumR.bufnum,
 			\fftsize,  ~fftsize
 		],
-		target: ~output_GROUP);
+		target: ~spatial_GROUP);
 
 	~conv.set(\inbus_1, ~reverb_send_BUS.index);
 	~conv.set(\inbus_2, ~reverb_send_BUS.index);
 
-	~conv.set(\outbus_1, ~nSystems*~nChannels+2);
-	~conv.set(\outbus_2, ~nSystems*~nChannels+3);
+	~conv.set(\outbus_1, ~binaural_mix_BUS.index);
+	~conv.set(\outbus_2, ~binaural_mix_BUS.index+1);
 
 
+
+	/////////////////////////////////////////////////////////////////
+	//
+	/////////////////////////////////////////////////////////////////
+
+	~output_GROUP = Group.after(~spatial_GROUP);
+
+	for (0, ~nSystemSends -1, {arg cnt;
+
+		post('Adding PI Output Module: ');
+		cnt.postln;
+
+		~outputs_pi = ~outputs_pi.add(
+			Synth(\output_module,
+				[
+					\audio_bus, (~audio_BUS_pi.index)+cnt,
+					\output, cnt,
+				],
+				target: ~output_GROUP
+		);)
+	});
+
+
+	Synth.new(\binaural_send,
+		[
+			\binaural_bus, ~binaural_mix_BUS.index,
+			\gain_bus,	   ~binaural_gain_BUS.index,
+			\mono_bus,     ~binaural_mono_BUS.index,
+			\output_bus,   32
+		],
+		target: ~output_GROUP);
+
+
+
+	for (0, 1, {arg cnt;
+
+		post('Adding MAIN Output Module: ');
+		cnt.postln;
+
+		~outputs_main = ~outputs_main.add(
+			Synth(\output_module,
+				[
+					\audio_bus, (~binaural_mix_BUS.index)+cnt,
+					\output, 64+cnt,
+				],
+				target: ~output_GROUP
+		);)
+	});
+
+
+
+
+	/////////////////////////////////////////////////////////////////
+	//
+	/////////////////////////////////////////////////////////////////
 
 	load(~root_DIR++"sprawl_OSC.scd","r");
 
@@ -294,16 +351,20 @@ s.waitForBoot({
 });
 
 
+// s.scope(2,~binaural_mix_BUS.index)
+
 /*
 // Bus monitoring
 {
-	ServerMeter(s);
+ServerMeter(s);
 
-	s.scope(1,~rendering_gain_BUS[0].index);
+s.scope(16,~rendering_gain_BUS[0].index);
 
 
-	s.scope(16,~rendering_gain_BUS[0].index);
-	s.scope(16,~gain_BUS_pi[1].index);
+s.scope(16,~rendering_send_BUS.index);
+s.scope(16,~binaural_mono_BUS.index);
+
+s.scope(16,~gain_BUS_pi[1].index);
 
 }
 */

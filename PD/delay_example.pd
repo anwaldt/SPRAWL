@@ -1,4 +1,4 @@
-#N canvas 2896 365 755 380 10;
+#N canvas 1 119 755 380 10;
 #X obj 30 316 dac~ 1;
 #X obj 30 17 adc~ 1;
 #X text 87 17 get the first input channel;
@@ -6,7 +6,7 @@
 #X msg 605 17 \; pd dsp 0;
 #X msg 524 18 \; pd dsp 1;
 #X obj 54 64 hsl 600 100 0.1 1000 0 0 empty empty empty -2 -8 0 10
--262144 -1 -1 46300 1;
+-262144 -1 -1 0 1;
 #X text 446 24 Start audio;
 #X floatatom 51 190 5 0 0 0 - - -, f 5;
 #N canvas 890 825 450 300 delay 0;
@@ -34,7 +34,7 @@
 #X restore 29 235 pd delay;
 #X text 51 42 delay time;
 #X obj 112 191 hsl 600 100 0.01 1 0 0 empty empty empty -2 -8 0 10
--262144 -1 -1 28400 1;
+-262144 -1 -1 0 1;
 #X text 106 170 feedback gain;
 #X text 355 310 A simple delay example with hughe faders - make sure
 to connect the jack ports of PD!;
