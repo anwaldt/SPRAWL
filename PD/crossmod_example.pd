@@ -1,4 +1,4 @@
-#N canvas 1546 893 755 380 10;
+#N canvas 1 119 755 380 10;
 #X obj 30 316 dac~ 1;
 #X obj 30 17 adc~ 1;
 #X text 87 17 get the first input channel;
