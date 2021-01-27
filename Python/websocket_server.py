@@ -20,7 +20,7 @@ from typing import List, Any
 
 class Connection:
 
-    def __init__(self, conn, addr):
+    def __init__(self, conn, addr, clients):
 
         self.connection = conn
         self.address = addr
@@ -32,10 +32,13 @@ class Connection:
     def echo(self):
     
         while True:
+    
             data = self.connection.recv(1024)
             if not data:
                 break
-            self.connection .sendall(data)
+            
+            for c in self.clients:            
+                c.sendall(data)
             
         
 class tcp_back:
@@ -92,12 +95,8 @@ class tcp_back:
  
     
     
-
-
-            
-    
+   
     def connect_sockets(self):
- 
         
         while 1:
 
@@ -107,7 +106,7 @@ class tcp_back:
 
             print(addr[0])
             
-            self.clients.append(Connection(conn, addr))
+            self.clients.append(Connection(conn, addr, self.clients))
             
             print ("Client %s connected" %str(addr))
 
