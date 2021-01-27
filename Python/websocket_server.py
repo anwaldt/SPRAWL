@@ -20,10 +20,11 @@ from typing import List, Any
 
 class Connection:
 
-    def __init__(self, conn, addr, clients):
+    def __init__(self, conn, addr, cl):
 
         self.connection = conn
         self.address = addr
+        self.clients = cl
         
         self.echo_thread = threading.Thread(target=self.echo)
         self.echo_thread.deamon = True
