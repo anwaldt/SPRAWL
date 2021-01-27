@@ -14,6 +14,7 @@ Created on Sun Jan 24 23:56:53 2021
 @author: anwaldt
 """
 
+import sys
 import signal
 import socket
 
@@ -52,21 +53,23 @@ class tcp_back:
         self.server = osc_server.ThreadingOSCUDPServer(( "0.0.0.0", 9494), self.dispatcher)       
         self.server_thread = threading.Thread(target=self.server.serve_forever)
         self.server_thread.deamon = True
-        self.threads.append(self.server_thread)
         self.server_thread.start() 
- 
+        self.threads.append(self.server_thread)
+
         self.socket_thread = threading.Thread(target=self.socket_loop)
         self.socket_thread.deamon = True
-        self.threads.append(self.socket_thread)
         self.socket_thread.start()   
+        self.threads.append(self.socket_thread)
 
         #self.send_thread = threading.Thread(target=self.send_loop)
         #self.send_thread.deamon = True
         #self.threads.append(self.send_thread)
         #self.send_thread.start()               
         
-        
-        
+        # join the threads so they are stopped on exit
+ #       for t in self.threads:  
+ #         t.join()
+            
     def default_handler(self, address: str, *osc_arguments: List[Any]) -> None:
 
          l = len(osc_arguments)
@@ -136,24 +139,24 @@ class tcp_back:
  
             
             
-    def __exit__(self, exc_type, exc_value, traceback):   
-        
-        print("CLOSING")
-        for t in self.threads:
-            t.stop()
-            
-    def keyboardInterruptHandler(signal, frame):
-        print("KeyboardInterrupt (ID: {}) has been caught. Cleaning up...".format(signal))
-
-        for t in self.threads:
-            print("killing")
-            t.stop()
-
-        exit(0)
+    def signal_handler(self,signal, frame):
+        print("exiting")
+        sys.exit(0)
+                
+#    def keyboardInterruptHandler(signal, frame):
+#        print("KeyboardInterrupt (ID: {}) has been caught. Cleaning up...".format(signal))
+#
+#        for t in self.threads:
+#            print("killing")
+#            t.stop()
+#
+#        exit(0)
         
 if __name__ == "__main__":
 
+    
     p = tcp_back()
+    signal.signal(signal.SIGINT, p.signal_handler)
 
-    signal.signal(signal.SIGTERM, tcp_back.keyboardInterruptHandler)
+    #signal.signal(signal.SIGTERM, tcp_back.keyboardInterruptHandler)
     
