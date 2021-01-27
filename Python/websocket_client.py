@@ -74,9 +74,12 @@ class Client:
             
             data = self.socket.recv(4096)  
             if not data: break
-            result_string = data.decode("utf8")  
-        
-            print(format(result_string))
+            string = data.decode("utf8")
+            path = string.split(" ")[0]
+            args = string.split(" ")[1:len(string)-1]
+            self.osc_client.send_message(path, args)
+
+            # print(string)
 
 
 if __name__ == "__main__":

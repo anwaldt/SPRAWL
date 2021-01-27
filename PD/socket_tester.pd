@@ -1,0 +1,23 @@
+#N canvas 1303 619 656 464 10;
+#X obj 102 263 udpsend;
+#X obj 73 196 packOSC;
+#X msg 132 221 disconnect;
+#X msg 124 196 connect localhost 9494;
+#X obj 419 203 udpreceive;
+#X msg 419 170 port 9495;
+#X obj 419 226 unpackOSC;
+#X obj 419 249 print BACK;
+#X floatatom 73 147 5 0 0 0 - - -, f 5;
+#X msg 73 172 /foo 1 \$1;
+#X text 24 15 This example shows the use of the Python-based socket
+connection. OSC messages can are send to and received from a local
+connection. Messages sent to this connection are broadcasted to all
+access points \, also to the sending one.;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 6 0;
+#X connect 5 0 4 0;
+#X connect 6 0 7 0;
+#X connect 8 0 9 0;
+#X connect 9 0 1 0;

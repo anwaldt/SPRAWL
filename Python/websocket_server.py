@@ -5,15 +5,6 @@ Created on Mon Jan 25 15:03:02 2021
 
 @author: anwaldt
 """
-
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Jan 24 23:56:53 2021
-
-@author: anwaldt
-"""
-
 import sys
 import signal
 import socket
