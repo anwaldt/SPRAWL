@@ -39,7 +39,7 @@ class Connection:
                 break
             
             for c in self.clients:            
-                c.sendall(data)
+                c.connection.sendall(data)
             
         
 class tcp_back:

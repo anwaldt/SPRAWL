@@ -100,6 +100,7 @@ s.waitForBoot({
 	);
 
 	// per default each access points is routed to two sources
+	/*
 	for(0, ~nSystems -1,
 		{ arg sysIDX;
 			for (0, ~nChannels -1,
@@ -109,7 +110,8 @@ s.waitForBoot({
 
 			});
 	});
-
+	*/
+	
 	~binaural_mix_BUS  = Bus.audio(s,  2);
 	~binaural_gain_BUS = Bus.control(s,  ~nSystems);
 	~binaural_mono_BUS = Bus.control(s,  ~nSystems);
