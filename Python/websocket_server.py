@@ -18,11 +18,14 @@ import sys
 import signal
 import socket
 
-from pythonosc import osc_server
-from pythonosc import udp_client, dispatcher
+from pythonosc import osc_server, dispatcher
+from pythonosc import udp_client
 import threading
 import time
 from typing import List, Any
+
+
+
 
 class Connection:
 
@@ -30,6 +33,19 @@ class Connection:
 
         self.connection = conn
         self.address = addr
+        
+        self.echo_thread = threading.Thread(target=self.echo)
+        self.echo_thread.deamon = True
+        self.echo_thread.start()    
+        
+    def echo(self):
+    
+        while True:
+            data = self.connection.recv(1024)
+            if not data:
+                break
+            self.connection .sendall(data)
+            
         
 class tcp_back:
     
@@ -42,12 +58,11 @@ class tcp_back:
         self.serv_sock.listen(1)
 
         self.osc_clients = list()
-        self.clients = list()
+        self.clients     = list()
 
         self.threads = list()
 
         self.dispatcher  = dispatcher.Dispatcher()       
-        self.dispatcher.map("/foo",        self.foo_handler)
         self.dispatcher.set_default_handler(self.default_handler)
     
         self.server = osc_server.ThreadingOSCUDPServer(( "0.0.0.0", 9494), self.dispatcher)       
@@ -56,15 +71,12 @@ class tcp_back:
         self.server_thread.start() 
         self.threads.append(self.server_thread)
 
-        self.socket_thread = threading.Thread(target=self.socket_loop)
+        self.socket_thread = threading.Thread(target=self.connect_sockets)
         self.socket_thread.deamon = True
         self.socket_thread.start()   
         self.threads.append(self.socket_thread)
 
-        #self.send_thread = threading.Thread(target=self.send_loop)
-        #self.send_thread.deamon = True
-        #self.threads.append(self.send_thread)
-        #self.send_thread.start()               
+                   
         
         # join the threads so they are stopped on exit
  #       for t in self.threads:  
@@ -87,41 +99,13 @@ class tcp_back:
                 
                 c.connection.send(data.encode())
  
-                
-    def foo_handler(self, unused_addr, idx, value):  
-        
-         for c in self.clients:
- 
-                data = "/foo/back"+" "+str(cnt)
-                
-                #c.connection.send(data.encode())
-                cnt+=1
-                
-             
     
     
-    
-    def send_loop(self):
-    
-        while 1:
-
-            # print(len(self.osc_clients)," clients connected!")
-
-            cnt = 0
-
-            for c in self.clients:
- 
-                data = "/foo/back"+" "+str(cnt)
-                
-                c.connection.send(data.encode())
-                cnt+=1
-                
-            time.sleep(0.1)
 
 
             
     
-    def socket_loop(self):
+    def connect_sockets(self):
  
         
         while 1:
