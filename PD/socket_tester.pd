@@ -1,4 +1,4 @@
-#N canvas 1303 619 656 464 10;
+#N canvas 1303 608 656 464 10;
 #X floatatom 73 147 5 0 0 0 - - -, f 5;
 #X text 24 15 This example shows the use of the Python-based socket
 connection. OSC messages can are send to and received from a local
@@ -9,19 +9,19 @@ access points \, also to the sending one.;
 #X obj 73 325 list prepend send;
 #X obj 73 298 oscformat foo;
 #X msg 216 345 disconnect;
-#X msg 216 319 connect localhost 9494;
+#X msg 216 319 connect localhost 4342;
 #X obj 419 203 netreceive -u -b;
-#X msg 419 170 listen 9495;
 #X obj 419 279 print BACK;
 #X obj 419 226 oscparse;
 #X obj 419 251 route list;
+#X msg 419 170 listen 5003;
 #X connect 0 0 5 0;
 #X connect 3 0 2 0;
 #X connect 4 0 3 0;
 #X connect 5 0 4 0;
 #X connect 6 0 2 0;
 #X connect 7 0 2 0;
-#X connect 8 0 11 0;
-#X connect 9 0 8 0;
-#X connect 11 0 12 0;
-#X connect 12 0 10 0;
+#X connect 8 0 10 0;
+#X connect 10 0 11 0;
+#X connect 11 0 9 0;
+#X connect 12 0 8 0;

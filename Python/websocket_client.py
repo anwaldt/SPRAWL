@@ -8,6 +8,8 @@ Created on Mon Jan 25 13:06:51 2021
 
 # client.py
 
+
+import argparse
 import socket
 import threading
 
@@ -18,18 +20,20 @@ from typing import List, Any
 
 class Client:
     
-    def __init__(self):
+    def __init__(self, server, server_port, client_port, listen_port):
         
-        self.osc_client  = udp_client.SimpleUDPClient("127.0.0.1", 9495)             
+ 
+        self.osc_client  = udp_client.SimpleUDPClient("127.0.0.1", client_port)             
         
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.socket.connect(("85.214.78.6", 5000))
+        self.socket.connect((server, server_port))
+        
     
         self.threads = list()    
     
         self.dispatcher  = dispatcher.Dispatcher()  
         self.dispatcher.set_default_handler(self.default_handler)
-        self.server = osc_server.ThreadingOSCUDPServer(( "0.0.0.0", 9494), self.dispatcher)   
+        self.server = osc_server.ThreadingOSCUDPServer(( "0.0.0.0", listen_port), self.dispatcher)   
         
         self.server_thread = threading.Thread(target=self.server.serve_forever)
         self.server_thread.deamon = True
@@ -69,9 +73,12 @@ class Client:
        
     def receive_routine(self):    
         
+        data = self.socket.recv(4096)  
+        if data:
+            print("Connected to server!")
+        
         while 1:
-            
-            
+                        
             data = self.socket.recv(4096)  
             if not data: break
             string = data.decode("utf8")
@@ -83,7 +90,18 @@ class Client:
 
 
 if __name__ == "__main__":
+    
+    parser = argparse.ArgumentParser()
+    
+    parser.add_argument("-s", "--server-address", dest = "server_address", default = 'localhost', help="Server address for the remote TCP connection.")
+    parser.add_argument("-p", "--server-port",    dest = "server_port",    default = 5000,        help="Server port  for the remote TCP connection.", type=int)
+    parser.add_argument("-c", "--client-port",    dest = "client_port",    default = 5003,        help="Port for sending local OSC messages.", type=int)
+    parser.add_argument("-l", "--listen-port",    dest = "listen_port",    default = 9495,        help="Port for receiving local OSC messages.", type=int)
 
-    c = Client()
+    args = parser.parse_args()
+        
+    c = Client(args.server_address, args.server_port, args.client_port, args.listen_port)
+    
+    
 
 
