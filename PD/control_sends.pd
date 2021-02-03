@@ -1,4 +1,4 @@
-#N canvas 1 119 730 472 10;
+#N canvas 2560 58 1920 1022 10;
 #X obj 218 430 netsend -u -b;
 #X obj 218 392 list trim;
 #X obj 217 366 list prepend send;
@@ -104,7 +104,7 @@ on the SPRAWL server., f 83;
 #X text 108 112 set access point index;
 #X obj 159 287 t b f;
 #X obj 286 333 oscformat monitor mono;
-#X obj 125 197 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 125 197 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X text 112 178 MONO (left only);
 #X connect 0 0 1 1;
@@ -116,7 +116,7 @@ on the SPRAWL server., f 83;
 #X connect 7 0 5 0;
 #X coords 0 -1 1 1 160 134 2 100 100;
 #X restore 538 312 pd sub2;
-#X msg 24 366 connect 85.214.78.6 57120;
+#X msg 24 364 connect 85.214.78.6 57120;
 #X connect 1 0 0 0;
 #X connect 2 0 1 0;
 #X connect 3 0 0 0;
