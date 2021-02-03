@@ -1,7 +1,0 @@
-site_name: SPRAWL
-
-theme:
-    name: readthedocs
-    highlightjs: true
-
-nav:
