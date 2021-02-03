@@ -6,6 +6,9 @@ musical performances. The client-server approach for distributing
 audio and control data can be used in local and global networks.
 
 
+## Use
+
+Read the [Documentation](https://anwaldt.github.io/SPRAWL/) for more information on working with the system.
 
 
 ## Dependencies
