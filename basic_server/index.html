@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Basic Server - SPRAWL</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Basic Server";
+    var mkdocs_page_input_path = "basic_server.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> SPRAWL</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Basic Server</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#osc-messages">OSC Messages</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#routing">Routing</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#spatial">Spatial</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#monitoring">Monitoring</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">SPRAWL</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Basic Server</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="the-basic-server">The Basic Server</h2>
+<p>The basic SC server offers binaural rendering with OSC control.
+In the recent version, all access points send and receive two
+channels of audio to the server. Signals from the access
+points can be raouted to specific targets via OSC command.
+All access points receive the full binaural mix and selected
+sources. The server is per default configured for up to 16 access points,
+each with two channels:</p>
+<p>Acess Point | Sources</p>
+<p>---     | ---
+0       | 0,1
+1       | 2,3
+2       | 4,5
+...     | ...
+15      | 30,31</p>
+<p>Inputs and outputs of the SC Jack client are assigned as follows:</p>
+<p><img src="./graphics/basic_server_connections.png" width="800"></p>
+<h3 id="osc-messages">OSC Messages</h3>
+<p>Sending OSC messages can be tested with the PD patches
+<code>control_position.pd</code> and <code>control_sends.pd</code>.
+The default server listens to the following messages:</p>
+<h4 id="routing">Routing</h4>
+<p>For each access point, the server adds two virtual sound sources.
+Individual channels from each access point can be routed to any virtual sound source:</p>
+<pre><code>/route/spatial i i i f
+</code></pre>
+<ul>
+<li>first argument: send access point index (0...15)</li>
+<li>second argument: send channel to use (0,1)</li>
+<li>third argument: virtual sound source index (0...31)</li>
+<li>fourth argument: gain (0...1)</li>
+</ul>
+<p>The default routing can be restored at any time with the OSC message:</p>
+<pre><code>/default_spatial_routing
+</code></pre>
+<p>All spatial routing gains can be set to 0 with the following OSC message:</p>
+<pre><code>/mute_all_spatial
+</code></pre>
+<p>Individual channels from each access point can be routed
+to individual channels of other access points:</p>
+<pre><code>/route/pi i i i f
+</code></pre>
+<ul>
+<li>first argument: send access point index (0...15)</li>
+<li>second argument: send channel to use (0,1)</li>
+<li>third argument: receive access point index (0...15)</li>
+<li>fourth argument: receive channel to use (0,1)</li>
+<li>fifth argument: gain (0...1)</li>
+</ul>
+<p>All AP routing gains can be set to 0 with the following OSC message:</p>
+<pre><code>/mute_all_ap
+</code></pre>
+<h4 id="spatial">Spatial</h4>
+<p>Source positions are controlled in spherical coordinates.</p>
+<pre><code>/source/azim i f
+</code></pre>
+<ul>
+<li>first argument: virtual sound source index (0...32)</li>
+<li>
+<p>second argument: azimuth angle (-pi ... pi)</p>
+<p>/source/elev i f</p>
+</li>
+<li>
+<p>first argument: virtual sound source index (0...32)</p>
+</li>
+<li>
+<p>second argument: elevation angle (-pi ... pi)</p>
+<p>/source/dist i f</p>
+</li>
+<li>
+<p>first argument: virtual sound source index (0...32)</p>
+</li>
+<li>second argument: distance in meters (0 ... 10)</li>
+</ul>
+<p>Sources can be routed to a convolution reverb, which is
+independent from the spatial source position:</p>
+<pre><code>/source/reverb i f
+</code></pre>
+<ul>
+<li>first argument: virtual sound source index (0...32)</li>
+<li>second argument: reverb gain (0 ... 1)</li>
+</ul>
+<h4 id="monitoring">Monitoring</h4>
+<p>For each access point, the gain of the binaural mix can be set:</p>
+<pre><code>/monitor/gain f
+</code></pre>
+<ul>
+<li>argument: the monitor gain (0...1)</li>
+</ul>
+<p>The binaural mix can also be summed to a single channel.
+In that case, only the first (left) channel of the acces
+point is used for monitoring:</p>
+<pre><code>/monitor/mono f
+</code></pre>
+<ul>
+<li>argument: (0....1) 0=stereo, 1=mono</li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
