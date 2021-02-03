@@ -59,7 +59,11 @@ class TcpOscEcho():
         self.serv_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.serv_sock.bind((self.HOST, self.PORT))
         self.serv_sock.listen(1)
-
+        
+        
+        self.serv_sock.settimeout(10e5)
+        o = self.serv_sock.getsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE)
+        
         self.osc_clients = list()
         self.clients     = list()
 
@@ -164,8 +168,9 @@ class TcpOscEcho():
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()        
-    parser.add_argument("-o", "--osc-port",    dest = "osc_port", default = 5005, help="OSC port.")
-    parser.add_argument("-t", "--tcp-port",    dest = "tcp_port", default = 5000, help="TCP port for receiving messages.")
+    
+    parser.add_argument("-o", "--osc-port",    dest = "osc_port", default = 5005, help="Port for receiving local OSC messages.")
+    parser.add_argument("-t", "--tcp-port",    dest = "tcp_port", default = 5000, help="Port for the remote TCP connection.")
 
     args = parser.parse_args()
     

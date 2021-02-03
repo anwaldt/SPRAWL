@@ -73,13 +73,13 @@ class Client:
        
     def receive_routine(self):    
         
-        data = self.socket.recv(4096)  
+        data = self.socket.recv(1024)  
         if data:
             print("Connected to server!")
         
         while 1:
                         
-            data = self.socket.recv(4096)  
+            data = self.socket.recv(1024)  
             if not data: break
             string = data.decode("utf8")
             path = string.split(" ")[0]
