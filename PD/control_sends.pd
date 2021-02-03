@@ -1,11 +1,11 @@
-#N canvas 161 555 726 463 10;
-#X obj 228 416 netsend -u -b;
-#X obj 228 378 list trim;
-#X obj 227 352 list prepend send;
-#X msg 34 375 disconnect;
+#N canvas 1 119 726 473 10;
+#X obj 207 377 netsend -u -b;
+#X obj 207 339 list trim;
+#X obj 206 313 list prepend send;
+#X msg 12 374 disconnect;
 #X text 146 14 Example patch for controlling send properties of a sound
 on the SPRAWL server., f 83;
-#X text 33 332 1: connect;
+#X text 11 331 1: connect;
 #N canvas 905 334 1462 991 sub1 0;
 #X obj 192 384 oscformat route pi;
 #X floatatom 362 132 5 0 0 0 - - -, f 5;
@@ -116,23 +116,22 @@ on the SPRAWL server., f 83;
 #X connect 7 0 5 0;
 #X coords 0 -1 1 1 160 134 2 100 100;
 #X restore 539 245 pd sub2;
-#X msg 33 349 connect localhost 57120;
 #N canvas 1 119 583 496 more 0;
 #X obj 190 409 outlet;
 #X msg -28 275 1;
-#X obj 154 133 bng 22 250 50 0 empty empty empty 17 7 0 10 -258113
+#X obj 144 144 bng 22 250 50 0 empty empty empty 17 7 0 10 -258113
 -1 -1;
-#X text 117 111 Mute all spatial;
+#X text 107 122 Mute all spatial;
 #X obj 209 300 oscformat mute_all_spatial;
 #X msg 208 274 1;
-#X obj 311 135 bng 22 250 50 0 empty empty empty 17 7 0 10 -258113
+#X obj 266 134 bng 22 250 50 0 empty empty empty 17 7 0 10 -258113
 -1 -1;
-#X text 274 113 Mute all spatial;
+#X text 229 112 Mute all spatial;
 #X obj -27 301 oscformat default_spatial_routing;
 #X msg 392 278 1;
-#X obj 465 135 bng 22 250 50 0 empty empty empty 17 7 0 10 -258113
+#X obj 376 147 bng 22 250 50 0 empty empty empty 17 7 0 10 -258113
 -1 -1;
-#X text 442 113 Mute all AP;
+#X text 353 125 Mute all AP;
 #X obj 393 304 oscformat mute_all_ap;
 #X connect 1 0 8 0;
 #X connect 2 0 1 0;
@@ -143,8 +142,9 @@ on the SPRAWL server., f 83;
 #X connect 9 0 12 0;
 #X connect 10 0 9 0;
 #X connect 12 0 0 0;
-#X coords 0 -1 1 1 444 77 2 100 100;
-#X restore 22 245 pd more;
+#X coords 0 -1 1 1 333 77 2 100 100;
+#X restore 369 384 pd more;
+#X msg 11 348 connect 85.214.78.6 57120;
 #X connect 1 0 0 0;
 #X connect 2 0 1 0;
 #X connect 3 0 0 0;
@@ -152,5 +152,5 @@ on the SPRAWL server., f 83;
 #X connect 7 0 2 0;
 #X connect 10 0 2 0;
 #X connect 11 0 2 0;
-#X connect 12 0 0 0;
-#X connect 13 0 2 0;
+#X connect 12 0 2 0;
+#X connect 13 0 0 0;
