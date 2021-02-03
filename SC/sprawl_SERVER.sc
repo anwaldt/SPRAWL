@@ -56,6 +56,7 @@ s.waitForBoot({
 	s.sync;
 
 	load(~root_DIR++"sprawl_SYNTHDEFS.scd","r");
+	load(~root_DIR++"sprawl_FUNCTIONS.scd","r");
 
 
 	/////////////////////////////////////////////////////////////////
@@ -99,19 +100,8 @@ s.waitForBoot({
 		}
 	);
 
-	// per default each access points is routed to two sources
-	/*
-	for(0, ~nSystems -1,
-		{ arg sysIDX;
-			for (0, ~nChannels -1,
-				{arg chanIDX;
+	~default_routing.choose;
 
-					~rendering_gain_BUS[sysIDX].setAt((2*chanIDX) + sysIDX, 1);
-
-			});
-	});
-	*/
-	
 	~binaural_mix_BUS  = Bus.audio(s,  2);
 	~binaural_gain_BUS = Bus.control(s,  ~nSystems);
 	~binaural_mono_BUS = Bus.control(s,  ~nSystems);
@@ -352,21 +342,3 @@ s.waitForBoot({
 
 });
 
-
-// s.scope(2,~binaural_mix_BUS.index)
-
-/*
-// Bus monitoring
-{
-ServerMeter(s);
-
-s.scope(16,~rendering_gain_BUS[0].index);
-
-
-s.scope(16,~rendering_send_BUS.index);
-s.scope(16,~binaural_mono_BUS.index);
-
-s.scope(16,~gain_BUS_pi[1].index);
-
-}
-*/

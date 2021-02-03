@@ -17,18 +17,13 @@ SynthDef(\input_module,
 
 		var input, output, gain;
 
-		// get the audio input from hardware input:
-
-
-
-
-
 		for (0, ~nChannels-1,
 			{ arg from_chanCNT;
 
 				input = SoundIn.ar(input_bus+from_chanCNT);
 
 
+				// send to spatial
 
 				for (0, ~nVirtualSources-1,
 					{ arg srcCNT;
@@ -46,6 +41,7 @@ SynthDef(\input_module,
 				);
 
 
+				// send to system
 
 				for (0, ~nSystems-1,
 					{ arg sysCNT;
