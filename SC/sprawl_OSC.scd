@@ -77,27 +77,32 @@ OSCdef(\route_spat,
 
 
 
-
-// the routing function
-~all_silent_OSC = OSCFunc(
+OSCdef(\default_spatial_routing,
 
 	{arg msg, time, addr, recvPort;
 
-		(0..~nSystems-1).do(
-			{arg i;
-				(0..~nSystems-1).do(
-					{arg j;
-						"Resetting: ".post; i.post; " -> ".post; j.postln;
-						~gain_BUS_pi[i].setAt(j,0.0)
-					}
-				);
-			}
-		);
+		~default_spatial_routing.choose();
 
-}, '/all_silent');
+}, '/default_spatial_routing',n);
 
 
 
+OSCdef(\mute_all_spatial,
+
+	{arg msg, time, addr, recvPort;
+
+		~mute_all_spatial.choose();
+
+}, '/mute_all_spatial',n);
+
+
+OSCdef(\mute_all_ap,
+
+	{arg msg, time, addr, recvPort;
+
+		~mute_all_ap.choose();
+
+}, '/mute_all_ap',n);
 
 
 /////////////////////////////////////////////////////////////////

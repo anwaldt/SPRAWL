@@ -100,7 +100,7 @@ s.waitForBoot({
 		}
 	);
 
-	~default_routing.choose;
+	~default_spatial_routing.choose;
 
 	~binaural_mix_BUS  = Bus.audio(s,  2);
 	~binaural_gain_BUS = Bus.control(s,  ~nSystems);
@@ -149,7 +149,7 @@ s.waitForBoot({
 
 	~encoder_GROUP = Group.after(~input_GROUP);
 
-	for (0, ~nSystems -1, {arg cnt;
+	for (0, ~nVirtualSources -1, {arg cnt;
 
 		post('Adding binaural encoder: ');
 		cnt.postln;
@@ -165,7 +165,7 @@ s.waitForBoot({
 		);)
 	});
 
-	for (0, ~nSystems -1, {arg cnt;
+	for (0, ~nVirtualSources -1, {arg cnt;
 
 		post('Mapping binaural encoder: ');
 		cnt.postln;
@@ -182,9 +182,6 @@ s.waitForBoot({
 	// OUTPUT SECTION
 
 	~spatial_GROUP = Group.after(~encoder_GROUP);
-
-
-
 
 
 	~decoder = Synth(\hoa_binaural_decoder_3,
