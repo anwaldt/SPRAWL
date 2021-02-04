@@ -93,7 +93,7 @@ OSCdef(\mute_all_spatial,
 
 		~mute_all_spatial.choose();
 
-}, '~mute_all_spatial',n);
+}, '/mute_all_spatial',n);
 
 
 OSCdef(\mute_all_ap,

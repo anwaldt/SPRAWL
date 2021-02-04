@@ -38,6 +38,8 @@ class Connection:
     
         while self.is_connected == True:
     
+            self.connection.settimeout(10e5)
+            
             data = self.connection.recv(1024)
             
             if not data:                
@@ -64,10 +66,9 @@ class TcpOscEcho():
         self.serv_sock.settimeout(10e5)
         o = self.serv_sock.getsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE)
         
-        self.osc_clients = list()
-        self.clients     = list()
-
-        self.threads = list()
+        self.osc_clients    = list()
+        self.clients        = list()
+        self.threads        = list()
 
         self.dispatcher  = dispatcher.Dispatcher()       
         self.dispatcher.set_default_handler(self.default_handler)
