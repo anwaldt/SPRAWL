@@ -1,4 +1,4 @@
-#N canvas 1104 457 1355 931 10;
+#N canvas 1134 282 1355 931 10;
 #X floatatom 73 226 5 0 0 0 - - -, f 5;
 #X text 10 8 This example shows the use of the Python-based socket
 connection. OSC messages can are send to and received from a local
@@ -37,19 +37,23 @@ access points \, also to the sending one.;
 #X connect 6 0 1 0;
 #X coords 0 -1 1 1 85 60 1 100 100;
 #X restore 192 188 pd counter;
-#X obj 455 298 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
 #X floatatom 249 138 5 0 0 0 - - -, f 5;
 #X text 183 99 Send continuously:;
-#X text 474 296 Receiving data?;
+#X obj 305 275 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 324 273 Receiving data?;
+#X obj 202 405 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 220 403 Sending data?;
 #X connect 0 0 11 0;
 #X connect 3 0 2 0;
 #X connect 4 0 3 0;
+#X connect 4 0 21 0;
 #X connect 5 0 2 0;
 #X connect 6 0 7 0;
+#X connect 6 0 19 0;
 #X connect 7 0 8 0;
 #X connect 8 0 12 0;
-#X connect 8 0 17 0;
 #X connect 9 0 2 0;
 #X connect 10 0 6 0;
 #X connect 11 0 4 0;
@@ -57,4 +61,4 @@ access points \, also to the sending one.;
 #X connect 14 0 16 0;
 #X connect 15 0 14 0;
 #X connect 16 0 11 0;
-#X connect 18 0 14 1;
+#X connect 17 0 14 1;

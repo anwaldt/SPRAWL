@@ -78,6 +78,9 @@ class Client:
             print("Connected to server!")
         
         while 1:
+
+
+            self.socket.settimeout(10e5)
                         
             data = self.socket.recv(1024)  
             if not data: break
