@@ -7,7 +7,7 @@ FILE=~/.jacktrip_remotename
 
 if test -f "$FILE"; then
 	echo "Your jacktrip remote name is: "
-	NAME = $(cat $FILE)
+	NAME=$(cat $FILE)
 else
 	NAME=$(zenity --entry --text "Please choose a JackTrip client name:" --title "Who are you?");
 	echo $NAME > $FILE
