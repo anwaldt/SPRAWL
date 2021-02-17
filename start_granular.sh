@@ -1,7 +1,8 @@
 #!/bin/bash
+
 #start pd patch
 
-pd ../PD/Live_Granular &
+pd PD/Live_Grain/Live_Granular_Mar.pd &
 
 # connect inputs
 
