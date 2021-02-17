@@ -20,4 +20,4 @@ jackd -P 90 -d alsa -d hw:1,0 -r 48000 -p 128 &
 
 sleep 2
 
-bin/jacktrip -C 85.214.78.6 -n 2 -K AP
+bin/jacktrip_nils -C 85.214.78.6 -n 2 -K AP
