@@ -96,6 +96,15 @@ OSCdef(\mute_all_spatial,
 }, '/mute_all_spatial',n);
 
 
+OSCdef(\default_source_positions,
+
+	{arg msg, time, addr, recvPort;
+
+		~default_source_positions.choose();
+
+}, '/default_source_positions',n);
+
+
 OSCdef(\mute_all_ap,
 
 	{arg msg, time, addr, recvPort;
