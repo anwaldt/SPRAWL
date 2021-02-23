@@ -2,7 +2,7 @@
 
 #start pd patch
 
-pd PD/Live_Grain/Live_Granular_Mar.pd &
+pd PD/Live_Grain/Live_Granular.pd &
 
 # connect inputs
 
