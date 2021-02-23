@@ -6,6 +6,6 @@ pd PD/Live_Grain/Live_Granular.pd &
 
 # connect inputs
 
-jmess -D -c ../config/mario.jmess
+jmess -D -c config/mario.jmess
 
 
