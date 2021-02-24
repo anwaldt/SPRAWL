@@ -1,4 +1,4 @@
-#N canvas 144 229 1323 649 12;
+#N canvas 72 161 1323 649 12;
 #X obj 315 606 netsend -u -b;
 #X obj 310 549 list trim;
 #X obj 304 525 list prepend send;
