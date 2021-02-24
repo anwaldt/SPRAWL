@@ -1,4 +1,4 @@
-#N canvas 61 26 1323 649 12;
+#N canvas 144 229 1323 649 12;
 #X obj 315 606 netsend -u -b;
 #X obj 310 549 list trim;
 #X obj 304 525 list prepend send;
@@ -188,6 +188,20 @@
 #X text 52 514 comment;
 #X text 811 306 comment;
 #X text 853 444 all sources default;
+#N canvas 446 168 760 635 spatial 0;
+#X obj 79 121 pack i 0 0 0;
+#X obj 182 124 pack i 1 1 0;
+#X obj 87 163 oscformat route spatial;
+#X obj 87 186 outlet;
+#X obj 74 72 inlet;
+#X text 117 72 source index;
+#X text 85 30 sets source spatialisation to zero;
+#X connect 0 0 2 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 4 0 0 0;
+#X connect 4 0 1 0;
+#X restore 36 366 pd spatial;
 #X connect 1 0 0 0;
 #X connect 2 0 1 0;
 #X connect 3 0 0 0;
@@ -208,6 +222,7 @@
 #X connect 14 0 8 0;
 #X connect 15 0 13 0;
 #X connect 15 0 14 0;
+#X connect 15 0 33 0;
 #X connect 16 0 15 1;
 #X connect 17 0 18 0;
 #X connect 18 0 19 0;
@@ -218,3 +233,4 @@
 #X connect 20 0 2 0;
 #X connect 21 0 0 0;
 #X connect 22 0 0 0;
+#X connect 33 0 2 0;
