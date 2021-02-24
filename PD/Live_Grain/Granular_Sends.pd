@@ -185,8 +185,8 @@
 #X text 1005 293 5: control spatialisation;
 #X text 1088 339 Preset1;
 #X text 1146 339 Preset 2;
-#X text 52 514;
-#X text 811 306;
+#X text 52 514 comment;
+#X text 811 306 comment;
 #X text 853 444 all sources default;
 #X connect 1 0 0 0;
 #X connect 2 0 1 0;
