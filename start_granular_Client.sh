@@ -2,7 +2,7 @@
 
 #start pd patch
 
-pd PD/Live_Grain/Live_Granular.pd &
+pd -jack PD/Live_Grain/Live_Granular.pd &
 
 # connect inputs
 sleep 10
