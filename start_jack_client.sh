@@ -25,7 +25,7 @@ OUTCHANS=$(zenity --list --radiolist \
 
 sleep 1
 
-jackd -P 90 -d alsa -d hw:1,0 -r 48000 -p 128 &
+jackd -P 90 -d alsa -d hw:1,0 -r 48000 -p 256 &
 
 sleep 2
 
