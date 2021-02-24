@@ -1,4 +1,4 @@
-#N canvas 72 161 1323 649 12;
+#N canvas -907 139 1323 694 12;
 #X obj 315 606 netsend -u -b;
 #X obj 310 549 list trim;
 #X obj 304 525 list prepend send;
@@ -10,7 +10,7 @@
 #X obj 490 421 oscformat route pi;
 #X obj 170 410 pack i 1;
 #X obj 589 509 print;
-#X floatatom 157 157 10 0 15 0 - - -;
+#X floatatom 158 157 10 0 15 0 - - -;
 #X obj 330 330 t b i;
 #X obj 334 389 pack i 0 i 1 1;
 #X obj 490 389 pack i 1 i 1 1;
@@ -20,7 +20,6 @@
 #X obj 509 151 bng 30 250 50 0 empty empty empty 17 7 0 10 -258113
 -1 -1;
 #X obj 151 332 t b b b b;
-#X msg 318 154 0 \, 1;
 #N canvas 89 23 1036 676 control 0;
 #X obj 204 551 outlet;
 #X msg -28 275 1;
@@ -202,6 +201,9 @@
 #X connect 4 0 0 0;
 #X connect 4 0 1 0;
 #X restore 36 366 pd spatial;
+#X floatatom 718 442 5 0 0 0 - - -;
+#X floatatom 718 466 5 0 0 0 - - -;
+#X msg 318 154 3 \, 5 \, 6 \, 7 \, 8;
 #X connect 1 0 0 0;
 #X connect 2 0 1 0;
 #X connect 3 0 0 0;
@@ -222,15 +224,17 @@
 #X connect 14 0 8 0;
 #X connect 15 0 13 0;
 #X connect 15 0 14 0;
-#X connect 15 0 33 0;
+#X connect 15 0 32 0;
 #X connect 16 0 15 1;
 #X connect 17 0 18 0;
-#X connect 18 0 19 0;
+#X connect 18 0 35 0;
 #X connect 18 1 16 0;
 #X connect 18 2 11 0;
 #X connect 18 3 16 0;
-#X connect 19 0 12 0;
-#X connect 20 0 2 0;
+#X connect 19 0 2 0;
+#X connect 20 0 0 0;
+#X connect 20 0 33 0;
 #X connect 21 0 0 0;
-#X connect 22 0 0 0;
-#X connect 33 0 2 0;
+#X connect 32 0 2 0;
+#X connect 33 0 34 0;
+#X connect 35 0 12 0;

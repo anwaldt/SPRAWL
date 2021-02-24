@@ -1,14 +1,14 @@
-#N canvas 26 56 1178 586 10;
+#N canvas -633 101 1178 419 10;
 #X text 8 7 Example patch for controlling spatial properties of a sound
 on the SPRAWL server.;
 #X obj 18 444 netsend -u -b;
 #X msg 70 407 disconnect;
 #X text 132 360 1: connect;
-#N canvas -517 116 1302 626 sub1 0;
+#N canvas -561 185 1302 626 sub1 0;
 #X text 108 203 Set azimuth;
 #X text 447 280 Set reverb amount;
 #X text 171 289 Set distance;
-#X text 355 207 Set elevation;
+#X text 392 201 Set elevation;
 #X text 321 168 3: Control parameters:;
 #X floatatom 117 149 5 0 0 0 - - -;
 #X obj 117 171 s source;
@@ -41,13 +41,16 @@ on the SPRAWL server.;
 #X text 124 124 2: Set source to control (0...16);
 #X obj 324 645 outlet;
 #X obj 110 224 hsl 200 30 -3 3 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 3200 1;
+-1 -1 18950 1;
 #X obj 370 225 hsl 200 30 -3 3 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 0 1;
+-1 -1 4200 1;
 #X obj 146 308 hsl 200 30 0 10 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 0 1;
-#X obj 401 310 hsl 200 30 0 10 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 0 1;
+-1 -1 13600 1;
+#X obj 401 310 hsl 200 30 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 13600 1;
+#X obj 376 129 hsl 200 30 0 10 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 13600 1;
+#X obj 334 221 / 10;
 #X connect 5 0 6 0;
 #X connect 7 0 34 0;
 #X connect 8 0 7 0;
@@ -83,8 +86,11 @@ on the SPRAWL server.;
 #X connect 36 0 25 0;
 #X connect 37 0 30 0;
 #X connect 38 0 15 0;
+#X connect 39 0 37 0;
+#X connect 39 0 40 0;
+#X connect 40 0 38 0;
 #X coords 0 -1 1 1 555 300 2 100 100;
-#X restore 17 53 pd sub1;
+#X restore 33 49 pd sub1;
 #N canvas 1 119 450 300 default 0;
 #X obj 128 259 list trim;
 #X obj 128 232 list prepend send;
