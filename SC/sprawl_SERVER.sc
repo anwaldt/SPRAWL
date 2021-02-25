@@ -11,9 +11,11 @@ Henrik von Coler
 
 */
 
+// installing HOA
+// Quarks.install("https://github.com/florian-grond/SC-HOA");
+
 // get script's directory for relative paths
 ~root_DIR = thisProcess.nowExecutingPath.dirname++"/";
-
 
 // some server parameters
 s.options.device               = "SPRAWL_Server";
@@ -41,7 +43,11 @@ s.options.bindAddress          = "0.0.0.0";
 ~hoa_order = 3;
 ~n_hoa_channnels = pow(~hoa_order + 1.0 ,2.0);
 
+// set sample rate to run locally on macOS
+Server.local.options.sampleRate = 44100;
 
+// setting spacial_OSC to send position data
+~spatial_OSC  = NetAddr("127.0.0.1", 9595);
 
 s.boot;
 
@@ -183,7 +189,6 @@ s.waitForBoot({
 
 	~spatial_GROUP = Group.after(~encoder_GROUP);
 
-
 	~decoder = Synth(\hoa_binaural_decoder_3,
 		[
 			\in_bus,  ~ambi_BUS.index,
@@ -193,6 +198,53 @@ s.waitForBoot({
 
 
 	~decoder.set(\out_bus, ~binaural_mix_BUS);
+
+	~aed_OSC = OSCFunc(
+		{
+			arg msg, time, addr, recvPort;
+
+			var azim = msg[2] / 360.0 * (2.0*pi);
+			var elev = msg[3] / 360.0 * (2.0*pi);
+			var dist = msg[4];
+
+			~control_azim_BUS.setAt(msg[1],azim);
+			~control_elev_BUS.setAt(msg[1],elev);
+			~control_dist_BUS.setAt(msg[1],dist);
+
+	}, '/source/aed');
+
+
+	// experimental
+	// output azim, elev, dist
+	~send_OSC_ROUTINE = Routine({
+
+		inf.do({
+
+			var azim, elev, dist;
+
+			post('sending new position data...');
+
+			for (0, ~nSystemSends, {
+
+			 	arg i;
+
+			 	azim = ~control_azim_BUS.getnSynchronous(~nInputs)[i];
+			 	elev = ~control_elev_BUS.getnSynchronous(~nInputs)[i];
+			 	dist = ~control_dist_BUS.getnSynchronous(~nInputs)[i];
+
+				// ~spatial_OSC.sendMsg('/source/aed', i, azim, elev, dist);
+				s.sendMsg('/source/aed', i, azim, elev, dist);
+			});
+
+			0.01.wait;
+		});
+
+	});
+
+	~send_OSC_ROUTINE.next;
+	~send_OSC_ROUTINE.play;
+	// TempoClock.default.sched(0, ~send_OSC_ROUTINE);
+	// ~send_OSC_ROUTINE.stop;
 
 	/////////////////////////////////////////////////////////////////
 
