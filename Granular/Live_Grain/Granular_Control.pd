@@ -1,4 +1,4 @@
-#N canvas 74 116 1323 694 12;
+#N canvas 54 156 1323 694 12;
 #X obj 315 606 netsend -u -b;
 #X obj 310 549 list trim;
 #X obj 304 525 list prepend send;
@@ -104,9 +104,9 @@
 -1 -1;
 #X text 123 124 Set source to control;
 #X obj 108 213 hsl 128 15 -3 3 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 6350 1;
+-1 -1 0 1;
 #X obj 238 234 hsl 128 15 -3 3 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 6350 1;
+-1 -1 0 1;
 #X obj 375 213 hsl 128 15 0 10 0 0 empty empty empty -2 -8 0 10 -262144
 -1 -1 0 1;
 #X obj 515 231 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
@@ -234,6 +234,18 @@
 #X msg 318 154 3 \, 5 \, 6 \, 7 \, 8;
 #X text 1133 340 Preset2;
 #X text 1186 339 preset3;
+#N canvas 0 23 1440 804 more 0;
+#X obj 110 245 outlet;
+#X msg 109 193 1;
+#X obj 109 148 bng 22 250 50 0 empty empty empty 17 7 0 10 -257985
+-1 -1;
+#X obj 110 219 oscformat monitor all_stereo;
+#X text 112 111 all stereo;
+#X connect 1 0 3 0;
+#X connect 2 0 1 0;
+#X connect 3 0 0 0;
+#X coords 0 -1 1 1 88 77 2 100 100;
+#X restore 621 168 pd more;
 #X connect 1 0 0 0;
 #X connect 2 0 1 0;
 #X connect 3 0 0 0;
@@ -268,3 +280,4 @@
 #X connect 31 0 2 0;
 #X connect 32 0 33 0;
 #X connect 34 0 12 0;
+#X connect 37 0 2 0;
