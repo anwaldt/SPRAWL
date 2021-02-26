@@ -1,4 +1,4 @@
-#N canvas 368 128 1440 789 10;
+#N canvas 320 33 1440 789 10;
 #X obj 32 91 hsl 500 30 5 2000 0 0 empty tMeanH empty -2 -8 0 10 -262144
 -1 -1 24887 1;
 #X obj 30 165 hsl 500 30 0 1000 0 0 empty tRangeH empty -2 -8 0 10
@@ -9,7 +9,7 @@
 #X obj 28 241 hsl 500 30 0 5 0 0 empty spMeanH empty -2 -8 0 10 -262144
 -1 -1 9980 1;
 #X obj 25 296 s spMean;
-#N canvas 186 23 1044 684 granular 0;
+#N canvas 341 88 1044 684 granular 0;
 #X obj 818 154 s maxLength;
 #X msg 818 133 4410;
 #X obj 817 111 loadbang;
@@ -17,7 +17,7 @@
 -1 -1;
 #X msg 820 206 0.5;
 #X msg 820 228 0.1;
-#X msg 820 247 1;
+#X msg 769 232 1;
 #X msg 820 270 0;
 #X msg 820 184 1000;
 #X obj 873 208 s stMeanH;
@@ -1881,7 +1881,6 @@
 #X connect 5 0 14 0;
 #X connect 6 0 11 0;
 #X connect 6 0 12 0;
-#X connect 6 0 45 0;
 #X connect 6 0 16 0;
 #X connect 7 0 17 0;
 #X connect 8 0 10 0;
@@ -2031,7 +2030,6 @@
 #X connect 3 0 0 0;
 #X restore 364 383 pd recording;
 #X obj 457 365 adc~ 1 2;
-#X obj 134 -5 loadbang;
 #X connect 0 0 3 0;
 #X connect 0 0 21 0;
 #X connect 1 0 4 0;
@@ -2050,4 +2048,3 @@
 #X connect 25 0 31 0;
 #X connect 35 0 7 0;
 #X connect 35 1 7 0;
-#X connect 36 0 9 0;
