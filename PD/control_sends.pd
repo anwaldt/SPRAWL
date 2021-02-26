@@ -1,4 +1,4 @@
-#N canvas 1426 667 754 501 10;
+#N canvas 1165 578 754 501 10;
 #X obj 207 377 netsend -u -b;
 #X obj 207 339 list trim;
 #X obj 206 313 list prepend send;
@@ -44,7 +44,7 @@ on the SPRAWL server., f 83;
 #X connect 12 0 7 3;
 #X coords 0 -1 1 1 338 171 2 100 100;
 #X restore 21 63 pd sub1;
-#N canvas 0 119 2560 1321 sub2 0;
+#N canvas 0 119 1920 961 sub2 0;
 #X floatatom 369 134 5 0 0 0 - - -, f 5;
 #X floatatom 148 161 5 0 0 0 - - -, f 5;
 #X floatatom 278 197 5 0 0 0 - - -, f 5;
