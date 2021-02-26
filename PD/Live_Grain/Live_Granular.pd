@@ -1,4 +1,4 @@
-#N canvas 65 23 1440 789 10;
+#N canvas 368 128 1440 789 10;
 #X obj 32 91 hsl 500 30 5 2000 0 0 empty tMeanH empty -2 -8 0 10 -262144
 -1 -1 24887 1;
 #X obj 30 165 hsl 500 30 0 1000 0 0 empty tRangeH empty -2 -8 0 10
@@ -1816,7 +1816,7 @@
 #X obj 584 269 max 1;
 #X obj 501 246 / 8;
 #X obj 584 248 / 8;
-#X obj 113 139 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 113 139 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 603 448 *~;
 #X text 133 139 use dry audio;
@@ -2031,83 +2031,7 @@
 #X connect 3 0 0 0;
 #X restore 364 383 pd recording;
 #X obj 457 365 adc~ 1 2;
-#N canvas 343 65 993 600 sendall 0;
-#X floatatom 127 142 5 0 15 0 - - -;
-#X text 121 116 set source index;
-#X obj 452 535 netsend -u -b;
-#X obj 145 516 list trim;
-#X obj 139 492 list prepend send;
-#X msg 445 393 disconnect;
-#X text 444 350 1: connect;
-#X msg 444 367 connect 85.214.78.6 57120;
-#X obj 673 509 oscformat monitor mono;
-#X obj 673 479 pack \$1 1;
-#X obj 267 230 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X obj 16 385 spigot;
-#X obj 66 336 t b b b;
-#X obj 75 374 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#N canvas 571 88 858 649 sendTo 0;
-#X obj 41 265 oscformat route pi;
-#X obj 279 214 oscformat route pi;
-#X obj 60 75 inlet;
-#X obj 51 327 outlet;
-#X obj 289 288 outlet;
-#X floatatom 473 397 5 0 0 0 - - -;
-#X floatatom 424 399 5 0 0 0 - - -;
-#X floatatom 374 400 5 0 0 0 - - -;
-#X floatatom 326 400 5 0 0 0 - - -;
-#X floatatom 280 402 5 0 0 0 - - -;
-#X msg 38 133 \$1;
-#X msg 278 154 \$1;
-#X obj 41 240 pack \$1 0 list 1 1;
-#X obj 278 191 pack \$1 1 list 1 1;
-#X obj 351 355 unpack i i i i i;
-#X obj 183 56 inlet;
-#X connect 0 0 3 0;
-#X connect 1 0 4 0;
-#X connect 2 0 10 0;
-#X connect 2 0 11 0;
-#X connect 10 0 12 0;
-#X connect 11 0 13 0;
-#X connect 12 0 0 0;
-#X connect 13 0 1 0;
-#X connect 13 0 14 0;
-#X connect 14 0 9 0;
-#X connect 14 1 8 0;
-#X connect 14 2 7 0;
-#X connect 14 3 6 0;
-#X connect 14 4 5 0;
-#X connect 15 0 12 2;
-#X connect 15 0 13 2;
-#X restore 90 430 pd sendTo;
-#X obj 606 152 t b b b;
-#X msg 176 209 0 \, 1 \, 3;
-#X text 115 189 list of targets open subpatch;
-#X connect 0 0 11 0;
-#X connect 3 0 2 0;
-#X connect 4 0 3 0;
-#X connect 5 0 2 0;
-#X connect 7 0 2 0;
-#X connect 8 0 4 0;
-#X connect 9 0 8 0;
-#X connect 10 0 15 0;
-#X connect 11 0 14 0;
-#X connect 12 0 13 0;
-#X connect 12 1 0 0;
-#X connect 12 2 13 0;
-#X connect 13 0 11 1;
-#X connect 14 0 4 0;
-#X connect 14 1 4 0;
-#X connect 15 0 12 0;
-#X connect 15 1 0 0;
-#X connect 15 1 16 0;
-#X connect 15 2 7 0;
-#X connect 16 0 14 1;
-#X connect 16 0 9 0;
-#X coords 0 -1 1 1 200 200 1 100 100;
-#X restore 134 372 pd sendall;
+#X obj 134 -5 loadbang;
 #X connect 0 0 3 0;
 #X connect 0 0 21 0;
 #X connect 1 0 4 0;
@@ -2126,3 +2050,4 @@
 #X connect 25 0 31 0;
 #X connect 35 0 7 0;
 #X connect 35 1 7 0;
+#X connect 36 0 9 0;
