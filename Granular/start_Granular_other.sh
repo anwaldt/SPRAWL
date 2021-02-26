@@ -2,7 +2,7 @@
 
 #connect inputs 
 
-jmess -D -c config/mario_reset.jmess
+jmess -D -c ../config/mario_reset.jmess
 
 
 
