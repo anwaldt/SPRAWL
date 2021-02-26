@@ -4,6 +4,8 @@
 ~mute_all_spatial = {~rendering_gain_BUS.do({arg b, i; b.value = 0;})};
 
 
+~all_monitor_stereo = {~binaural_mono_BUS.do({arg b, i; b.value = 0;})};
+
 ~default_spatial_routing = {
 
 	// set all spatial sends 0

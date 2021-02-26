@@ -76,6 +76,16 @@ OSCdef(\route_spat,
 }, '/monitor/mono');
 
 
+~azim_OSC = OSCFunc(
+	{
+		arg msg, time, addr, recvPort;
+
+		~all_monitor_stereo.choose();
+
+}, '/monitor/all_stereo');
+
+
+
 
 OSCdef(\default_spatial_routing,
 
