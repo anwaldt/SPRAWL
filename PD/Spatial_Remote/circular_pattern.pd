@@ -1,0 +1,82 @@
+#N canvas 1 119 836 478 10;
+#X text 24 250 2: Set source to control (0...16);
+#X obj 243 453 netsend -u -b;
+#X obj 243 425 list trim;
+#X obj 243 398 list prepend send;
+#X msg 397 433 disconnect;
+#X msg 397 408 connect 85.214.78.6 57120;
+#X obj 243 373 oscformat source azim;
+#X obj 243 277 pack i f, f 13;
+#X floatatom 243 203 5 0 0 0 - - -, f 5;
+#X obj 243 225 t b f, f 13;
+#X obj 48 100 phasor~;
+#X obj 48 145 snapshot~;
+#X floatatom 48 71 5 0 0 0 - - -, f 5;
+#X floatatom 48 178 5 0 0 0 - - -, f 5;
+#X obj 118 81 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 48 200 * 6.28319;
+#X text 8 7 Example patch an automated circular source movement on
+the SPRAWL server., f 95;
+#X text 398 385 1: connect;
+#X text 13 47 3: Control rotation speed;
+#X msg 243 251 9;
+#X obj 118 153 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 384 148 hsl 128 15 0 6 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X obj 118 112 metro 10;
+#X obj 723 31 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 724 185 line, f 17;
+#X floatatom 724 204 5 0 0 0 - - -, f 5;
+#X floatatom 664 148 5 0 0 0 - - -, f 5;
+#X obj 723 62 metro 500;
+#X msg 724 149 \$1 500;
+#X obj 723 114 random 6;
+#X obj 682 361 snapshot~;
+#X floatatom 682 287 5 0 0 0 - - -, f 5;
+#X floatatom 682 394 5 0 0 0 - - -, f 5;
+#X obj 752 297 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 752 369 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 752 328 metro 10;
+#X obj 682 316 osc~;
+#X obj 682 416 * 3.14;
+#X obj 516 285 cartopol;
+#X msg 100 369 \; pd dsp 1;
+#X obj 100 340 loadbang;
+#X connect 2 0 1 0;
+#X connect 3 0 2 0;
+#X connect 4 0 1 0;
+#X connect 5 0 1 0;
+#X connect 6 0 3 0;
+#X connect 7 0 6 0;
+#X connect 8 0 9 0;
+#X connect 8 0 21 0;
+#X connect 9 0 19 0;
+#X connect 9 1 7 1;
+#X connect 10 0 11 0;
+#X connect 11 0 13 0;
+#X connect 12 0 10 0;
+#X connect 13 0 15 0;
+#X connect 14 0 22 0;
+#X connect 15 0 8 0;
+#X connect 19 0 7 0;
+#X connect 22 0 11 0;
+#X connect 22 0 20 0;
+#X connect 23 0 27 0;
+#X connect 24 0 25 0;
+#X connect 27 0 29 0;
+#X connect 28 0 24 0;
+#X connect 29 0 28 0;
+#X connect 29 0 26 0;
+#X connect 30 0 32 0;
+#X connect 31 0 36 0;
+#X connect 32 0 37 0;
+#X connect 33 0 35 0;
+#X connect 35 0 30 0;
+#X connect 35 0 34 0;
+#X connect 36 0 30 0;
+#X connect 40 0 39 0;

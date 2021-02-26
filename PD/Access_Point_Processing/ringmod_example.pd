@@ -1,0 +1,21 @@
+#N canvas 1 119 755 380 10;
+#X obj 30 316 dac~ 1;
+#X obj 30 17 adc~ 1;
+#X text 87 17 get the first input channel;
+#X text 76 315 send to the first output channel;
+#X obj 29 262 *~;
+#X obj 43 220 osc~;
+#X floatatom 64 183 5 0 0 0 - - -, f 5;
+#X msg 605 17 \; pd dsp 0;
+#X msg 524 18 \; pd dsp 1;
+#X obj 67 73 hsl 600 100 1 10000 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X text 446 24 Start audio;
+#X text 515 274 A simple ringmodulator example with a hughe fader -
+make sure to connect the jack ports of PD!;
+#X connect 1 0 4 0;
+#X connect 4 0 0 0;
+#X connect 5 0 4 1;
+#X connect 6 0 5 0;
+#X connect 9 0 6 0;
+#X coords 0 0 1 1 85 60 0;
