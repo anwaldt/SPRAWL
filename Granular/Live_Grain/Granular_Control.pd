@@ -1,4 +1,4 @@
-#N canvas 115 30 1323 694 12;
+#N canvas 89 50 1323 694 12;
 #X obj 564 601 netsend -u -b;
 #X obj 559 544 list trim;
 #X obj 553 520 list prepend send;
@@ -220,8 +220,8 @@
 #X text 145 183 2: set target;
 #X text 253 183 3: set source;
 #X obj 235 124 t b b;
-#X msg 271 203 4;
-#X msg 183 204 1;
+#X msg 183 204 3;
+#X msg 271 203 6;
 #X connect 1 0 0 0;
 #X connect 2 0 1 0;
 #X connect 3 0 0 0;
@@ -234,7 +234,7 @@
 #X connect 9 0 0 0;
 #X connect 17 0 18 0;
 #X connect 21 0 2 0;
-#X connect 25 0 26 0;
-#X connect 25 1 27 0;
-#X connect 26 0 22 1;
-#X connect 27 0 22 0;
+#X connect 25 0 27 0;
+#X connect 25 1 26 0;
+#X connect 26 0 22 0;
+#X connect 27 0 22 1;
