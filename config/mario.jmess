@@ -1,9 +1,5 @@
 <jmess>
   <connection>
-    <output>system:capture_1</output>
-    <input>85.214.78.6:send_1</input>
-  </connection>
-  <connection>
     <output>85.214.78.6:receive_1</output>
     <input>system:playback_1</input>
   </connection>
@@ -18,5 +14,9 @@
   <connection>
     <output>pure_data:output0</output>
     <input>85.214.78.6:send_1</input>
+  </connection>
+  <connection>
+    <output>pure_data:output1</output>
+    <input>85.214.78.6:send_2</input>
   </connection>
 </jmess>
