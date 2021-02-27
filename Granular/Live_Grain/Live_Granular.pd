@@ -1,15 +1,5 @@
-#N canvas 320 119 955 582 10;
-#X obj 32 91 hsl 500 30 5 2000 0 0 empty tMeanH empty -2 -8 0 10 -262144
--1 -1 24887 1;
-#X obj 30 165 hsl 500 30 0 1000 0 0 empty tRangeH empty -2 -8 0 10
--262144 -1 -1 49900 1;
-#X text 540 173 time range;
-#X obj 29 142 s tMean;
-#X obj 27 217 s tRange;
-#X obj 28 241 hsl 500 30 0 5 0 0 empty spMeanH empty -2 -8 0 10 -262144
--1 -1 9980 1;
-#X obj 25 296 s spMean;
-#N canvas 341 88 1044 684 granular 0;
+#N canvas 37 94 955 582 10;
+#N canvas 24 75 1044 684 granular 0;
 #X obj 818 154 s maxLength;
 #X msg 818 133 4410;
 #X obj 817 111 loadbang;
@@ -398,9 +388,9 @@
 1;
 #X obj 184 340 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
 1;
-#X obj 206 340 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 206 340 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
-#X obj 229 340 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 229 340 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X msg 280 238 1;
 #X msg 241 238 0;
@@ -422,11 +412,11 @@
 #X obj 291 172 moses 6;
 #X obj 331 218 moses 7;
 #X obj 372 266 moses 8;
-#X obj 260 340 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 260 340 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
-#X obj 283 340 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 283 340 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
-#X obj 305 340 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 305 340 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 328 340 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
@@ -529,7 +519,7 @@
 #X obj 505 231 r volRange;
 #X obj 513 250 r panning;
 #X obj 522 268 r octaveLock;
-#X obj 442 30 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 442 30 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 615 53 r tMean;
 #X obj 622 73 r tRange;
@@ -543,7 +533,7 @@
 #X obj 681 230 r volRange;
 #X obj 689 249 r panning;
 #X obj 698 267 r octaveLock;
-#X obj 618 29 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 618 29 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 443 341 r tMean;
 #X obj 450 361 r tRange;
@@ -557,7 +547,7 @@
 #X obj 509 518 r volRange;
 #X obj 517 537 r panning;
 #X obj 526 555 r octaveLock;
-#X obj 446 317 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 446 317 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 619 340 r tMean;
 #X obj 626 360 r tRange;
@@ -571,7 +561,7 @@
 #X obj 685 517 r volRange;
 #X obj 693 536 r panning;
 #X obj 702 554 r octaveLock;
-#X obj 622 316 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 622 316 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 783 343 r tMean;
 #X obj 790 363 r tRange;
@@ -585,7 +575,7 @@
 #X obj 849 520 r volRange;
 #X obj 857 539 r panning;
 #X obj 866 557 r octaveLock;
-#X obj 786 319 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 786 319 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 959 342 r tMean;
 #X obj 966 362 r tRange;
@@ -1864,6 +1854,9 @@
 #X obj 439 477 *~;
 #X obj 519 474 *~;
 #X obj 36 121 loadbang;
+#X obj 27 308 s spMean;
+#X floatatom 27 288 5 0 0 0 - - -;
+#X msg 27 265 loadbang;
 #X connect 1 0 0 0;
 #X connect 2 0 1 0;
 #X connect 2 0 3 0;
@@ -1935,27 +1928,20 @@
 #X connect 80 0 76 0;
 #X connect 81 0 77 0;
 #X connect 82 0 78 0;
+#X connect 84 0 83 0;
+#X connect 85 0 84 0;
 #X coords 10 0 11 2 200 100 1 100 100;
-#X restore 456 401 pd granular;
-#X msg 19 486 \; pd dsp 0;
+#X restore 696 348 pd granular;
+#X msg 16 489 \; pd dsp 0;
 #X msg 696 232 \; pd dsp 1;
 #X obj 376 64 s octaveLock;
 #X obj 376 32 tgl 30 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
 1;
-#X obj 24 395 s grainsNum;
-#X floatatom 24 373 5 0 0 0 - - -, f 5;
-#X obj 27 318 hsl 500 30 0 32 0 0 empty grainsNumE empty -2 -8 0 10
--262144 -1 -1 23391 1;
-#X obj 24 353 int;
-#X text 538 314 speed;
 #X obj 376 12 loadbang;
-#X obj 457 517 dac~;
-#X floatatom 41 277 5 0 0 0 - - -, f 5;
-#X floatatom 42 199 5 0 0 0 - - -, f 5;
-#X floatatom 46 124 5 0 0 0 - - -, f 5;
+#X obj 697 464 dac~;
 #X obj 226 33 bng 30 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
-#N canvas 617 218 937 671 presets 0;
+#N canvas 503 153 937 671 presets 0;
 #X obj 214 93 s tMeanH;
 #X obj 213 121 s tRangeH;
 #X obj 212 147 s spMeanH;
@@ -1974,47 +1960,45 @@
 #X obj 512 213 s grainsNumE;
 #X msg 455 108 162;
 #X msg 452 136 897;
-#X obj 453 166 2;
 #X msg 453 198 3;
 #X obj 56 78 r P1;
 #X obj 60 236 r P2;
 #X obj 355 64 r P3;
 #X msg 152 77 96;
 #X msg 150 105 302;
-#X obj 151 135 0.08;
 #X msg 151 167 13;
+#X obj 151 135 1;
+#X obj 453 166 1;
 #X connect 4 0 8 0;
 #X connect 9 0 5 0;
 #X connect 10 0 6 0;
 #X connect 11 0 7 0;
 #X connect 16 0 12 0;
 #X connect 17 0 13 0;
-#X connect 18 0 14 0;
-#X connect 19 0 15 0;
-#X connect 20 0 23 0;
-#X connect 20 0 24 0;
-#X connect 20 0 26 0;
-#X connect 20 0 25 0;
-#X connect 21 0 9 0;
-#X connect 21 0 10 0;
-#X connect 21 0 11 0;
-#X connect 21 0 4 0;
-#X connect 22 0 16 0;
-#X connect 22 0 17 0;
-#X connect 22 0 19 0;
-#X connect 22 0 18 0;
-#X connect 23 0 0 0;
-#X connect 24 0 1 0;
+#X connect 18 0 15 0;
+#X connect 19 0 22 0;
+#X connect 19 0 23 0;
+#X connect 19 0 24 0;
+#X connect 19 0 25 0;
+#X connect 20 0 9 0;
+#X connect 20 0 10 0;
+#X connect 20 0 11 0;
+#X connect 20 0 4 0;
+#X connect 21 0 16 0;
+#X connect 21 0 17 0;
+#X connect 21 0 18 0;
+#X connect 21 0 26 0;
+#X connect 22 0 0 0;
+#X connect 23 0 1 0;
+#X connect 24 0 3 0;
 #X connect 25 0 2 0;
-#X connect 26 0 3 0;
-#X restore 374 363 pd presets;
+#X connect 26 0 14 0;
+#X restore 759 492 pd presets;
 #X obj 266 33 bng 30 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
 #X obj 305 32 bng 30 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
-#X text 541 97 time min;
 #X text 22 54 stop audio;
-#X text 537 247 number of grains;
 #X obj 226 64 s P1;
 #X obj 266 64 s P2;
 #X obj 305 63 s P3;
@@ -2028,31 +2012,54 @@
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
-#X restore 364 383 pd recording;
-#X obj 457 365 adc~ 1 2;
+#X restore 749 512 pd recording;
+#X obj 697 312 adc~ 1 2;
 #X obj 693 119 granular_setter;
 #X msg 693 30 1;
-#X msg 780 91 7 \, 8;
 #X text 652 7 1: set your index;
 #X text 714 69 2: set your sources' indices;
-#X text 658 203 3: activate processing;
+#X msg 780 91 7;
+#N canvas 0 23 1287 635 window 0;
+#X obj 118 134 hsl 500 40 5 2000 0 0 empty tMeanH empty -2 -8 0 10
+-262144 -1 -1 14600 1;
+#X obj 116 208 hsl 500 40 0 1000 0 0 empty tRangeH empty -2 -8 0 10
+-262144 -1 -1 31400 1;
+#X text 626 216 time range;
+#X obj 115 185 s tMean;
+#X obj 113 260 s tRange;
+#X obj 114 284 hsl 500 40 1 1.5 0 0 empty spMeanH empty -2 -8 0 10
+-262144 -1 -1 25800 1;
+#X obj 112 339 s spMean;
+#X obj 111 448 s grainsNum;
+#X floatatom 111 420 5 0 0 0 - - -;
+#X obj 114 371 hsl 500 40 0 32 0 0 empty grainsNumE empty -2 -8 0 10
+-262144 -1 -1 16200 1;
+#X obj 111 406 int;
+#X text 631 291 speed;
+#X floatatom 111 326 5 0 0 0 - - -;
+#X floatatom 113 251 5 0 0 0 - - -;
+#X floatatom 115 178 5 0 0 0 - - -;
+#X text 627 140 time min;
+#X text 626 366 number of grains;
 #X connect 0 0 3 0;
-#X connect 0 0 21 0;
+#X connect 0 0 14 0;
 #X connect 1 0 4 0;
-#X connect 1 0 20 0;
-#X connect 5 0 6 0;
-#X connect 5 0 19 0;
-#X connect 7 0 18 0;
-#X connect 7 1 18 1;
-#X connect 11 0 10 0;
-#X connect 13 0 12 0;
-#X connect 14 0 15 0;
-#X connect 15 0 13 0;
-#X connect 17 0 11 0;
-#X connect 22 0 29 0;
-#X connect 24 0 30 0;
-#X connect 25 0 31 0;
-#X connect 35 0 7 0;
-#X connect 35 1 7 0;
-#X connect 37 0 36 0;
-#X connect 38 0 36 1;
+#X connect 1 0 13 0;
+#X connect 5 0 12 0;
+#X connect 8 0 7 0;
+#X connect 9 0 10 0;
+#X connect 10 0 8 0;
+#X connect 12 0 6 0;
+#X coords 0 -1 1 1 650 400 1 100 100;
+#X restore 15 84 pd window;
+#X connect 0 0 6 0;
+#X connect 0 1 6 1;
+#X connect 4 0 3 0;
+#X connect 5 0 4 0;
+#X connect 7 0 12 0;
+#X connect 9 0 13 0;
+#X connect 10 0 14 0;
+#X connect 18 0 0 0;
+#X connect 18 1 0 0;
+#X connect 20 0 19 0;
+#X connect 23 0 19 1;
