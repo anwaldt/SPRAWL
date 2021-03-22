@@ -59,7 +59,7 @@ OSCdef(\route_spat,
 
 
 
-~azim_OSC = OSCFunc(
+/*~azim_OSC = OSCFunc(
 	{
 		arg msg, time, addr, recvPort;
 		var gain = msg[2];
@@ -73,7 +73,7 @@ OSCdef(\route_spat,
 		var gain = msg[2];
 		~binaural_mono_BUS.setAt(msg[1],gain);
 
-}, '/monitor/mono');
+}, '/monitor/mono');*/
 
 
 
@@ -109,12 +109,13 @@ OSCdef(\mute_all_ap,
 // OSC spatial listeners:
 /////////////////////////////////////////////////////////////////
 
-
+post(NetAddr.langPort);
 ~azim_OSC = OSCFunc(
 	{
 		arg msg, time, addr, recvPort;
 		var azim = msg[2];
 		~control_azim_BUS.setAt(msg[1],azim);
+		postln('received new azim!');
 
 }, '/source/azim');
 

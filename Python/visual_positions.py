@@ -1,20 +1,13 @@
-"""Small example OSC server
-
-This program listens to several addresses, and prints some information about
-received packets.
-"""
-import argparse
 import math
 import threading
 import tkinter as tk
-import random
 from queue import Queue
 
 from pythonosc import dispatcher
 from pythonosc import osc_server
 
 LISTEN_IP = '127.0.0.1'
-LISTEN_PORT = 9595
+LISTEN_PORT = 5003
 
 SCREEN_SIZE = 400
 OFFSET = SCREEN_SIZE // 2
@@ -48,31 +41,33 @@ class Canvas(tk.Frame):
       [index, x, y] = changes.get()
       self.players[index] = [x + OFFSET, y + OFFSET]
 
-    for [x, y] in self.players:
+    for i, [x, y] in enumerate(self.players):
       canvas.create_circle(x, y)
+      canvas.create_text(x, y, text=i)
 
     self.after(10, self.draw_players, canvas)
 
 
 # listen for OSC signals
-def osc_listen(ip, port, changes):
+def osc_listen(ip, port):
   dispatcher.map("/source/aed", update_pos)
   server = osc_server.ThreadingOSCUDPServer((ip, port), dispatcher)
-  print("Serving on {}".format(server.server_address))
+  print("listening on {}".format(server.server_address))
   server.serve_forever()
 
 # callback, run when new OSC position signal is received
-def update_pos(addr, index, azim, elev, dist):
-  x = dist * math.cos(azim)
-  y = dist * math.sin(azim)
-
-  # print(x, y)
-  changes.put([index, x, y])
+def update_pos(_addr, index, azim, _elev, dist):
+  #print('DIST + AZIM ', dist, azim)
+  x = float(dist) * math.cos(float(azim))
+  y = float(dist) * math.sin(float(azim))
+  #print(x,y)
+  changes.put([int(index), x, y])
+  
 
 
 if __name__ == "__main__":
   # listen for new signals in seperate thread
-  listener = threading.Thread(target=osc_listen, args=(LISTEN_IP, LISTEN_PORT, changes))
+  listener = threading.Thread(target=osc_listen, args=(LISTEN_IP, LISTEN_PORT))
   listener.start()
 
   # run gui in main thread

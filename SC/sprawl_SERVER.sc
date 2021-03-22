@@ -1,3 +1,4 @@
+
 /*
 
 sprawl_SERVER.sc
@@ -16,6 +17,7 @@ Henrik von Coler
 
 // get script's directory for relative paths
 ~root_DIR = thisProcess.nowExecutingPath.dirname++"/";
+post(~root_DIR);
 
 // some server parameters
 s.options.device               = "SPRAWL_Server";
@@ -47,7 +49,10 @@ s.options.bindAddress          = "0.0.0.0";
 Server.local.options.sampleRate = 44100;
 
 // setting spacial_OSC to send position data
-~spatial_OSC  = NetAddr("127.0.0.1", 9595);
+~spatial_OSC  = NetAddr("127.0.0.1", 5005);
+
+// for testing: kill all running servers
+Server.killAll;
 
 s.boot;
 
@@ -145,6 +150,27 @@ s.waitForBoot({
 		);)
 	});
 
+	NetAddr.langPort;
+
+	// monitor incoming messages
+/*	(
+		f = { |msg, time, addr|
+			// save incoming azim change to bus
+			if(msg[0] == '/source/azim') {
+				"reveived azim change for position: %\n".postf(msg[1]);
+				~control_azim_BUS[msg[1]] = msg[2];
+			};
+
+			postln(msg);
+
+
+
+		};
+		thisProcess.addOSCRecvFunc(f);
+	);
+
+	thisProcess.removeOSCRecvFunc(f);*/
+
 	/*	for (0, ~nSystems-1, {arg cnt;
 	~inputs[cnt].set(\input_bus, cnt+0);
 	});*/
@@ -222,9 +248,11 @@ s.waitForBoot({
 
 			var azim, elev, dist;
 
-			post('sending new position data...');
+			// post('sending new position data...');
+			// post(NetAddr.langPort);
 
-			for (0, ~nSystemSends, {
+			// ~nSystems-1
+			for (0, ~nSystems-1, {
 
 			 	arg i;
 
@@ -232,16 +260,17 @@ s.waitForBoot({
 			 	elev = ~control_elev_BUS.getnSynchronous(~nInputs)[i];
 			 	dist = ~control_dist_BUS.getnSynchronous(~nInputs)[i];
 
-				// ~spatial_OSC.sendMsg('/source/aed', i, azim, elev, dist);
-				s.sendMsg('/source/aed', i, azim, elev, dist);
+				~spatial_OSC.sendMsg('/source/aed', i, azim, elev, dist);
+				// s.sendMsg('/source/aed', i, azim, elev, dist);
 			});
 
 			0.01.wait;
+			// 1.00.wait;
 		});
 
 	});
 
-	~send_OSC_ROUTINE.next;
+	// ~send_OSC_ROUTINE.next;
 	~send_OSC_ROUTINE.play;
 	// TempoClock.default.sched(0, ~send_OSC_ROUTINE);
 	// ~send_OSC_ROUTINE.stop;
@@ -257,16 +286,17 @@ s.waitForBoot({
 
 	~fftsize = 4096;
 
-	~reverb_FILE =  ~root_DIR++"../WAV/IR/kirche_1.wav";
+	// ~reverb_FILE =  ~root_DIR++"../WAV/IR/kirche_1.wav";
+	~reverb_FILE = '/Users/simon/Documents/Uni/NMPS/SPRAWL/WAV/IR/rays.wav';
 
 
-
+	Buffer.read(s, ~reverb_FILE);
 
 	~conv_func_L =  {
 
 		var ir, irbuffer, bufsize;
 
-		irbuffer =   Buffer.readChannel(s, ~reverb_FILE, channels: [0]);
+		irbuffer = Buffer.readChannel(s, ~reverb_FILE, channels: [0]);
 
 		s.sync;
 

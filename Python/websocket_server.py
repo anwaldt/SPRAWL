@@ -103,7 +103,7 @@ class TcpOscEcho():
          for c in self.clients:
  
                 data = address
-
+                
                 for i in range(l):
                     thisarg = osc_arguments[i]
                     res = isinstance(thisarg, str)
@@ -111,8 +111,9 @@ class TcpOscEcho():
                         thisarg = str(thisarg)
                     data=data+" "+thisarg
                 
-                if(c.is_connected()):
-                    
+                print(c.is_connected)
+
+                if(c.is_connected):
                     c.connection.send(data.encode())
                     
     
