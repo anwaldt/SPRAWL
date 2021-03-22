@@ -12,6 +12,7 @@ Created on Mon Jan 25 13:06:51 2021
 import argparse
 import socket
 import threading
+import time
 
 from pythonosc import osc_server, dispatcher
 from pythonosc import udp_client
@@ -84,12 +85,43 @@ class Client:
                         
             data = self.socket.recv(1024)  
             if not data: break
+            
             string = data.decode("utf8")
-            path = string.split(" ")[0]
-            args = string.split(" ")[1:len(string)-1]
-            self.osc_client.send_message(path, args)
+            
+            path = ''
+            args = []
+            messages = []
+            for s in string.split(' '):
+                if path == '':
+                    path = s
+                elif len(s.split('/')) > 1:
+                    # more than on message
+                    #print('splitting: ', s.split('/')[0])
+                    
+                    args.append(s.split('/')[0])
+                    
+                    #print(path, '---', args)
+                    messages.append([path, args])
+                    
+                    path = s[len(s.split('/')[0]):]
+                    #print(path) 
+                    args = []
+                else:
+                    args.append(s)
+                    
 
-            # print(string)
+            messages.append([path, args])
+
+            #path = string.split(" ")[0]
+            #args = string.split(" ")[1:len(string)-1]
+            #print('messages: ', messages)            
+            for m in messages:
+                self.osc_client.send_message(m[0], m[1])
+                #time.sleep(0.01)
+                #print('message: ', m)
+            #self.osc_client.send_message(path, args)
+
+            print(string)
 
 
 if __name__ == "__main__":
