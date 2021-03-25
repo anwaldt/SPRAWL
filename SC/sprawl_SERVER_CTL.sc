@@ -18,10 +18,10 @@ o = ServerOptions.new;
 o.maxLogins = 4;
 
 o.numInputBusChannels  = 32;
-o.numOutputBusChannels = 64;
+o.numOutputBusChannels = 66;
 
 
-t = Server.remote(\sprawl_remote, NetAddr("85.214.78.6", 57110), o);
+t = Server.remote(\sprawl_remote, NetAddr("85.214.78.6", 57110), o,1);
 
 
 )

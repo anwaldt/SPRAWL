@@ -1,12 +1,12 @@
-#N canvas 504 182 1832 1085 10;
+#N canvas 1165 578 754 501 10;
 #X obj 207 377 netsend -u -b;
 #X obj 207 339 list trim;
 #X obj 206 313 list prepend send;
-#X msg 12 374 disconnect;
+#X msg 22 289 disconnect;
 #X text 146 14 Example patch for controlling send properties of a sound
 on the SPRAWL server., f 83;
-#X text 11 331 1: connect;
-#N canvas 905 334 1462 991 sub1 0;
+#X text 21 246 1: connect;
+#N canvas 298 366 1462 991 sub1 0;
 #X obj 192 384 oscformat route pi;
 #X floatatom 362 132 5 0 0 0 - - -, f 5;
 #X floatatom 147 166 5 0 0 0 - - -, f 5;
@@ -44,7 +44,7 @@ on the SPRAWL server., f 83;
 #X connect 12 0 7 3;
 #X coords 0 -1 1 1 338 171 2 100 100;
 #X restore 21 63 pd sub1;
-#N canvas 0 119 2560 1321 sub2 0;
+#N canvas 0 119 1920 961 sub2 0;
 #X floatatom 369 134 5 0 0 0 - - -, f 5;
 #X floatatom 148 161 5 0 0 0 - - -, f 5;
 #X floatatom 278 197 5 0 0 0 - - -, f 5;
@@ -116,23 +116,40 @@ on the SPRAWL server., f 83;
 #X connect 7 0 5 0;
 #X coords 0 -1 1 1 160 134 2 100 100;
 #X restore 539 245 pd sub2;
-#N canvas 420 291 1767 956 more 1;
-#X obj 190 409 outlet;
+#N canvas 420 280 1767 956 more 0;
+#X obj 204 551 outlet;
 #X msg -28 275 1;
-#X obj 144 144 bng 22 250 50 0 empty empty empty 17 7 0 10 -258113
+#X obj 109 148 bng 22 250 50 0 empty empty empty 17 7 0 10 -258113
 -1 -1;
 #X obj 209 300 oscformat mute_all_spatial;
 #X msg 208 274 1;
-#X obj 266 134 bng 22 250 50 0 empty empty empty 17 7 0 10 -258113
+#X obj 296 146 bng 22 250 50 0 empty empty empty 17 7 0 10 -258113
 -1 -1;
-#X text 229 112 Mute all spatial;
+#X text 329 147 Mute all spatial;
 #X obj -27 301 oscformat default_spatial_routing;
 #X msg 392 278 1;
-#X obj 376 147 bng 22 250 50 0 empty empty empty 17 7 0 10 -258113
+#X obj 296 111 bng 22 250 50 0 empty empty empty 17 7 0 10 -258113
 -1 -1;
-#X text 353 125 Mute all AP;
+#X text 330 114 Mute all AP;
 #X obj 393 304 oscformat mute_all_ap;
-#X text 107 122 Default spatial;
+#X text 143 150 Default spatial;
+#X obj 643 384 oscformat monitor gain;
+#X msg 643 222 0 \, 1 \, 2 \, 3 \, 4 \, 5 \, 6 \, 7 \, 8 \, 9 \, 10
+\, 11 \, 12 \, 13 \, 14 \, 15;
+#X text 641 193 silence all binaural monitors;
+#X obj 643 357 pack \$1 1;
+#X obj 109 113 bng 22 250 50 0 empty empty empty 17 7 0 10 -204786
+-1 -1;
+#X text 142 113 default monitor;
+#X text 475 799 Mute all spatial;
+#X text 477 672 Mute all AP;
+#X text 57 803 Default spatial;
+#X text 57 692 every access point gets the binaural mix;
+#X text 57 669 default monitor;
+#X text 59 827 every access point is routed to 2 spatial sources;
+#X text 477 695 mute all connections between access points;
+#X text 479 827 mute all connections from access points to spatial
+sources;
 #X connect 1 0 7 0;
 #X connect 2 0 1 0;
 #X connect 3 0 0 0;
@@ -142,9 +159,54 @@ on the SPRAWL server., f 83;
 #X connect 8 0 11 0;
 #X connect 9 0 8 0;
 #X connect 11 0 0 0;
+#X connect 13 0 0 0;
+#X connect 14 0 16 0;
+#X connect 16 0 13 0;
+#X connect 17 0 14 0;
 #X coords 0 -1 1 1 333 77 2 100 100;
-#X restore 369 384 pd more;
-#X msg 11 348 connect 85.214.78.6 57120;
+#X restore 368 386 pd more;
+#X msg 21 263 connect 85.214.78.6 57120;
+#N canvas 1762 749 653 654 circular 0;
+#X obj 150 421 oscformat route pi;
+#X obj 150 467 outlet;
+#X obj 109 108 bng 15 250 50 0 empty empty empty 17 7 0 10 -4160 -1
+-1;
+#X obj 27 327 pack \$1 0 \$2 0 1;
+#X text 73 191 A list of connections to be set:;
+#X text 74 212 left = from access point \,;
+#X text 75 232 right = to access point;
+#X obj 189 334 pack \$1 1 \$2 1 1;
+#X msg 29 179 0 1 \, 1 2 \, 3 4 \, 5 6 \, 6 7 \, 7 8 \, 8 9, f 5;
+#X text 108 135 Routing for stille post;
+#X obj 369 422 oscformat monitor gain;
+#X obj 369 395 pack \$1 0;
+#X msg 369 260 0 \, 1 \, 2 \, 3 \, 4 \, 5 \, 6 \, 7 \, 8 \, 9 \, 10
+\, 11 \, 12 \, 13 \, 14 \, 15;
+#X text 367 231 silence all binaural monitors;
+#X connect 0 0 1 0;
+#X connect 2 0 8 0;
+#X connect 2 0 12 0;
+#X connect 3 0 0 0;
+#X connect 7 0 0 0;
+#X connect 8 0 3 0;
+#X connect 8 0 7 0;
+#X connect 10 0 1 0;
+#X connect 11 0 10 0;
+#X connect 12 0 11 0;
+#X coords 0 -1 1 1 155 55 2 100 100;
+#X restore 146 404 pd circular;
+#N canvas 420 280 1767 956 more 0;
+#X obj 110 245 outlet;
+#X msg 109 193 1;
+#X obj 109 148 bng 22 250 50 0 empty empty empty 17 7 0 10 -257985
+-1 -1;
+#X obj 110 219 oscformat monitor all_stereo;
+#X text 112 111 all stereo;
+#X connect 1 0 3 0;
+#X connect 2 0 1 0;
+#X connect 3 0 0 0;
+#X coords 0 -1 1 1 88 77 2 100 100;
+#X restore 26 384 pd more;
 #X connect 1 0 0 0;
 #X connect 2 0 1 0;
 #X connect 3 0 0 0;
@@ -154,3 +216,5 @@ on the SPRAWL server., f 83;
 #X connect 11 0 2 0;
 #X connect 12 0 2 0;
 #X connect 13 0 0 0;
+#X connect 14 0 2 0;
+#X connect 15 0 2 0;
