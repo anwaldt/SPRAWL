@@ -1,0 +1,21 @@
+site_name: SPRAWL System
+
+theme:
+    name: material
+    highlightjs: true
+    #logo: graphics/interface_HVC_small.png
+
+bibtex:
+      bib_file: "refs.bib"
+      cite_style: "pandoc"
+
+extra:
+    generator: false
+
+markdown_extensions:
+  - attr_list
+  - pymdownx.arithmatex:
+      generic: true
+docs:
+    ../graphics/
+      hufo_flow_1.png
