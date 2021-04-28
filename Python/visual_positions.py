@@ -52,7 +52,7 @@ class Canvas(tk.Frame):
 def osc_listen(ip, port):
   dispatcher.map("/source/aed", update_pos)
   server = osc_server.ThreadingOSCUDPServer((ip, port), dispatcher)
-  print("listening on {}".format(server.server_address))
+  # print("listening on {}".format(server.server_address))
   server.serve_forever()
 
 # callback, run when new OSC position signal is received
