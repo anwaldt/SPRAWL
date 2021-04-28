@@ -109,7 +109,7 @@ class TcpOscEcho():
                         thisarg = str(thisarg)
                     data=data+" "+thisarg
                 
-                print(c.is_connected)
+                # print(c.is_connected)
 
                 if(c.is_connected):
                     c.connection.send(data.encode())
