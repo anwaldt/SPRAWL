@@ -96,8 +96,6 @@ class TcpOscEcho():
             
     def default_handler(self, address: str, *osc_arguments: List[Any]) -> None:
 
-         print("RECEIVED")
-
          l = len(osc_arguments)
          
          for c in self.clients:
