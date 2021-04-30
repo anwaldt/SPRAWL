@@ -1,0 +1,17 @@
+[Unit]
+Description=SPRAWL mixer and router
+After=jack.service
+Requires=jack.service
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=idle
+PrivateTmp=true
+ExecStartPre=/bin/sleep 1
+ExecStart=/usr/local/bin/sclang /home/studio/Development/sprawl/SC/sprawl_SERVER.sc
+LimitRTPRIO=95
+LimitRTTIME=infinity
+LimitMEMLOCK=infinity
+User=studio

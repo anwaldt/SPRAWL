@@ -1,40 +1,33 @@
+/*
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Settings
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+sprawl_REMOTE_silent-green.sc
 
+Access point software used for the concert
+'BUB Mode' (Feb. 2020, Silent Green, Berlin)
 
-// SET TO PI Nr. -1
+Henrik von Coler
+2020-01-20
 
-~my_IDX = 0;
+*/
 
-// set to horn file path
-~horn_FILE = "/home/pi/concert/WAV/horn_1.wav";
+~my_IDX = 1;
 
-// s = Server.local(\sprawl_client, NetAddr("127.0.0.1", 57140));
-
-
-s.options.device = "SPRAWL_remote";
-
-// set number of audio IO:
+// minimize audio IO:
 s.options.numInputBusChannels  = 2;
 s.options.numOutputBusChannels = 2;
 
+// define for outgoing messages:
+~sendOSC = NetAddr("191.168.0.1", 57120);
 
-// define OSC address and port for outgoing messages:
-~sendOSC = NetAddr("192.168.0.100", 57120);
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Synthdef for the ship's horn
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// get script's directory for relative paths
+~root_DIR = thisProcess.nowExecutingPath.dirname++"/";
 
 
 SynthDef( \sampler, {
 
 	arg rate=1, trigger = 0, bufnum=0, startpos = 0;
 
-	Out.ar ([0, 1],
+	Out.ar (0,
 		rate * PlayBuf.ar(1, bufnum, BufRateScale.kr(bufnum),
 			trigger,
 			startpos*BufFrames.kr(bufnum)),
@@ -44,30 +37,38 @@ SynthDef( \sampler, {
 
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// AFTER SERVER BOOT:
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Server.default.waitForBoot({
 
 
-s.waitForBoot({
+	~sample_PATH = PathName.new(~root_DIR++"../WAV/SHIP_HORNS");
+
+	~sample_PATH.filesDo
+	{
+		|afile| // loop argument
+		var tmp_path = afile.pathOnly.asSymbol++afile.fileName.asSymbol;
+		~sample_BUFFERS = ~sample_BUFFERS.add(Buffer.readChannel(s,tmp_path,0,-1,0));
+	};
+
+	"Read "++~sample_BUFFERS.size()++" samples!";
 
 
-	// read horn file to buffer
-	~buffer_1 = Buffer.read(s,~horn_FILE);
+	s.sync;
 
+	// ~sine = Synth.new(\sine,
 
 	// create a window
 	~window = Window.new("SPRAWL Control", Rect(0, 0, 800, 480)).front;
 
-
 	~window.view.background=Color.black;
 
-	~window.fullScreen;
+	//~window.fullScreen;
+
+	~myID = 0;
 
 	~bus  = Bus.control();  	// create a Bus to store amplitude data
 
 	// an audio signal
-	~input = { arg gain = 0;
+	~input = { arg gain = 1;
 
 		var input = SoundIn.ar(0);
 
@@ -84,14 +85,13 @@ s.waitForBoot({
 
 
 
-	c = StaticText(~window, Rect(190, 20, 300, 20));
+	c = StaticText(~window, Rect(50, 20, 300, 20));
 	c.string = "Input";
 	c.stringColor = Color.grey;
 	c.font = Font("Monaco", 22);
 
 	// create indicator
-	~indicator = LevelIndicator(~window,Rect(190,60,60,180));
-	~indicator.style_(\led).value_(1/3).stepWidth_(4);
+	~indicator = LevelIndicator(~window,Rect(70,60,40,180));
 
 	~meter_ROUTINE = Routine({
 
@@ -99,13 +99,12 @@ s.waitForBoot({
 
 			~bus.get({   // get current value from the bus
 				arg value;
-				{~indicator.value = value.lag(0, 3);     // set Indicator's value
-					~indicator.peakLevel = value.lag(0, 3); // set Indicator's peak value
-
+				{~indicator.value_(10*value);     // set Indicator's value
+					~indicator.peakLevel_(value); // set Indicator's peak value
 				}.defer(); // schedule in the AppClock
 			});
 
-			0.1.wait;s
+			0.1.wait;
 		});
 	});
 
@@ -164,15 +163,10 @@ s.waitForBoot({
 
 
 
-	a = StaticText(~window, Rect(310, 5, 300, 20));
-	a.string = "TO LOWER MOVEMENTS";
-	a.stringColor = Color.new255(255, 0, 147);
-	a.font = Font("Monaco", 22);
-
-		a = StaticText(~window, Rect(660, 5, 300, 20));
-	a.string = "UPPER";
-	a.stringColor =Color.new255(77, 220, 147);
-	a.font = Font("Monaco", 22);
+	/*a = StaticText(~window, Rect(500, 10, 300, 20));
+	a.string = "TO MOVEMENTS";
+	a.stringColor = Color.grey;
+	a.font = Font("Monaco", 22);*/
 
 	~sliders_MOVEMENTS = Array.fill(10,
 		{arg i;
@@ -183,79 +177,10 @@ s.waitForBoot({
 			var x = 300+(i*50);
 
 
-			Slider(~window, Rect(x, 35, 40, 190));
+			Slider(~window, Rect(x, 50, 40, 190));
 
 
 
-
-
-		}
-	);
-
-
-
-	for (0, 9, {arg i;
-
-
-		var x = 300+(i*50);
-		/*		var txt;
-
-		txt = StaticText(~window, Rect(x+10, 260, 300, 20));
-		txt.string = i.asString;
-		txt.stringColor = Color.grey;
-		txt.font = Font("Monaco", 22);*/
-
-		~sliders_MOVEMENTS[i].background = Color.new255(255, 0, 147);
-
-
-		if(i>5)
-		{
-					~sliders_MOVEMENTS[i].background = Color.new255(77, 220, 147);
-
-		};
-
-
-		~sliders_MOVEMENTS[i].action_(
-			{
-				postln(~sliders_MOVEMENTS[i].value);
-				~sendOSC.sendMsg("/route/speaker", ~my_IDX, i, ~sliders_MOVEMENTS[i].value);
-		});
-
-	});
-
-
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// SEND TO SPEAKERS
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-	a = StaticText(~window, Rect(390, 450, 300, 20));
-	a.string = "TO LOWER SPEAKERS";
-	a.stringColor = Color.new255(255, 220, 147);
-	a.font = Font("Monaco", 22);
-
-
-	a = StaticText(~window, Rect(710, 450, 300, 20));
-	a.string = "UPPER";
-	a.stringColor = Color.new255(77, 220, 147);
-	a.font = Font("Monaco", 22);
-
-
-
-	~sliders_SPEAKERS = Array.fill(10,
-		{arg i;
-
-			// define coordinates
-			var tmp;
-			var txt;
-			var x = 300+(i*50);
-
-
-			Slider(~window, Rect(x, 255, 40, 190));
 
 
 		}
@@ -269,22 +194,71 @@ s.waitForBoot({
 		var x = 300+(i*50);
 		var txt;
 
-		txt = StaticText(~window, Rect(x+10, 230, 300, 20));
-		txt.string = (i+1).asString;
+		txt = StaticText(~window, Rect(x+10, 260, 300, 20));
+		txt.string = i.asString;
+		txt.stringColor = Color.grey;
+		txt.font = Font("Monaco", 22);
+
+		~sliders_MOVEMENTS[i].background = Color.new255(255, 0, 147);
+
+		~sliders_MOVEMENTS[i].action_(
+			{
+				postln(~sliders_MOVEMENTS[i].value);
+				~sendOSC.sendMsg("/route/speakers", ~my_IDX, i, ~sliders_MOVEMENTS[i].value);
+		});
+
+	});
+
+
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// SEND TO SPEAKERS
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+	/*	a = StaticText(~window, Rect(500, 200, 300, 20));
+	a.string = "TO SPEAKERS";
+	a.stringColor = Color.grey;
+	a.font = Font("Monaco", 22);*/
+
+
+
+	~sliders_SPEAKERS = Array.fill(10,
+		{arg i;
+
+			// define coordinates
+			var tmp;
+			var txt;
+			var x = 300+(i*50);
+
+
+			Slider(~window, Rect(x, 280, 40, 190));
+
+
+		}
+	);
+
+
+
+	for (0, 9, {arg i;
+
+
+		var x = 300+(i*50);
+		var txt;
+
+		txt = StaticText(~window, Rect(x+10, 260, 300, 20));
+		txt.string = i.asString;
 		txt.stringColor = Color.grey;
 		txt.font = Font("Monaco", 22);
 
 		~sliders_SPEAKERS[i].background = Color.new255(255, 220, 147);
 
-		if(i>7)
-		{
-					~sliders_SPEAKERS[i].background = Color.new255(77, 220, 147);
-
-		};
 		~sliders_SPEAKERS[i].action_(
 			{
 				postln(~sliders_SPEAKERS[i].value);
-				~sendOSC.sendMsg("/route/speaker", ~my_IDX, i+10, ~sliders_SPEAKERS[i].value);
+				~sendOSC.sendMsg("/route/speakers", ~my_IDX, i+10, ~sliders_SPEAKERS[i].value);
 		});
 
 	});
@@ -293,12 +267,12 @@ s.waitForBoot({
 	// HORN
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	~trigger_button = Button(~window, Rect( 30, 100 ,130, 130));
+	~trigger_button = Button(~window, Rect( 150, 100 ,100, 100));
 
 	~trigger_button.states = [["HORN", Color.black, Color.red]];
 
 	~single_sample = Synth.new(\sampler,
-		[\trigger:0, \bufnum: ~buffer_1]);
+		[\trigger:0, \bufnum: ~sample_BUFFERS[~my_IDX]]);
 
 
 	~single_sample.set(\trigger,-1);
@@ -314,32 +288,8 @@ s.waitForBoot({
 
 
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// toogle full screen
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-	~fullscreen_BUTTON = Button(~window, Rect(0, 0, 100, 50))
-	.states_([
-		["Fullscreen", Color.black, Color.gray],
-		["Quit fullscreen", Color.black, Color.gray]
-	]);
-
-	~fullscreen_BUTTON.action = { |view|
-		if(view.value == 1) {
-			postln("entering fullscreen");
-			~window.fullScreen;
-
-		};
-		if(view.value == 0) {
-			postln("leaving fulllsreen");
-			~window.endFullScreen;
-
-		};
-	};
-
 });
+
 
 
 
