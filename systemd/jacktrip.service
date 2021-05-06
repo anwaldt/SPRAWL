@@ -14,4 +14,3 @@ ExecStart=/home/studio/Development/jacktrip/builddir/jacktrip -S -p 5 -D --udprt
 LimitRTPRIO=95
 LimitRTTIME=infinity
 LimitMEMLOCK=infinity
-User=studio
