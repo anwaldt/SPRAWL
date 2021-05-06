@@ -14,4 +14,4 @@ ExecStart=/usr/local/bin/sclang /home/studio/Development/sprawl/SC/sprawl_SERVER
 LimitRTPRIO=95
 LimitRTTIME=infinity
 LimitMEMLOCK=infinity
-User=studio
+

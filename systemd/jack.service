@@ -13,4 +13,3 @@ ExecStart=/usr/bin/jackd -P 90 -a a -d dummy -p 128
 LimitRTPRIO=95
 LimitRTTIME=infinity
 LimitMEMLOCK=infinity
-User=studio
