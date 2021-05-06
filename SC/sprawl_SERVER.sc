@@ -286,8 +286,8 @@ s.waitForBoot({
 
 	~fftsize = 4096;
 
-	// ~reverb_FILE =  ~root_DIR++"../WAV/IR/kirche_1.wav";
-	~reverb_FILE = '/Users/simon/Documents/Uni/NMPS/SPRAWL/WAV/IR/rays.wav';
+	~reverb_FILE =  ~root_DIR++"../WAV/IR/kirche_1.wav";
+	// ~reverb_FILE = '/Users/simon/Documents/Uni/NMPS/SPRAWL/WAV/IR/rays.wav';
 
 
 	Buffer.read(s, ~reverb_FILE);
