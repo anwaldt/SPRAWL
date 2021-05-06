@@ -45,14 +45,10 @@ s.options.bindAddress          = "0.0.0.0";
 ~hoa_order = 3;
 ~n_hoa_channnels = pow(~hoa_order + 1.0 ,2.0);
 
-// set sample rate to run locally on macOS
-Server.local.options.sampleRate = 44100;
-
 // setting spacial_OSC to send position data
 ~spatial_OSC  = NetAddr("127.0.0.1", 5005);
 
-// for testing: kill all running servers
-Server.killAll;
+
 
 s.boot;
 
