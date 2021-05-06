@@ -6,9 +6,8 @@ Requires=jack.service
 [Service]
 Type=idle
 PrivateTmp=true
-EnvironmentFile=/etc/conf.d/jack-matchmaker
 ExecReload=kill -HUP $MAINPID
-ExecStart=/bin/bash -c '/usr/local/bin/jack-matchmaker $${PATTERN_FILE+-p "$PATTERN_FILE"} $${EXACT_MATCHING:+-e} $${CLIENT_NAME+-N "$CLIENT_NAME"} $${CONNECT_INTERVAL+-I $CONNECT_INTERVAL} $${MAX_ATTEMPTS+-m $MAX_ATTEMPTS} $${VERBOSITY+-v $VERBOSITY} $$PATTERNS'
+ExecStart=/bin/bash -c '/usr/local/bin/jack-matchmaker -p "/home/student/SPRAWL/matchmaker/sprawl_server_stereo.pattern" -e'
 
 [Install]
 WantedBy=multi-user.target
