@@ -1,5 +1,13 @@
 ## The Basic Server
 
+The basic server works with a single listening position
+in the center for all access points. All sound source positions are
+thus defined by their absolute position:
+
+![Single Position](graphics/single_position.png)
+<!-- {width=100% height=400} -->
+
+----
 
 The basic SC server offers binaural rendering with OSC control.
 In the recent version, all access points send and receive two
