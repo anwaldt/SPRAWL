@@ -220,6 +220,13 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#sc-output-channel-assignment" class="md-nav__link">
+    SC Output Channel Assignment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#osc-messages" class="md-nav__link">
     OSC Messages
   </a>
@@ -312,6 +319,13 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#sc-output-channel-assignment" class="md-nav__link">
+    SC Output Channel Assignment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#osc-messages" class="md-nav__link">
     OSC Messages
   </a>
@@ -376,7 +390,7 @@ thus defined by their absolute position:</p>
 <p>The basic SC server offers binaural rendering with OSC control.
 In the recent version, all access points send and receive two
 channels of audio to the server. Signals from the access
-points can be raouted to specific targets via OSC command.
+points can be routed to specific targets via OSC command.
 All access points receive the full binaural mix and selected
 sources. The server is per default configured for up to 16 access points,
 each with two channels:</p>
@@ -407,6 +421,33 @@ each with two channels:</p>
 <tr>
 <td>15</td>
 <td>30,31</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sc-output-channel-assignment">SC Output Channel Assignment</h3>
+<table>
+<thead>
+<tr>
+<th>Channels</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00-31</td>
+<td>direct to access points</td>
+</tr>
+<tr>
+<td>32-63</td>
+<td>binaural to access point</td>
+</tr>
+<tr>
+<td>64-65</td>
+<td>main binaural</td>
+</tr>
+<tr>
+<td>64-81</td>
+<td>main 3rd order Ambisonics</td>
 </tr>
 </tbody>
 </table>
