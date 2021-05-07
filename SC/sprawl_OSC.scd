@@ -115,7 +115,6 @@ post(NetAddr.langPort);
 		arg msg, time, addr, recvPort;
 		var azim = msg[2];
 		~control_azim_BUS.setAt(msg[1],azim);
-		postln('received new azim!');
 
 }, '/source/azim');
 

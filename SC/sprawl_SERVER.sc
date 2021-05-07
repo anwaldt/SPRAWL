@@ -22,7 +22,7 @@ post(~root_DIR);
 // some server parameters
 s.options.device               = "SPRAWL_Server";
 s.options.numInputBusChannels  = 32;
-s.options.numOutputBusChannels = 80;
+s.options.numOutputBusChannels = 128;
 s.options.maxLogins            = 4;
 s.options.bindAddress          = "0.0.0.0";
 
@@ -393,7 +393,9 @@ s.waitForBoot({
 	for (0, 1, {arg cnt;
 
 		post('Adding MAIN Output Module: ');
-		cnt.postln;
+		cnt.post;
+		post(' - To bus: ');
+		(64+cnt).postln;
 
 		~outputs_main = ~outputs_main.add(
 			Synth(\output_module,
@@ -405,6 +407,23 @@ s.waitForBoot({
 		);)
 	});
 
+
+	for (0, ~n_hoa_channnels-1, {arg cnt;
+
+		post('Adding HOA Encoded Output Module: ');
+		cnt.post;
+		post(' - To bus: ');
+		(66+cnt).postln;
+
+		~outputs_main = ~outputs_main.add(
+			Synth(\output_module,
+				[
+					\audio_bus, (~ambi_BUS.index)+cnt,
+					\output, 66+cnt,
+				],
+				target: ~output_GROUP
+		);)
+	});
 
 
 

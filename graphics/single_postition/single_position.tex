@@ -1,0 +1,202 @@
+﻿\tdplotsetmaincoords{60}{110}
+
+\begin{tikzpicture}[
+%scale=1.2,
+%font=\footnotesize,
+tdplot_main_coords
+%every node/.style={scale=0.75}
+]
+
+\def\sizesource{15};
+\def\sizereceiver{25};
+
+\begin{axis}[
+axis on top,
+ymin=-100,ymax=400,
+xmin=-300,xmax=300,
+zmin=0, zmax=300,
+axis equal,
+width=2\textwidth,
+height=2\textwidth,
+axis lines = center,
+xlabel = {$x$},
+ylabel = {$y$},
+zlabel = {$z$},
+ticks=none,
+enlargelimits=0.3,
+view/h=60,
+scale uniformly strategy=units only,
+every node near coord/.append style={font=\tiny},
+]
+
+\def\xr{0};
+\def\yr{0};
+\def\zr{0};
+
+
+\def\xs1{200};	
+\def\ys1{200};
+\def\zs1{200};
+
+% \tdplotsetthetaplanecoords{90}
+% \tdplotdrawarc[gray, -latex]
+% {(axis cs: 0,0,0)}  % center
+% {200} % radius
+% {90} % angle start
+% {45} % angle stop
+% {anchor=west}{$\alpha_1$};
+% 
+% \draw[gray, latex-] (axis cs: 50,100,60) arc (37:-2.5:1cm) node[left, pos=0.6]{$\epsilon_1$};
+% 
+% \addplot3[-latex,] coordinates {(0,0,0) (\xs1,\ys1,\z)}   node[above, pos=0.5] {$d_1$} ;
+
+\addplot3[gray,  densely  dashed] coordinates {(0,0,0)   (\xs1,\ys1,0)}  ;
+\addplot3[gray,   densely dashed] coordinates {(\xs1,\ys1,\zs1) (\xs1,\ys1,0)}  ;
+
+\addplot3[
+    surf,
+    %shader=interp,
+    colormap/blackwhite,
+    %colormap={bw}{gray(0cm)=(0); gray(1cm)=(0.6)},
+    opacity = 0.25,
+    samples=30,
+    variable=\u,
+    variable y=\v,
+    domain=0:180,
+    y domain=0:360,
+    z buffer=sort]
+    (
+        { \xs1 +  \sizesource * cos(u)*sin(v)}, 
+        { \ys1 + 0.1  + \sizesource * sin(u)*sin(v)}, 
+        { \zs1 + 0.1  + \sizesource * cos(v)}
+    );  
+
+\node[gray, above=6pt] at (axis cs:\xs1,\ys1,\zs1) {$S_1$};
+
+
+
+
+
+
+
+
+
+\def\xsb{-200};	
+\def\ysb{200};
+\def\zsb{-70};
+
+% \tdplotsetthetaplanecoords{90}
+% \tdplotdrawarc[gray, -latex]
+% {(axis cs: 0,0,0)}  % center
+% {200} % radius
+% {90} % angle start
+% {45} % angle stop
+% {anchor=west}{$\alpha_1$};
+% 
+% \draw[gray, latex-] (axis cs: 50,100,60) arc (37:-2.5:1cm) node[left, pos=0.6]{$\epsilon_1$};
+% 
+% \addplot3[-latex,] coordinates {(0,0,0) (\xs1,\ys1,\z)}   node[above, pos=0.5] {$d_1$} ;
+
+\addplot3[gray,  densely  dashed] coordinates {(0,0,0)   (\xsb,\ysb,0)}  ;
+\addplot3[gray,   densely dashed] coordinates {(\xsb,\ysb,\zsb) (\xsb,\ysb,0)}  ;
+
+\addplot3[
+    surf,
+    %shader=interp,
+    colormap/blackwhite,
+    %colormap={bw}{gray(0cm)=(0); gray(1cm)=(0.6)},
+    opacity = 0.25,
+    samples=30,
+    variable=\u,
+    variable y=\v,
+    domain=0:180,
+    y domain=0:360,
+    z buffer=sort]
+    (
+        { \xsb +  \sizesource * cos(u)*sin(v)}, 
+        { \ysb + 0.1  + \sizesource * sin(u)*sin(v)}, 
+        { \zsb + 0.1  + \sizesource * cos(v)}
+    );  
+
+\node[gray, above right=10pt] at (axis cs:\xsb,\ysb,\zsb) {$S_2$};
+
+
+
+
+
+
+
+
+\def\xsc{-200};	
+\def\ysc{-200};
+\def\zsc{250};
+
+% \tdplotsetthetaplanecoords{90}
+% \tdplotdrawarc[gray, -latex]
+% {(axis cs: 0,0,0)}  % center
+% {200} % radius
+% {90} % angle start
+% {45} % angle stop
+% {anchor=west}{$\alpha_1$};
+% 
+% \draw[gray, latex-] (axis cs: 50,100,60) arc (37:-2.5:1cm) node[left, pos=0.6]{$\epsilon_1$};
+% 
+% \addplot3[-latex,] coordinates {(0,0,0) (\xs1,\ys1,\z)}   node[above, pos=0.5] {$d_1$} ;
+
+\addplot3[gray,  densely  dashed] coordinates {(0,0,0)   (\xsc,\ysc,0)}  ;
+\addplot3[gray,   densely dashed] coordinates {(\xsc,\ysc,\zsc) (\xsc,\ysc,0)}  ;
+
+\addplot3[
+    surf,
+    %shader=interp,
+    colormap/blackwhite,
+    %colormap={bw}{gray(0cm)=(0); gray(1cm)=(0.6)},
+    opacity = 0.25,
+    samples=30,
+    variable=\u,
+    variable y=\v,
+    domain=0:180,
+    y domain=0:360,
+    z buffer=sort]
+    (
+        { \xsc +  \sizesource * cos(u)*sin(v)}, 
+        { \ysc + 0.1  + \sizesource * sin(u)*sin(v)}, 
+        { \zsc + 0.1  + \sizesource * cos(v)}
+    );  
+
+\node[gray, above=6pt] at (axis cs:\xsc,\ysc,\zsc) {$S_3$};
+
+
+
+
+
+
+
+
+
+
+
+\addplot3[
+	patch,
+	color=black,
+   % shader=interp,
+    % colormap/blackwhite,
+    %colormap={bw}{gray(0cm)=(0); gray(1cm)=(0.6)},
+    opacity = 1,
+    samples=20,
+    variable=\u,
+    variable y=\v,
+    domain=0:180,
+    y domain=0:360,
+    z buffer=sort]
+    (
+        { \xr +  	     \sizereceiver * cos(u)*sin(v)}, 
+        { \yr + 0.1  + \sizereceiver * sin(u)*sin(v)}, 
+        { \zr + 0.1  + \sizereceiver * cos(v)}
+    ){};  
+
+\node[below left = 12pt] at (axis cs:\xr,\yr,\zr) {$R$};
+
+\end{axis}
+
+\end{tikzpicture}
