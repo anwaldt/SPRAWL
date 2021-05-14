@@ -1,5 +1,6 @@
 import math
 import threading
+import argparse
 import tkinter as tk
 from queue import Queue
 
@@ -95,8 +96,15 @@ def update_pos(_addr, index, azim, elev, dist):
   
 
 if __name__ == "__main__":
+  parser = argparse.ArgumentParser()        
+    
+  parser.add_argument("-i", "--listen-ip", dest="listen_ip", default='127.0.0.1', help="IP of the server sending the position data")
+  parser.add_argument("-p", "--listen-port", dest="listen_port", default=5003, help="Port of the server sending the position data")
+
+  args = parser.parse_args()
+
   # listen for new signals in seperate thread
-  listener = threading.Thread(target=osc_listen, args=(LISTEN_IP, LISTEN_PORT))
+  listener = threading.Thread(target=osc_listen, args=(args.listen_ip, args.listen_port))
   listener.start()
 
   # run gui in main thread
