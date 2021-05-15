@@ -1,11 +1,12 @@
 import math
 import threading
 import argparse
+import time
 import tkinter as tk
 from queue import Queue
 
 from pythonosc import dispatcher
-from pythonosc import osc_server
+from pythonosc import osc_server, udp_client
 
 LISTEN_IP = '127.0.0.1'
 LISTEN_PORT = 5003
@@ -86,6 +87,16 @@ def osc_listen(ip, port):
   print("listening on {}".format(server.server_address))
   server.serve_forever()
 
+def osc_send(ip, port):
+  client = udp_client.SimpleUDPClient(ip, port)
+  azim = 0
+  while True:
+    client.send_message("/source/azim", [0, azim])
+    azim += 1
+    time.sleep(.5)
+
+
+
 # callback, run when new OSC position signal is received
 def update_pos(_addr, index, azim, elev, dist):
   dist = float(dist) * SCALE
@@ -106,6 +117,10 @@ if __name__ == "__main__":
   # listen for new signals in seperate thread
   listener = threading.Thread(target=osc_listen, args=(args.listen_ip, args.listen_port))
   listener.start()
+
+  # send position of the source we control
+  sender = threading.Thread(target=osc_send, args=('127.0.0.1', 57121))
+  sender.start()
 
   # run gui in main thread
   window = tk.Tk()
