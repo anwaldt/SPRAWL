@@ -20,8 +20,9 @@ DEFAULT_SIZE = 20
 # OSC dispatcher must be global
 dispatcher = dispatcher.Dispatcher()
 
-# global queue to communicate positions changes between threads
+# global queues to communicate positions changes between threads
 changes = Queue()
+send = Queue()
 
 # add custom function to easily draw circles
 def _create_circle(self, x, y, r=20, **kwargs):
@@ -36,9 +37,21 @@ class Canvas(tk.Frame):
     super().__init__()
 
     self.pack(fill=tk.BOTH, expand=1)
-    canvas = tk.Canvas(self)
-    canvas.pack(fill=tk.BOTH, expand=1)
-    self.run(canvas)
+    self.canvas = tk.Canvas(self)
+    self.canvas.pack(fill=tk.BOTH, expand=1)
+
+    self._drag_data = {"x": 0, "y": 0, "item": None}
+
+    # add bindings for clicking, dragging and releasing over
+    # any object with the "token" tag
+    self.canvas.tag_bind("token", "<ButtonPress-1>", self.drag_start)
+    self.canvas.tag_bind("token", "<ButtonRelease-1>", self.drag_stop)
+    self.canvas.tag_bind("token", "<B1-Motion>", self.drag)
+
+    # create controllable source
+    self.canvas.create_circle(OFFSET + 30, OFFSET, 20, fill="sky blue", tag="token")
+
+    self.run(self.canvas)
 
   def check_range(self, x, min_value, max_value):
     if x <= min_value:
@@ -67,18 +80,52 @@ class Canvas(tk.Frame):
                              self.check_range(DEFAULT_SIZE + elev, 10, 30)]
 
     for i, [x, y, r] in enumerate(self.players):
-      canvas.create_circle(x, y, r,fill='pink', tag='player')
+      if i == 0:
+        pass
+        # canvas.create_circle(x, y, r, fill="sky blue", tag="token")
+      else:
+        canvas.create_circle(x, y, r,fill='pink', tag='player')
+      
       canvas.create_text(x, y, text=i, tag='player')
 
     
   def run(self, canvas):
     # TODO: only redraw grid after window resize
     #       otherwise only delete 'players' tag
-    canvas.delete('all')
+    canvas.delete('player')
+    canvas.delete('grid')
     
     self.draw_grid(canvas)
     self.draw_players(canvas)
     self.after(10, self.run, canvas)
+
+  def drag_start(self, event):
+    """Beginning drag of an object"""
+    # record the item and its location
+    self._drag_data["item"] = self.canvas.find_closest(event.x, event.y)[0]
+    self._drag_data["x"] = event.x
+    self._drag_data["y"] = event.y
+
+  def drag_stop(self, event):
+      """End drag of an object"""
+      # reset the drag information
+      self._drag_data["item"] = None
+      self._drag_data["x"] = 0
+      self._drag_data["y"] = 0
+
+  def drag(self, event):
+      """Handle dragging of an object"""
+      # compute how much the mouse has moved
+      delta_x = event.x - self._drag_data["x"]
+      delta_y = event.y - self._drag_data["y"]
+      # move the object the appropriate amount
+      self.canvas.move(self._drag_data["item"], delta_x, delta_y)
+      # record the new position
+      self._drag_data["x"] = event.x
+      self._drag_data["y"] = event.y
+      # write new position to send queue
+      send.put([(event.x - self.canvas.winfo_width() // 2) / SCALE, 
+                (event.y - self.canvas.winfo_height() // 2) / SCALE])
 
 
 def osc_listen(ip, port):
@@ -87,14 +134,16 @@ def osc_listen(ip, port):
   print("listening on {}".format(server.server_address))
   server.serve_forever()
 
+
 def osc_send(ip, port):
   client = udp_client.SimpleUDPClient(ip, port)
-  azim = 0
   while True:
+    [x, y] = send.get()
+    dist = math.sqrt(x*x + y*y)
+    azim = math.atan2(y, x)
     client.send_message("/source/azim", [0, azim])
-    azim += 1
-    time.sleep(.5)
-
+    client.send_message("/source/dist", [0, dist])
+    # time.sleep(.5)
 
 
 # callback, run when new OSC position signal is received
@@ -109,8 +158,10 @@ def update_pos(_addr, index, azim, elev, dist):
 if __name__ == "__main__":
   parser = argparse.ArgumentParser()        
     
+  parser.add_argument("-c", "--controlled-source", dest="controlled_source", default="0", help="Index of the source you want to control")
   parser.add_argument("-i", "--listen-ip", dest="listen_ip", default='127.0.0.1', help="IP of the server sending the position data")
   parser.add_argument("-p", "--listen-port", dest="listen_port", default=5003, help="Port of the server sending the position data")
+
 
   args = parser.parse_args()
 
