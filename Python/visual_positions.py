@@ -168,6 +168,10 @@ if __name__ == "__main__":
   parser.add_argument("-c", "--controlled-source", dest="controlled_source", default="-1", help="Index of the source you want to control")
   parser.add_argument("-i", "--listen-ip", dest="listen_ip", default='127.0.0.1', help="IP of the server sending the position data")
   parser.add_argument("-p", "--listen-port", dest="listen_port", default=5003, help="Port of the server sending the position data")
+  
+  parser.add_argument("-r", "--recv-ip", dest="recv_ip", default='127.0.0.1')
+  parser.add_argument("-t", "--recv-port", dest="recv_port", default=57121)
+  
   parser.add_argument("-s", "--scale", dest="scale", default=50, help="set the zoom level")
 
   args = parser.parse_args()
@@ -180,7 +184,7 @@ if __name__ == "__main__":
   listener.start()
 
   # send position of the source we control
-  sender = threading.Thread(target=osc_send, args=('127.0.0.1', 57121))
+  sender = threading.Thread(target=osc_send, args=(args.recv_ip, int(args.recv_port)))
   sender.start()
 
   # run gui in main thread
