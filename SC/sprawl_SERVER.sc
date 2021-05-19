@@ -17,6 +17,7 @@ Henrik von Coler
 
 // get script's directory for relative paths
 ~root_DIR = thisProcess.nowExecutingPath.dirname++"/";
+
 post(~root_DIR);
 
 // some server parameters
@@ -175,6 +176,7 @@ s.waitForBoot({
 	~inputs[cnt].set(\input_bus, cnt+0);
 	});*/
 
+
 	/////////////////////////////////////////////////////////////////
 	// Encoder SECTION
 
@@ -239,19 +241,12 @@ s.waitForBoot({
 
 	}, '/source/aed');
 
-
-	// experimental
-	// output azim, elev, dist
 	~send_OSC_ROUTINE = Routine({
 
 		inf.do({
 
 			var azim, elev, dist;
 
-			// post('sending new position data...');
-			// post(NetAddr.langPort);
-
-			// ~nSystems-1
 			for (0, ~nSystems-1, {
 
 			 	arg i;
@@ -261,19 +256,14 @@ s.waitForBoot({
 			 	dist = ~control_dist_BUS.getnSynchronous(~nInputs)[i];
 
 				~spatial_OSC.sendMsg('/source/aed', i, azim, elev, dist);
-				// s.sendMsg('/source/aed', i, azim, elev, dist);
 			});
 
 			0.01.wait;
-			// 1.00.wait;
 		});
 
 	});
 
-	// ~send_OSC_ROUTINE.next;
 	~send_OSC_ROUTINE.play;
-	// TempoClock.default.sched(0, ~send_OSC_ROUTINE);
-	// ~send_OSC_ROUTINE.stop;
 
 	/////////////////////////////////////////////////////////////////
 
@@ -286,8 +276,7 @@ s.waitForBoot({
 
 	~fftsize = 4096;
 
-	// ~reverb_FILE =  ~root_DIR++"../WAV/IR/kirche_1.wav";
-	~reverb_FILE = '/Users/simon/Documents/Uni/NMPS/SPRAWL/WAV/IR/rays.wav';
+	~reverb_FILE =  ~root_DIR++"../WAV/IR/kirche_1.wav";
 
 
 	Buffer.read(s, ~reverb_FILE);
