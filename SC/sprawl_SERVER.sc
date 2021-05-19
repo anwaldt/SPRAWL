@@ -17,7 +17,8 @@ Henrik von Coler
 
 // get script's directory for relative paths
 ~root_DIR = thisProcess.nowExecutingPath.dirname++"/";
-post(~root_DIR++"\n");
+
+post(~root_DIR);
 
 // some server parameters
 s.options.device               = "SPRAWL_Server";
@@ -152,6 +153,30 @@ s.waitForBoot({
 
 	NetAddr.langPort;
 
+	// monitor incoming messages
+/*	(
+		f = { |msg, time, addr|
+			// save incoming azim change to bus
+			if(msg[0] == '/source/azim') {
+				"reveived azim change for position: %\n".postf(msg[1]);
+				~control_azim_BUS[msg[1]] = msg[2];
+			};
+
+			postln(msg);
+
+
+
+		};
+		thisProcess.addOSCRecvFunc(f);
+	);
+
+	thisProcess.removeOSCRecvFunc(f);*/
+
+	/*	for (0, ~nSystems-1, {arg cnt;
+	~inputs[cnt].set(\input_bus, cnt+0);
+	});*/
+
+
 	/////////////////////////////////////////////////////////////////
 	// Encoder SECTION
 
@@ -252,6 +277,7 @@ s.waitForBoot({
 	~fftsize = 4096;
 
 	~reverb_FILE =  ~root_DIR++"../WAV/IR/kirche_1.wav";
+
 
 	Buffer.read(s, ~reverb_FILE);
 

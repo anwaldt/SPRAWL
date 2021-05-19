@@ -1,0 +1,8 @@
+* server now sends all spatialization Data via OSC
+* python server can receive current position
+* i can change the positions via PD patch when running locally
+
+* [] hook up GUI to python server
+* [] sources 16-32 can't be changed, figure out why
+
+* send signals from gui as well 

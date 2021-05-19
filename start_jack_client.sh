@@ -3,12 +3,21 @@
 killall jacktrip
 killall jackd
 
-#BUFFER=$(zenity --list \
-#column=Check --height 800 \
-#--text="Please select a buffer size by checking only one number! Ask your session admin for details!" \
-#--column="Select" --column="Buffersize"  64 FALSE 128 FALSE 256 FALSE 512 FALSE 1024   --checklist);
+FILE=~/.jacktrip_remotename
 
-echo $BUFFER
+if test -f "$FILE"; then
+	echo "Your jacktrip remote name is: "
+	NAME=$(cat $FILE)
+	echo $NAME
+else
+	NAME=$(zenity --entry --text "Please choose a JackTrip client name:" --title "Who are you?");
+	echo $NAME > $FILE
+fi
+
+OUTCHANS=$(zenity --list --radiolist \
+--text="Please select the number of outgoing channels to the network!" \
+--column="Select" --column="Outgoing Channels"  FALSE "1" TRUE "2");
+
 
 # sleep 1
 
@@ -16,8 +25,8 @@ echo $BUFFER
 
 sleep 1
 
-jackd -P 90 -d alsa -d hw:1,0 -r 48000 -p 128 &
+jackd -P 90 -d alsa -d hw:1,0 -r 48000 -p 256 &
 
 sleep 2
 
-bin/jacktrip -C 85.214.78.6 -n 2 -K AP
+bin/jacktrip_nils -C 85.214.78.6 --numincoming 2 --numoutgoing $OUTCHANS -K AP_$NAME
