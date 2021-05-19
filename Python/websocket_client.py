@@ -69,7 +69,7 @@ class Client:
 
     
     def foo_handler(unused_addr, idx, value):          
-        pass
+             print(value)
              
        
     def receive_routine(self):    
@@ -121,6 +121,7 @@ class Client:
                 #print('message: ', m)
             #self.osc_client.send_message(path, args)
 
+            print(string)
 
 
 if __name__ == "__main__":
