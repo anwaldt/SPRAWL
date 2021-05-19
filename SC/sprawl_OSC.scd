@@ -56,6 +56,27 @@ OSCdef(\route_spat,
 }, '/route/spatial',n);
 
 
+
+
+
+/*~azim_OSC = OSCFunc(
+	{
+		arg msg, time, addr, recvPort;
+		var gain = msg[2];
+		~binaural_gain_BUS.setAt(msg[1],gain);
+
+}, '/monitor/gain');
+
+~azim_OSC = OSCFunc(
+	{
+		arg msg, time, addr, recvPort;
+		var gain = msg[2];
+		~binaural_mono_BUS.setAt(msg[1],gain);
+
+}, '/monitor/mono');*/
+
+
+
 OSCdef(\default_spatial_routing,
 
 	{arg msg, time, addr, recvPort;
@@ -94,6 +115,7 @@ post(NetAddr.langPort);
 		arg msg, time, addr, recvPort;
 		var azim = msg[2];
 		~control_azim_BUS.setAt(msg[1],azim);
+		postln('received new azim!');
 
 }, '/source/azim');
 
