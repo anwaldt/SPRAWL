@@ -96,8 +96,6 @@ class TcpOscEcho():
             
     def default_handler(self, address: str, *osc_arguments: List[Any]) -> None:
 
-         print("RECEIVED")
-
          l = len(osc_arguments)
          
          for c in self.clients:
@@ -111,7 +109,7 @@ class TcpOscEcho():
                         thisarg = str(thisarg)
                     data=data+" "+thisarg
                 
-                print(c.is_connected)
+                # print(c.is_connected)
 
                 if(c.is_connected):
                     c.connection.send(data.encode())
