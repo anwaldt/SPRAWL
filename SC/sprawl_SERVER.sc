@@ -25,6 +25,8 @@ s.options.numInputBusChannels  = 32;
 s.options.numOutputBusChannels = 128;
 s.options.maxLogins            = 4;
 s.options.bindAddress          = "0.0.0.0";
+// s.options.numBuffers           = 1024 * 256 * 4;
+s.options.numWireBufs          = 512;
 
 // maximum number of access points to be used
 // @todo: this could be dynamic
@@ -42,7 +44,7 @@ s.options.bindAddress          = "0.0.0.0";
 ~nVirtualSources = ~nSystems * ~nChannels;
 
 // HOA Order
-~hoa_order = 3;
+~hoa_order       = 3;
 ~n_hoa_channnels = pow(~hoa_order + 1.0 ,2.0);
 
 // setting spacial_OSC to send position data
@@ -65,11 +67,11 @@ s.waitForBoot({
 	load(~root_DIR++"sprawl_SYNTHDEFS.scd","r");
 	load(~root_DIR++"sprawl_FUNCTIONS.scd","r");
 
+	s.sync;
 
 	/////////////////////////////////////////////////////////////////
 	// THE BUSSES:
 	/////////////////////////////////////////////////////////////////
-
 
 	// for the encoded ambisonics signal
 	~ambi_BUS             = Bus.audio(s, ~n_hoa_channnels);
@@ -92,9 +94,7 @@ s.waitForBoot({
 	// matrix by using an array of multichannel
 	// control busses:
 	~gain_BUS_pi = Array.fill(~nSystems,
-		{
-			Bus.control(s, ~nSystems*~nChannels*~nChannels);
-		}
+		{Bus.control(s, ~nSystems*~nChannels*~nChannels);}
 	);
 
 
@@ -102,9 +102,7 @@ s.waitForBoot({
 	~rendering_send_BUS = Bus.audio(s,  ~nVirtualSources);
 
 	~rendering_gain_BUS = Array.fill(~nSystems,
-		{
-			Bus.control(s, ~nVirtualSources*~nChannels);
-		}
+		{Bus.control(s, ~nVirtualSources*~nChannels);}
 	);
 
 	~default_spatial_routing.choose;
@@ -115,9 +113,8 @@ s.waitForBoot({
 
 	// every pi is monitoring the binaural mix by default:
 	for(0, ~nSystems -1,
-		{ arg sysIDX;
-			~binaural_gain_BUS.setAt(sysIDX,1);
-	});
+		{ arg sysIDX; ~binaural_gain_BUS.setAt(sysIDX,1);}
+	);
 
 	~binaural_send_BUS = Bus.audio(s,  2*~nSystems);
 
@@ -146,36 +143,15 @@ s.waitForBoot({
 		);)
 	});
 
-	NetAddr.langPort;
 
-	// monitor incoming messages
-/*	(
-		f = { |msg, time, addr|
-			// save incoming azim change to bus
-			if(msg[0] == '/source/azim') {
-				"reveived azim change for position: %\n".postf(msg[1]);
-				~control_azim_BUS[msg[1]] = msg[2];
-			};
-
-			postln(msg);
-
-
-
-		};
-		thisProcess.addOSCRecvFunc(f);
-	);
-
-	thisProcess.removeOSCRecvFunc(f);*/
-
-	/*	for (0, ~nSystems-1, {arg cnt;
-	~inputs[cnt].set(\input_bus, cnt+0);
-	});*/
 
 	/////////////////////////////////////////////////////////////////
 	// Encoder SECTION
 
 
 	~encoder_GROUP = Group.after(~input_GROUP);
+
+		s.sync;
 
 	for (0, ~nVirtualSources -1, {arg cnt;
 
@@ -192,6 +168,8 @@ s.waitForBoot({
 				target: ~encoder_GROUP
 		);)
 	});
+
+	s.sync;
 
 	for (0, ~nVirtualSources -1, {arg cnt;
 
@@ -211,6 +189,8 @@ s.waitForBoot({
 
 	~spatial_GROUP = Group.after(~encoder_GROUP);
 
+	s.sync;
+
 	~decoder = Synth(\hoa_binaural_decoder_3,
 		[
 			\in_bus,  ~ambi_BUS.index,
@@ -218,60 +198,9 @@ s.waitForBoot({
 		],
 		target: ~spatial_GROUP);
 
+	s.sync;
 
 	~decoder.set(\out_bus, ~binaural_mix_BUS);
-
-	~aed_OSC = OSCFunc(
-		{
-			arg msg, time, addr, recvPort;
-
-			var azim = msg[2] / 360.0 * (2.0*pi);
-			var elev = msg[3] / 360.0 * (2.0*pi);
-			var dist = msg[4];
-
-			~control_azim_BUS.setAt(msg[1],azim);
-			~control_elev_BUS.setAt(msg[1],elev);
-			~control_dist_BUS.setAt(msg[1],dist);
-
-	}, '/source/aed');
-
-
-	// experimental
-	// output azim, elev, dist
-	~send_OSC_ROUTINE = Routine({
-
-		inf.do({
-
-			var azim, elev, dist;
-
-			// post('sending new position data...');
-			// post(NetAddr.langPort);
-
-			// ~nSystems-1
-			for (0, ~nSystems-1, {
-
-			 	arg i;
-
-			 	azim = ~control_azim_BUS.getnSynchronous(~nInputs)[i];
-			 	elev = ~control_elev_BUS.getnSynchronous(~nInputs)[i];
-			 	dist = ~control_dist_BUS.getnSynchronous(~nInputs)[i];
-
-				~spatial_OSC.sendMsg('/source/aed', i, azim, elev, dist);
-				// s.sendMsg('/source/aed', i, azim, elev, dist);
-			});
-
-			0.01.wait;
-			// 1.00.wait;
-		});
-
-	});
-
-	// ~send_OSC_ROUTINE.next;
-	~send_OSC_ROUTINE.play;
-	// TempoClock.default.sched(0, ~send_OSC_ROUTINE);
-	// ~send_OSC_ROUTINE.stop;
-
-	/////////////////////////////////////////////////////////////////
 
 
 
@@ -283,10 +212,10 @@ s.waitForBoot({
 	~fftsize = 4096;
 
 	~reverb_FILE =  ~root_DIR++"../WAV/IR/kirche_1.wav";
-	// ~reverb_FILE = '/Users/simon/Documents/Uni/NMPS/SPRAWL/WAV/IR/rays.wav';
-
 
 	Buffer.read(s, ~reverb_FILE);
+
+	s.sync;
 
 	~conv_func_L =  {
 
@@ -311,6 +240,7 @@ s.waitForBoot({
 
 	s.sync;
 
+	2.sleep;
 
 
 	~conv_func_R =  {
@@ -349,11 +279,13 @@ s.waitForBoot({
 		],
 		target: ~spatial_GROUP);
 
+	s.sync;
+
 	~conv.set(\inbus_1, ~reverb_send_BUS.index);
 	~conv.set(\inbus_2, ~reverb_send_BUS.index);
 
-	~conv.set(\outbus_1, ~binaural_mix_BUS.index);
-	~conv.set(\outbus_2, ~binaural_mix_BUS.index+1);
+	~conv.set(\outbus_1, 82);
+	~conv.set(\outbus_2, 83);
 
 
 
@@ -362,6 +294,7 @@ s.waitForBoot({
 	/////////////////////////////////////////////////////////////////
 
 	~output_GROUP = Group.after(~spatial_GROUP);
+	s.sync;
 
 	for (0, ~nSystemSends -1, {arg cnt;
 
@@ -377,7 +310,7 @@ s.waitForBoot({
 				target: ~output_GROUP
 		);)
 	});
-
+	s.sync;
 
 	Synth.new(\binaural_send,
 		[
@@ -387,6 +320,7 @@ s.waitForBoot({
 			\output_bus,   32
 		],
 		target: ~output_GROUP);
+	s.sync;
 
 
 
@@ -406,6 +340,7 @@ s.waitForBoot({
 				target: ~output_GROUP
 		);)
 	});
+	s.sync;
 
 
 	for (0, ~n_hoa_channnels-1, {arg cnt;
@@ -415,7 +350,7 @@ s.waitForBoot({
 		post(' - To bus: ');
 		(66+cnt).postln;
 
-		~outputs_main = ~outputs_main.add(
+		~outputs_encoded = ~outputs_encoded.add(
 			Synth(\output_module,
 				[
 					\audio_bus, (~ambi_BUS.index)+cnt,
@@ -432,6 +367,8 @@ s.waitForBoot({
 	/////////////////////////////////////////////////////////////////
 
 	load(~root_DIR++"sprawl_OSC.scd","r");
+
+	NetAddr.langPort;
 
 
 });
