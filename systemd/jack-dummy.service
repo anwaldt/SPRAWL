@@ -1,0 +1,16 @@
+[Unit]
+Description=Jack audio server
+After=sound.target local-fs.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=simple
+PrivateTmp=true
+EnvironmentFile=%h/.sprawl/jack-dummy.conf
+Environment="JACK_NO_AUDIO_RESERVATION=1"
+ExecStart=/usr/bin/jackd $JACK_OPTIONS -d dummy -P $NUM_PLAYBACK -C $NUM_CAPTURE $DRIVER_SETTINGS
+LimitRTPRIO=95
+LimitRTTIME=infinity
+LimitMEMLOCK=infinity
