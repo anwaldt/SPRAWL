@@ -8,8 +8,9 @@ WantedBy=multi-user.target
 [Service]
 Type=simple
 PrivateTmp=true
+EnvironmentFile=%h/.sprawl/jack.conf
 Environment="JACK_NO_AUDIO_RESERVATION=1"
-ExecStart=/usr/bin/jackd -P 90 -a a -d dummy -p 128
+ExecStart=/usr/bin/jackd $JACK_OPTIONS -d $DRIVER -d $DEVICE $DRIVER_SETTINGS
 LimitRTPRIO=95
 LimitRTTIME=infinity
 LimitMEMLOCK=infinity
