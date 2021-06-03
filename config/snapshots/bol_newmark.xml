@@ -262,8 +262,12 @@
     <port name="out_82">
       <connection port="system:playback_16" />
     </port>
-    <port name="out_83" />
-    <port name="out_84" />
+    <port name="out_83">
+      <connection port="system:playback_17" />
+    </port>
+    <port name="out_84">
+      <connection port="system:playback_18" />
+    </port>
     <port name="out_85" />
     <port name="out_86" />
     <port name="out_87" />
