@@ -81,12 +81,12 @@ s.waitForBoot({
 
 	// reverb send level
 	~control_reverb_BUS   = Bus.control(s,~nSystems);
+
 	// audio reverb bus
 	~reverb_send_BUS      = Bus.audio(s,2);
 
-
 	// audio bus with mutliple channels for each pi module:
-	~audio_BUS_pi = Bus.audio(s,  ~nSystemSends);
+	~audio_BUS_pi         = Bus.audio(s,  ~nSystemSends);
 
 	// create a ~nSystems x ~nSystems routing
 	// matrix by using an array of multichannel

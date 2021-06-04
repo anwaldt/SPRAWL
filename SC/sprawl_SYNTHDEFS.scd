@@ -4,72 +4,101 @@
 // THE SYNTHDEFS:
 /////////////////////////////////////////////////////////////////
 
-SynthDef(\input_module,
+
+
+SynthDef(\simple_input,
 	{
 		|
-		input_bus           = 0,
-		control_bus_pi      = 0,
-		output_bus_pi       = 0,
-		control_bus_spatial = 0,
-		output_bus_spatial  = 0,
-		n_systems           = 16
+		in_bus      = nil,
+		out_bus     = nil,
+		reverb_bus  = nil,
+		//
+		gain        = 1,
+		reverb_gain = 0.2
 		|
 
-		var input, output, gain;
+		var in;
 
-		for (0, ~nChannels-1,
-			{ arg from_chanCNT;
+		in = SoundIn.ar(in_bus);
 
-				input = SoundIn.ar(input_bus+from_chanCNT);
-
-
-				// send to spatial
-
-				for (0, ~nVirtualSources-1,
-					{ arg srcCNT;
-
-						// get the gain value from control bus:
-						gain = In.kr((control_bus_spatial + (~nChannels*srcCNT)) +  from_chanCNT);
-
-						// apply gain
-						output = input*gain;
-
-						// audio output to dedicated bus
-						Out.ar(output_bus_spatial+ srcCNT, output);
-
-					}
-				);
-
-
-				// send to system
-
-				for (0, ~nSystems-1,
-					{ arg sysCNT;
-
-
-						for (0, ~nChannels-1,
-							{ arg to_chanCNT;
-
-								// get the gain value from control bus:
-								gain = In.kr((control_bus_pi + (sysCNT*~nChannels*~nChannels) + from_chanCNT + (~nChannels*to_chanCNT)));
-
-								// apply gain
-								output = input*gain;
-
-								// audio output to dedicated bus
-								Out.ar(output_bus_pi+ (~nChannels*sysCNT) +  to_chanCNT, output);
-
-							}
-						);
-					}
-				);
-
-
-
-		});
+		Out.ar(out_bus,    in*gain);
+		Out.ar(reverb_bus, in*gain*reverb_gain);
 
 }).add;
 
+
+if( ~nChannels!=nil && ~nVirtualSources!=nil && ~nSystems!=nil, {
+
+
+
+	SynthDef(\input_module,
+		{
+			|
+			input_bus           = 0,
+			control_bus_pi      = 0,
+			output_bus_pi       = 0,
+			control_bus_spatial = 0,
+			output_bus_spatial  = 0,
+			n_systems           = 16
+			|
+
+			var input, output, gain;
+
+			for (0, ~nChannels-1,
+				{ arg from_chanCNT;
+
+					input = SoundIn.ar(input_bus+from_chanCNT);
+
+
+					// send to spatial
+
+					for (0, ~nVirtualSources-1,
+						{ arg srcCNT;
+
+							// get the gain value from control bus:
+							gain = In.kr((control_bus_spatial + (~nChannels*srcCNT)) +  from_chanCNT);
+
+							// apply gain
+							output = input*gain;
+
+							// audio output to dedicated bus
+							Out.ar(output_bus_spatial+ srcCNT, output);
+
+						}
+					);
+
+
+					// send to system
+
+					for (0, ~nSystems-1,
+						{ arg sysCNT;
+
+
+							for (0, ~nChannels-1,
+								{ arg to_chanCNT;
+
+									// get the gain value from control bus:
+									gain = In.kr((control_bus_pi + (sysCNT*~nChannels*~nChannels) + from_chanCNT + (~nChannels*to_chanCNT)));
+
+									// apply gain
+									output = input*gain;
+
+									// audio output to dedicated bus
+									Out.ar(output_bus_pi+ (~nChannels*sysCNT) +  to_chanCNT, output);
+
+								}
+							);
+						}
+					);
+
+
+
+			});
+
+	}).add;
+
+
+});
 
 
 
@@ -89,7 +118,7 @@ SynthDef(\binaural_mono_encoder_3,
 
 		var sound = gain * In.ar(in_bus);
 
-		var level =  (0.75/(max(0,dist)+1.0))*(0.75/(max(0,dist)+1.0));
+		var level =  (1/(max(0,0.2*dist)+1.0))*(1/(max(0,0.2*dist)+1.0));
 
 		var bform = HOASphericalHarmonics.coefN3D(3, azim, elev) * sound * level;
 
@@ -130,6 +159,10 @@ SynthDef(\output_module,
 }).add;
 
 
+
+
+if(~nSystems!=nil, {
+
 SynthDef(\binaural_send,
 	{
 		|
@@ -161,6 +194,7 @@ SynthDef(\binaural_send,
 
 }).add;
 
+});
 
 SynthDef(\convolve,
 	{
