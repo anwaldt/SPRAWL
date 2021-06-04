@@ -1,0 +1,47 @@
+#N canvas 712 131 973 483 10;
+#X obj 145 53 unpackOSC;
+#X obj 243 93 route 0, f 33;
+#X obj 243 116 unpack f f f, f 17;
+#X obj 243 156 vsl 15 128 -10 10 0 0 empty empty empty 0 -9 0 10 -204786
+-1 -1 6985 1;
+#X obj 295 202 hsl 128 15 -10 10 0 0 empty empty empty -2 -8 0 10 -204786
+-1 -1 6350 1;
+#X obj 464 136 vsl 15 128 -10 10 0 0 empty empty empty 0 -9 0 10 -204800
+-1 -1 6350 1;
+#X text 245 290 X;
+#X text 354 220 Y;
+#X text 465 272 Z;
+#X obj 438 -11 inlet;
+#X obj 243 70 routeOSC /receiver/pos;
+#X obj 68 307 route 0, f 86;
+#X obj 68 340 unpack f f f;
+#X obj 260 402 hsl 128 15 -3 3 0 0 empty empty empty -2 -8 0 10 -262130
+-1 -1 6350 1;
+#X obj 259 345 hsl 128 15 -3 3 0 0 empty empty empty -2 -8 0 10 -262130
+-1 -1 6350 1;
+#X obj 260 373 hsl 128 15 -3 3 0 0 empty empty empty -2 -8 0 10 -262130
+-1 -1 8467 1;
+#X text 394 345 P;
+#X text 395 373 R;
+#X text 399 400 Y;
+#X obj 68 284 routeOSC /receiver/ori;
+#X obj 529 112 bng 15 250 50 0 empty empty empty 17 7 0 10 -258113
+-1 -1;
+#X obj 145 -9 r OSC;
+#X connect 0 0 10 0;
+#X connect 0 0 19 0;
+#X connect 1 0 2 0;
+#X connect 1 0 20 0;
+#X connect 2 0 3 0;
+#X connect 2 1 4 0;
+#X connect 2 2 5 0;
+#X connect 9 0 1 1;
+#X connect 9 0 11 1;
+#X connect 10 0 1 0;
+#X connect 11 0 12 0;
+#X connect 12 0 13 0;
+#X connect 12 1 15 0;
+#X connect 12 2 14 0;
+#X connect 19 0 11 0;
+#X connect 21 0 0 0;
+#X coords 0 -1 1 1 333 333 1 222 100;
