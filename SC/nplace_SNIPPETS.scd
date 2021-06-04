@@ -1,7 +1,8 @@
 
 ~ambi_BUS[0].scope;
 
-
+~reverb_stereo_BUS.scope
+~reverb_ambi_BUS.scope
 
 ~hoa_outputs.do({arg e; e.free()});
 
@@ -26,13 +27,13 @@
 ~site_x_BUS.setAll(1);
 ~site_x_BUS.setAt(0,0);
 
-~site_y_BUS.setAt(0,0);
+~site_y_BUS.setAt(0,1);
 
 ~site_z_BUS.setAt(0,0);
 
 ~site_pitch_BUS.setAt(0,0);
-~site_roll_BUS.setAt(0,1);
-~site_yaw_BUS.setAt(0,0);
+~site_roll_BUS.setAt(0,0);
+~site_yaw_BUS.setAt(0,1);
 
 ~sites[0].azim().scope;
 ~sites[0].elev().scope;

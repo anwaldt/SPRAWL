@@ -17,7 +17,7 @@ All access points receive the full binaural mix and selected
 sources. The server is per default configured for up to 16 access points,
 each with two channels:
 
-Acess Point | Sources
+Access Point | Sources
 ---     | ---   
 0       | 0,1
 1       | 2,3

@@ -61,7 +61,7 @@ s.waitForBoot({
 	~source_gain_BUS    = Bus.control(s,~nSources);
 	~source_gain_BUS.setAll(1);
 	~source_reverb_BUS  = Bus.control(s,~nSources);
-	~source_reverb_BUS.setAll(1);
+	~source_reverb_BUS.setAll(0.1);
 
 	~site_x_BUS = Bus.control(s,~nSites);
 	~site_y_BUS = Bus.control(s,~nSites);
@@ -79,6 +79,8 @@ s.waitForBoot({
 	~reverb_send_BUS      = Bus.audio(s,1);
 	// stereo reverb
 	~reverb_stereo_BUS    = Bus.audio(s,2);
+
+	~reverb_ambi_BUS    = Bus.audio(s,~n_hoa_channels);
 
 	// each site has its own ambisonics bus
 	for (0, ~nSites-1,
@@ -152,28 +154,14 @@ s.waitForBoot({
 	});
 
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////
-	// Decoding
-	///////////////////////////////////////////////////////////////////////////////////////////////////
-
-	~decoder_GROUP = Group.after(~encoder_GROUP);
-
-	s.sync;
-
-	~binauralDecoders = Array.fill(~nSites,
-		{ arg i;
-			Synth(\hoa_binaural_decoder_3,
-				[   \in_bus,  ~ambi_BUS[i].index,
-					\out_bus, i*2],
-				target: ~decoder_GROUP)
-	});
 
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////
+	// Reverb
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-	~output_GROUP = Group.after(~decoder_GROUP);
+	~reverb_GROUP = Group.after(~encoder_GROUP);
 
 
 	~fftsize = 4096;
@@ -218,29 +206,79 @@ s.waitForBoot({
 			\bufnum_2, ~irspectrumR.bufnum,
 			\fftsize,  ~fftsize
 		],
-		target: ~output_GROUP);
+		target: ~reverb_GROUP);
 
 
 
 	~conv.set(\inbus_1, ~reverb_send_BUS.index);
 	~conv.set(\inbus_2, ~reverb_send_BUS.index);
 
-	~conv.set(\outbus_1, ~nSites*2);
-	~conv.set(\outbus_2, ~nSites*2+1);
+	~conv.set(\outbus_1, ~reverb_stereo_BUS.index);
+	~conv.set(\outbus_2, ~reverb_stereo_BUS.index+1);
+
+
+	~hoa_reverb_sources = {
+		Out.ar(~reverb_ambi_BUS.index, HOAEncoder.ar(~hoa_order,In.ar(~reverb_stereo_BUS.index), 0, pi/2));
+		Out.ar(~reverb_ambi_BUS.index, HOAEncoder.ar(~hoa_order,In.ar(~reverb_stereo_BUS.index+1), 0, 0.7));
+		Out.ar(~reverb_ambi_BUS.index, HOAEncoder.ar(~hoa_order,In.ar(~reverb_stereo_BUS.index), pi/2, 0.7));
+		Out.ar(~reverb_ambi_BUS.index, HOAEncoder.ar(~hoa_order,In.ar(~reverb_stereo_BUS.index+1), pi, 0.7));
+		Out.ar(~reverb_ambi_BUS.index, HOAEncoder.ar(~hoa_order,In.ar(~reverb_stereo_BUS.index), -pi/2, 0.7));
+		Out.ar(~reverb_ambi_BUS.index, HOAEncoder.ar(~hoa_order,In.ar(~reverb_stereo_BUS.index+1), 0.7+ pi, 0));
+		Out.ar(~reverb_ambi_BUS.index, HOAEncoder.ar(~hoa_order,In.ar(~reverb_stereo_BUS.index), 0.7+ -pi/2, 0));
+		Out.ar(~reverb_ambi_BUS.index, HOAEncoder.ar(~hoa_order,In.ar(~reverb_stereo_BUS.index+1), 0.7+ pi, 0));
+		Out.ar(~reverb_ambi_BUS.index, HOAEncoder.ar(~hoa_order,In.ar(~reverb_stereo_BUS.index), 0.7+ -pi/2, 0));
+	}.play;
+	s.sync;
+	~hoa_reverb_sources.moveToTail(~reverb_GROUP);
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////
+	// Decoding
+	///////////////////////////////////////////////////////////////////////////////////////////////////
+
+	~decoder_GROUP = Group.after(~reverb_GROUP);
+
+	s.sync;
+
+	~binauralDecoders = Array.fill(~nSites,
+		{ arg i;
+			Synth(\hoa_binaural_decoder_3,
+				[   \in_bus,  ~ambi_BUS[i].index,
+					\out_bus, i*2],
+				target: ~decoder_GROUP)
+	});
 
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////
+	// Output
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+	~output_GROUP = Group.after(~decoder_GROUP);
+
+
+	// adding reverb to each binaural + one individual
+	~reverb_outputs = Array.fill(~nSites+1,{arg i;
+		SprawlOutput(s,~output_GROUP,2,~reverb_stereo_BUS.index,i*2)
+	});
+
+
+	// hoa encoded
 	for (0, ~nSites-1, { arg i;
 		~hoa_outputs = ~hoa_outputs.add(
 			{Out.ar((2*~nSites+2) + (i*~n_hoa_channels), In.ar(~ambi_BUS[i].index, ~n_hoa_channels))}.play());
 	});
-
 	s.sync;
-
 	~hoa_outputs.do({arg e; e.moveToTail(~output_GROUP)});
+
+	// hoa reverb
+	for (0, ~nSites-1, { arg i;
+		~hoa_reverb_outputs = ~hoa_reverb_outputs.add(
+			{Out.ar((2*~nSites+2) + (i*~n_hoa_channels), In.ar(~reverb_ambi_BUS.index, ~n_hoa_channels))}.play());
+	});
+	s.sync;
+	~hoa_reverb_outputs.do({arg e; e.moveToTail(~output_GROUP)});
+
+
 
 
 	load(~root_DIR++"nplace_OSC.scd","r");
