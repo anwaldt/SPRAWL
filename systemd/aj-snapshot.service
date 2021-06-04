@@ -1,0 +1,13 @@
+[Unit]
+Description=auto-connect JACK ports matching given patterns
+After=jack.service
+Requires=jack.service
+
+[Service]
+Type=idle
+PrivateTmp=true
+ExecReload=kill -HUP $MAINPID
+ExecStart=/bin/bash -c '/usr/bin/aj-snapshot -r -d -x %h/.sprawl/aj-snapshot.xml'
+
+[Install]
+WantedBy=multi-user.target

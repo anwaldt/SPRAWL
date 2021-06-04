@@ -7,7 +7,7 @@ Requires=jack.service
 Type=idle
 PrivateTmp=true
 ExecReload=kill -HUP $MAINPID
-ExecStart=/bin/bash -c '/usr/local/bin/jack-matchmaker -p "%i" -e'
+ExecStart=/bin/bash -c '/usr/local/bin/jack-matchmaker -p "%h/.sprawl/jack-matchmaker.pattern" -e'
 
 [Install]
 WantedBy=multi-user.target

@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<aj-snapshot>
+<jack>
+  <client name="system">
+    <port name="capture_1">
+      <connection port="SPRAWL_Server:in_5" />
+    </port>
+    <port name="capture_2">
+      <connection port="SPRAWL_Server:in_6" />
+    </port>
+    <port name="capture_3">
+      <connection port="SPRAWL_Server:in_7" />
+    </port>
+    <port name="capture_4">
+      <connection port="SPRAWL_Server:in_8" />
+    </port>
+    <port name="capture_5">
+      <connection port="SPRAWL_Server:in_9" />
+    </port>
+    <port name="capture_6">
+      <connection port="SPRAWL_Server:in_10" />
+    </port>
+    <port name="capture_7">
+      <connection port="SPRAWL_Server:in_11" />
+    </port>
+    <port name="capture_8">
+      <connection port="SPRAWL_Server:in_12" />
+    </port>
+    <port name="capture_9" />
+    <port name="capture_10" />
+    <port name="capture_11" />
+    <port name="capture_12" />
+    <port name="capture_13" />
+    <port name="capture_14" />
+    <port name="capture_15" />
+    <port name="capture_16" />
+    <port name="capture_17" />
+    <port name="capture_18" />
+    <port name="capture_19" />
+    <port name="capture_20" />
+    <port name="capture_21" />
+    <port name="capture_22" />
+    <port name="capture_23" />
+    <port name="capture_24" />
+    <port name="capture_25">
+      <connection port="SPRAWL_Server:in_16" />
+    </port>
+    <port name="capture_26" />
+    <port name="capture_27" />
+    <port name="capture_28" />
+    <port name="capture_29" />
+    <port name="capture_30" />
+    <port name="capture_31" />
+    <port name="capture_32" />
+    <port name="capture_33" />
+    <port name="capture_34" />
+    <port name="capture_35" />
+    <port name="capture_36" />
+    <port name="capture_37" />
+    <port name="capture_38" />
+    <port name="capture_39" />
+    <port name="capture_40" />
+    <port name="capture_41" />
+    <port name="capture_42" />
+    <port name="capture_43" />
+    <port name="capture_44" />
+    <port name="capture_45" />
+    <port name="capture_46" />
+    <port name="capture_47" />
+    <port name="capture_48" />
+  </client>
+  <client name="SPRAWL_Server">
+    <port name="out_1" />
+    <port name="out_2" />
+    <port name="out_3" />
+    <port name="out_4" />
+    <port name="out_5" />
+    <port name="out_6" />
+    <port name="out_7" />
+    <port name="out_8" />
+    <port name="out_9" />
+    <port name="out_10" />
+    <port name="out_11" />
+    <port name="out_12" />
+    <port name="out_13" />
+    <port name="out_14" />
+    <port name="out_15" />
+    <port name="out_16" />
+    <port name="out_17" />
+    <port name="out_18" />
+    <port name="out_19" />
+    <port name="out_20" />
+    <port name="out_21" />
+    <port name="out_22" />
+    <port name="out_23" />
+    <port name="out_24" />
+    <port name="out_25" />
+    <port name="out_26" />
+    <port name="out_27" />
+    <port name="out_28" />
+    <port name="out_29" />
+    <port name="out_30" />
+    <port name="out_31" />
+    <port name="out_32" />
+    <port name="out_33" />
+    <port name="out_34" />
+    <port name="out_35" />
+    <port name="out_36" />
+    <port name="out_37" />
+    <port name="out_38" />
+    <port name="out_39" />
+    <port name="out_40" />
+    <port name="out_41" />
+    <port name="out_42" />
+    <port name="out_43" />
+    <port name="out_44" />
+    <port name="out_45" />
+    <port name="out_46" />
+    <port name="out_47" />
+    <port name="out_48" />
+    <port name="out_49" />
+    <port name="out_50" />
+    <port name="out_51" />
+    <port name="out_52" />
+    <port name="out_53" />
+    <port name="out_54" />
+    <port name="out_55" />
+    <port name="out_56" />
+    <port name="out_57" />
+    <port name="out_58" />
+    <port name="out_59" />
+    <port name="out_60" />
+    <port name="out_61" />
+    <port name="out_62" />
+    <port name="out_63" />
+    <port name="out_64" />
+    <port name="out_65" />
+    <port name="out_66" />
+    <port name="out_67">
+      <connection port="system:playback_1" />
+      <connection port="AP_UIO:send_1" />
+    </port>
+    <port name="out_68">
+      <connection port="system:playback_2" />
+      <connection port="AP_UIO:send_2" />
+    </port>
+    <port name="out_69">
+      <connection port="system:playback_3" />
+      <connection port="AP_UIO:send_3" />
+    </port>
+    <port name="out_70">
+      <connection port="system:playback_4" />
+      <connection port="AP_UIO:send_4" />
+    </port>
+    <port name="out_71">
+      <connection port="system:playback_5" />
+      <connection port="AP_UIO:send_5" />
+    </port>
+    <port name="out_72">
+      <connection port="system:playback_6" />
+      <connection port="AP_UIO:send_6" />
+    </port>
+    <port name="out_73">
+      <connection port="system:playback_7" />
+      <connection port="AP_UIO:send_7" />
+    </port>
+    <port name="out_74">
+      <connection port="system:playback_8" />
+      <connection port="AP_UIO:send_8" />
+    </port>
+    <port name="out_75">
+      <connection port="system:playback_9" />
+      <connection port="AP_UIO:send_9" />
+    </port>
+    <port name="out_76">
+      <connection port="system:playback_10" />
+      <connection port="AP_UIO:send_10" />
+    </port>
+    <port name="out_77">
+      <connection port="system:playback_11" />
+      <connection port="AP_UIO:send_11" />
+    </port>
+    <port name="out_78">
+      <connection port="system:playback_12" />
+      <connection port="AP_UIO:send_12" />
+    </port>
+    <port name="out_79">
+      <connection port="system:playback_13" />
+      <connection port="AP_UIO:send_13" />
+    </port>
+    <port name="out_80">
+      <connection port="system:playback_14" />
+      <connection port="AP_UIO:send_14" />
+    </port>
+    <port name="out_81">
+      <connection port="system:playback_15" />
+      <connection port="AP_UIO:send_15" />
+    </port>
+    <port name="out_82">
+      <connection port="system:playback_16" />
+      <connection port="AP_UIO:send_16" />
+    </port>
+    <port name="out_83">
+      <connection port="system:playback_17" />
+    </port>
+    <port name="out_84">
+      <connection port="system:playback_18" />
+    </port>
+    <port name="out_85" />
+    <port name="out_86" />
+    <port name="out_87" />
+    <port name="out_88" />
+  </client>
+  <client name="AP_UIO">
+    <port name="receive_1">
+      <connection port="SPRAWL_Server:in_3" />
+    </port>
+    <port name="receive_2">
+      <connection port="SPRAWL_Server:in_4" />
+    </port>
+    <port name="receive_3" />
+    <port name="receive_4" />
+    <port name="receive_5" />
+    <port name="receive_6" />
+    <port name="receive_7" />
+    <port name="receive_8" />
+    <port name="receive_9" />
+    <port name="receive_10" />
+    <port name="receive_11" />
+    <port name="receive_12" />
+    <port name="receive_13" />
+    <port name="receive_14" />
+    <port name="receive_15" />
+    <port name="receive_16" />
+  </client>
+</jack>
+</aj-snapshot>
