@@ -46,7 +46,7 @@ s.waitForBoot({
 	// Synthdefs: 3rd oder encoder and decoder
 	/////////////////////////////////////////////////////////////////////////////////
 
-	SynthDef(\hoa_mono_encoder_3,
+	SynthDef(\hoa_mono_encoder,
 		{
 			|
 			in_bus     = nil, // audio input bus index
@@ -57,7 +57,7 @@ s.waitForBoot({
 			|
 
 			var sound = In.ar(in_bus);
-			var bform = HOASphericalHarmonics.coefN3D(3, azim, elev) * sound;
+			var bform = HOASphericalHarmonics.coefN3D(~hoa_order, azim, elev) * sound;
 
 			Out.ar(out_bus, bform);
 
@@ -67,14 +67,14 @@ s.waitForBoot({
 	HOABinaural.loadbinauralIRs(s);
 	s.sync;
 
-	SynthDef(\hoa_binaural_decoder_3,
+	SynthDef(\hoa_binaural_decoder,
 		{
 			|
 			in_bus  = nil, // audio input bus index
 			out_bus = nil  // audio output bus index
 			|
 
-			var sig = HOABinaural.ar(3, In.ar(in_bus,16));
+			var sig = HOABinaural.ar(~hoa_order, In.ar(in_bus,~n_hoa_channels));
 			Out.ar(out_bus, sig);
 
 	}).add;
@@ -95,7 +95,7 @@ s.waitForBoot({
 	// add an encoder for each source
 	~binaural_encoders = Array.fill(~nSources,	{arg i;
 
-		Synth(\hoa_mono_encoder_3,
+		Synth(\hoa_mono_encoder,
 			[
 				\in_bus,     s.options.numOutputBusChannels + i,
 				\out_bus,    ~ambi_BUS.index,
@@ -105,7 +105,7 @@ s.waitForBoot({
 	s.sync;
 
 	// add one decoder after the encoder group
-	~decoder = Synth.after(~encoder_GROUP, \hoa_binaural_decoder_3,
+	~decoder = Synth.after(~encoder_GROUP, \hoa_binaural_decoder,
 		[
 			\in_bus,  ~ambi_BUS.index,
 			\out_bus, 0,
