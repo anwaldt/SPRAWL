@@ -14,7 +14,7 @@
     
     
       
-        <title>Supercollider - SPRAWL System</title>
+        <title>SuperCollider Implementation Details - SPRAWL System</title>
       
     
     
@@ -57,6 +57,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#supercollider-implementation-details" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -85,7 +90,7 @@
         <div class="md-header-nav__topic">
           <span class="md-ellipsis">
             
-              Supercollider
+              SuperCollider Implementation Details
             
           </span>
         </div>
@@ -181,7 +186,7 @@
   
     <li class="md-nav__item">
       <a href="../basic_server/" class="md-nav__link">
-        Basic server
+        The Basic Server
       </a>
     </li>
   
@@ -196,7 +201,7 @@
   
     <li class="md-nav__item">
       <a href="../nplace_server/" class="md-nav__link">
-        Nplace server
+        The NPlace Server
       </a>
     </li>
   
@@ -211,7 +216,7 @@
   
     <li class="md-nav__item">
       <a href="../simple_server/" class="md-nav__link">
-        Simple server
+        The Simple Server
       </a>
     </li>
   
@@ -230,9 +235,11 @@
       
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
+        
+      
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Supercollider
+        SuperCollider Implementation Details
       </a>
       
     </li>
@@ -246,16 +253,30 @@
               </div>
             
             
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
               
                 
                 
-                  <h1>Supercollider</h1>
-                
-                <p>There were some issues with the basic Euclidean distance formula.
-Additional abs is needed:</p>
+                <h1 id="supercollider-implementation-details">SuperCollider Implementation Details</h1>
+<p>There were some issues with the basic Euclidean distance formula in the nplace classes. Additional abs is needed, even when using pow(2):</p>
 <pre><code>dist = sqrt( (pow(abs(xS-xR),2) + pow(abs(yS-yR),2) + pow(abs(zS-zR),2)) );
 </code></pre>
                 
@@ -285,7 +306,7 @@ Additional abs is needed:</p>
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Simple server
+                The Simple Server
               </div>
             </div>
           </a>

@@ -14,7 +14,7 @@
     
     
       
-        <title>Basic server - SPRAWL System</title>
+        <title>The Basic Server - SPRAWL System</title>
       
     
     
@@ -90,7 +90,7 @@
         <div class="md-header-nav__topic">
           <span class="md-ellipsis">
             
-              Basic server
+              The Basic Server
             
           </span>
         </div>
@@ -190,19 +190,23 @@
       
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Basic server
+          The Basic Server
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Basic server
+        The Basic Server
       </a>
       
         
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
+  
+    
   
   
     <label class="md-nav__title" for="__toc">
@@ -212,21 +216,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#the-basic-server" class="md-nav__link">
-    The Basic Server
-  </a>
-  
-    <nav class="md-nav" aria-label="The Basic Server">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#sc-output-channel-assignment" class="md-nav__link">
     SC Output Channel Assignment
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#osc-messages" class="md-nav__link">
     OSC Messages
   </a>
@@ -252,11 +248,6 @@
   <a href="#monitoring" class="md-nav__link">
     Monitoring
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -282,7 +273,7 @@
   
     <li class="md-nav__item">
       <a href="../nplace_server/" class="md-nav__link">
-        Nplace server
+        The NPlace Server
       </a>
     </li>
   
@@ -297,7 +288,7 @@
   
     <li class="md-nav__item">
       <a href="../simple_server/" class="md-nav__link">
-        Simple server
+        The Simple Server
       </a>
     </li>
   
@@ -312,7 +303,7 @@
   
     <li class="md-nav__item">
       <a href="../supercollider/" class="md-nav__link">
-        Supercollider
+        SuperCollider Implementation Details
       </a>
     </li>
   
@@ -333,6 +324,8 @@
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -341,21 +334,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#the-basic-server" class="md-nav__link">
-    The Basic Server
-  </a>
-  
-    <nav class="md-nav" aria-label="The Basic Server">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#sc-output-channel-assignment" class="md-nav__link">
     SC Output Channel Assignment
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#osc-messages" class="md-nav__link">
     OSC Messages
   </a>
@@ -388,11 +373,6 @@
     </nav>
   
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
       
     </ul>
   
@@ -407,9 +387,7 @@
               
                 
                 
-                  <h1>Basic server</h1>
-                
-                <h2 id="the-basic-server">The Basic Server</h2>
+                <h1 id="the-basic-server">The Basic Server</h1>
 <p>The basic server works with a single listening position
 in the center for all access points. All sound source positions are
 thus defined by their absolute position:</p>
@@ -454,7 +432,7 @@ each with two channels:</p>
 </tr>
 </tbody>
 </table>
-<h3 id="sc-output-channel-assignment">SC Output Channel Assignment</h3>
+<h2 id="sc-output-channel-assignment">SC Output Channel Assignment</h2>
 <table>
 <thead>
 <tr>
@@ -481,11 +459,11 @@ each with two channels:</p>
 </tr>
 </tbody>
 </table>
-<h3 id="osc-messages">OSC Messages</h3>
+<h2 id="osc-messages">OSC Messages</h2>
 <p>Sending OSC messages can be tested with the PD patches
 <code>control_position.pd</code> and <code>control_sends.pd</code>.
 The default server listens to the following messages:</p>
-<h4 id="routing">Routing</h4>
+<h3 id="routing">Routing</h3>
 <p>For each access point, the server adds two virtual sound sources.
 Individual channels from each access point can be routed to any virtual sound source:</p>
 <pre><code>/route/spatial i i i f
@@ -516,7 +494,7 @@ to individual channels of other access points:</p>
 <p>All AP routing gains can be set to 0 with the following OSC message:</p>
 <pre><code>/mute_all_ap
 </code></pre>
-<h4 id="spatial">Spatial</h4>
+<h3 id="spatial">Spatial</h3>
 <p>Source positions are controlled in spherical coordinates.</p>
 <pre><code>/source/azim i f
 </code></pre>
@@ -546,7 +524,7 @@ independent from the spatial source position:</p>
 <li>first argument: virtual sound source index (0...32)</li>
 <li>second argument: reverb gain (0 ... 1)</li>
 </ul>
-<h4 id="monitoring">Monitoring</h4>
+<h3 id="monitoring">Monitoring</h3>
 <p>For each access point, the gain of the binaural mix can be set:</p>
 <pre><code>/monitor/gain f
 </code></pre>
@@ -600,7 +578,7 @@ point is used for monitoring:</p>
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Nplace server
+                The NPlace Server
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">
