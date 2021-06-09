@@ -1,90 +1,34 @@
 <jmess>
   <connection>
-    <output>PulseAudio JACK Sink:front-left</output>
-    <input>SuperCollider:in_1</input>
-  </connection>
-  <connection>
-    <output>PulseAudio JACK Sink:front-right</output>
-    <input>SuperCollider:in_2</input>
-  </connection>
-  <connection>
-    <output>SuperCollider:out_1</output>
+    <output>SuperCollider:out_5</output>
     <input>system:playback_1</input>
   </connection>
   <connection>
-    <output>SuperCollider:out_2</output>
+    <output>SuperCollider:out_6</output>
     <input>system:playback_2</input>
   </connection>
   <connection>
-    <output>SuperCollider:out_3</output>
+    <output>SuperCollider:out_7</output>
     <input>system:playback_3</input>
   </connection>
   <connection>
-    <output>SuperCollider:out_4</output>
+    <output>SuperCollider:out_8</output>
     <input>system:playback_4</input>
   </connection>
   <connection>
-    <output>SuperCollider:out_5</output>
+    <output>SuperCollider:out_9</output>
     <input>system:playback_5</input>
   </connection>
   <connection>
-    <output>SuperCollider:out_6</output>
+    <output>SuperCollider:out_10</output>
     <input>system:playback_6</input>
   </connection>
   <connection>
-    <output>SuperCollider:out_7</output>
+    <output>SuperCollider:out_11</output>
     <input>system:playback_7</input>
   </connection>
   <connection>
-    <output>SuperCollider:out_8</output>
-    <input>system:playback_8</input>
-  </connection>
-  <connection>
-    <output>SuperCollider:out_9</output>
-    <input>system:playback_9</input>
-  </connection>
-  <connection>
-    <output>SuperCollider:out_10</output>
-    <input>system:playback_10</input>
-  </connection>
-  <connection>
-    <output>SuperCollider:out_11</output>
-    <input>system:playback_11</input>
-  </connection>
-  <connection>
     <output>SuperCollider:out_12</output>
-    <input>system:playback_12</input>
-  </connection>
-  <connection>
-    <output>pure_data:output0</output>
-    <input>SuperCollider:in_3</input>
-  </connection>
-  <connection>
-    <output>pure_data:output1</output>
-    <input>SuperCollider:in_4</input>
-  </connection>
-  <connection>
-    <output>pure_data:output2</output>
-    <input>SuperCollider:in_5</input>
-  </connection>
-  <connection>
-    <output>pure_data:output3</output>
-    <input>SuperCollider:in_6</input>
-  </connection>
-  <connection>
-    <output>pure_data:output4</output>
-    <input>SuperCollider:in_7</input>
-  </connection>
-  <connection>
-    <output>pure_data:output5</output>
-    <input>SuperCollider:in_8</input>
-  </connection>
-  <connection>
-    <output>pure_data:output6</output>
-    <input>SuperCollider:in_9</input>
-  </connection>
-  <connection>
-    <output>pure_data:output7</output>
-    <input>SuperCollider:in_10</input>
+    <input>system:playback_8</input>
   </connection>
 </jmess>

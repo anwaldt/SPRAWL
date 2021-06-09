@@ -1,0 +1,28 @@
+#N canvas 712 208 973 483 10;
+#X obj 243 47 unpackOSC;
+#X obj 243 70 routeOSC /source/pos;
+#X obj 243 93 route 0, f 33;
+#X obj 243 116 unpack f f f, f 17;
+#X obj 243 156 vsl 15 128 -10 10 0 0 empty empty empty 0 -9 0 10 -204786
+-1 -1 9525 1;
+#X obj 295 202 hsl 128 15 -10 10 0 0 empty empty empty -2 -8 0 10 -204786
+-1 -1 6350 1;
+#X obj 464 136 vsl 15 128 -10 10 0 0 empty empty empty 0 -9 0 10 -204800
+-1 -1 6350 1;
+#X text 245 290 X;
+#X text 354 220 Y;
+#X text 465 272 Z;
+#X obj 438 -11 inlet;
+#X obj 535 111 bng 15 250 50 0 empty empty empty 17 7 0 10 -258113
+-1 -1;
+#X obj 243 24 r OSC;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 2 0 11 0;
+#X connect 3 0 4 0;
+#X connect 3 1 5 0;
+#X connect 3 2 6 0;
+#X connect 10 0 2 1;
+#X connect 12 0 0 0;
+#X coords 0 -1 1 1 333 222 1 222 100;

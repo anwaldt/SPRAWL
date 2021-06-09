@@ -15,22 +15,23 @@ Henrik von Coler
 (
 
 o = ServerOptions.new;
-o.maxLogins = 4;
 
+o.maxLogins            = 4;
 o.numInputBusChannels  = 32;
-o.numOutputBusChannels = 66;
+o.numOutputBusChannels = 80;
 
-
-t = Server.remote(\sprawl_remote, NetAddr("85.214.78.6", 57110), o,1);
-
+t = Server.remote(\sprawl_remote, NetAddr("sprawl", 57110),o,0);
 
 )
 
 // get information
+
+t.clientID;
 
 t.makeWindow;
 
 t.meter;
 
 t.queryAllNodes();
+
 

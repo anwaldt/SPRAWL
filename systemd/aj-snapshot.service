@@ -7,7 +7,7 @@ Requires=jack.service
 Type=idle
 PrivateTmp=true
 ExecReload=kill -HUP $MAINPID
-ExecStart=/bin/bash -c '/usr/local/bin/jack-matchmaker -p "%h/.sprawl/jack-matchmaker.pattern" -e'
+ExecStart=/bin/bash -c '/usr/bin/aj-snapshot -r -d -x %h/.sprawl/aj-snapshot.xml'
 
 [Install]
 WantedBy=multi-user.target

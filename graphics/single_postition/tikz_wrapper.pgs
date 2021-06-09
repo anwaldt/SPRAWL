@@ -1,0 +1,287 @@
+﻿\documentclass{standalone}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% languages and font encoding
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% suppress warnings
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+\pdfsuppresswarningpagegroup=1
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% colors
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+\usepackage{xcolor}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% columns skips and indents
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{multicol}
+
+\setlength\parindent{0pt}
+\setlength\parskip{6pt}
+
+
+ 
+\usepackage{setspace}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% page geometry
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+ 
+
+\usepackage[]{geometry}
+
+\usepackage{longtable}
+\renewcommand{\sfdefault}{phv}
+\renewcommand{\rmdefault}{ptm}
+
+
+% \usepackage[english,ngerman,french]{babel}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% quotes and co.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+  
+\usepackage{csquotes}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% adjust  titles
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\usepackage[sf,sl,outermarks]{titlesec}
+%
+ 
+%   \titleformat{<command>}
+%   [<shape>]{<format>}{<label>}{<sep>}{<before-code>}[<after-code>]
+  
+%   \titlespacing*{〈command〉}{〈left〉}{〈before-sep〉}{〈after-sep〉}[〈right-sep〉]
+  
+\titleformat{\chapter}[display]
+{\color{gray}\sffamily\normalfont\LARGE}
+{\color{gray}\sffamily \chaptertitlename\ \thechapter}{0pt}
+{\sffamily  \Huge}[\vspace{1.5ex}\color{gray}\titleline{\color{gray}\titlerule[2.5pt]}]
+
+\titlespacing*{\chapter}{0pt}{-80pt}{0pt}
+
+ 
+\titleformat{\section}[block]
+{\vspace{22pt} \color{gray}\sffamily \Large}
+{\thesection}
+{12pt}{}
+ 
+\titlespacing*{\section}{0pt}{22pt}{6pt}
+
+
+\titleformat{\subsection}[block]
+{\color{gray}\sffamily \large }
+{\color{gray}\thesubsection}{1em}{}
+
+\titleformat{\subsubsection}[block]
+{\color{gray}\sffamily \fontsize{12}{0}  }
+{\color{gray}\thesubsubsection}{1em}{}
+ 
+ 
+ 
+\titleformat{name=\paragraph, page = odd}
+[rightmargin]
+{\color{gray} \scriptsize \sffamily}
+{\color{gray} \theparagraph}
+{1em}
+{\noindent \scriptsize \color{gray}}
+
+ 
+\titleformat{name=\paragraph, page = even}
+[leftmargin]
+{\color{gray} \scriptsize \sffamily}
+{\color{gray} \theparagraph }
+{1em}
+{\noindent \scriptsize \color{gray}}
+
+\titlespacing{name=\paragraph}
+{2cm}{0pt}{1cm}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% setup the TOC
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{titletoc}
+
+% define format for section of toc; entries: section, left, above, before with label, before 
+% without label, filler and page, after
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% itemize enumerate and co
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{enumitem}
+
+\setitemize{itemsep=8pt}
+\renewcommand{\labelitemi}{\textbullet}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PLOT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{pdfpages}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% listings
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{listings}
+
+\lstset{basicstyle=\footnotesize\ttfamily,breaklines=true}
+\lstset{
+%backgroundcolor=\color{gray!10},
+framextopmargin=5pt,
+framexbottommargin=5pt,
+frame = single
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% maths and units
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amsmath}
+\usepackage{siunitx}
+  
+  %\usepackage{mathptmx}
+
+  \usepackage{textcomp}
+% MATH FONTS
+%  \usepackage{cmbright}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% citing
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+ \usepackage[
+%style=authoryear,
+style=apa,
+backend=biber,
+url=true,
+doi=true,
+maxbibnames=99, maxcitenames=1
+ ]{biblatex}
+ 
+
+\bibliography{/home/anwaldt/WORK/PAPERS/ExpressiveSampling}
+
+% \renewcommand*{\bibfont}{\small}
+% \renewcommand\nameyeardelim{, }
+
+
+\setlength\bibhang{0pt}
+\setlength\bibitemsep{16pt}
+
+ 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% index
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{imakeidx}
+\makeindex
+\newcommand{\toindex}[1]{\textit{#1}\index{\MakeUppercase{#1}}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TIKZ AND PGF
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usetikzlibrary{, arrows, shadows, positioning}
+  
+
+\usepackage{pgf-umlsd}
+\usepackage{tikz-uml}
+\usepackage{tikz-3dplot}
+
+\pgfplotsset{compat=1.9}
+ 
+
+
+\tikzstyle{block} = [
+drop shadow,
+draw, 
+fill=gray!5, 
+rectangle, 
+minimum height=2em, 
+minimum width=2em,
+font=\sffamily \fontsize{6}{6} \selectfont]
+
+
+\tikzstyle{sum} = [
+drop shadow,
+line width=1pt,
+draw, 
+fill=gray!5, 
+circle]
+
+\tikzstyle{input} = [coordinate,line width=1pt]
+\tikzstyle{output} = [coordinate,line width=1pt]
+\tikzstyle{pinstyle} = [pin edge={to-,thin,black},line width=0.8pt]
+ 
+
+
+
+
+
+
+
+\tikzumlset{font = \small}
+
+\tikzumlset{fill object= black!10}
+\tikzumlset{fill call  = black!20}
+\tikzumlset{fill state = black!20} 
+\tikzumlset{fill class = black!20}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% referencing
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\usepackage[
+colorlinks = true,
+citecolor  = gray,
+linkcolor  = gray,
+urlcolor   = gray,
+]
+{hyperref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+ 
+\begin{document}
+<>
+\end{document}

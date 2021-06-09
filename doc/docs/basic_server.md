@@ -1,15 +1,23 @@
 ## The Basic Server
 
+The basic server works with a single listening position
+in the center for all access points. All sound source positions are
+thus defined by their absolute position:
+
+![Single Position](graphics/single_position.png)
+<!-- {width=100% height=400} -->
+
+----
 
 The basic SC server offers binaural rendering with OSC control.
 In the recent version, all access points send and receive two
 channels of audio to the server. Signals from the access
-points can be raouted to specific targets via OSC command.
+points can be routed to specific targets via OSC command.
 All access points receive the full binaural mix and selected
 sources. The server is per default configured for up to 16 access points,
 each with two channels:
 
-Acess Point | Sources
+Access Point | Sources
 ---     | ---   
 0       | 0,1
 1       | 2,3
@@ -17,6 +25,14 @@ Acess Point | Sources
 ...     | ...   
 15      | 30,31
 
+### SC Output Channel Assignment
+
+Channels    | Description
+---         | ---   
+00-31       | direct to access points
+32-63       | binaural to access point
+64-65       | main binaural
+64-81       | main 3rd order Ambisonics
 
 
 ### OSC Messages

@@ -24,7 +24,6 @@ OSCdef(\route_pi,
 		bus_IDX = ((to_ID*~nChannels*~nChannels) + from_CH + (~nChannels*to_CH));
 		bus_IDX.postln;
 
-
 		// set the bus value:
 		~gain_BUS_pi[from_ID].setAt(bus_IDX  ,msg[5]);
 
@@ -109,13 +108,12 @@ OSCdef(\mute_all_ap,
 // OSC spatial listeners:
 /////////////////////////////////////////////////////////////////
 
-post(NetAddr.langPort);
+
 ~azim_OSC = OSCFunc(
 	{
 		arg msg, time, addr, recvPort;
 		var azim = msg[2];
-		~control_azim_BUS.setAt(msg[1],azim);
-		postln('received new azim!');
+ 		~control_azim_BUS.setAt(msg[1],azim);
 
 }, '/source/azim');
 
@@ -144,4 +142,63 @@ post(NetAddr.langPort);
 
 }, '/source/reverb');
 
+
+
+
+
+	~aed_OSC = OSCFunc(
+		{
+			arg msg, time, addr, recvPort;
+
+			var azim = msg[2] / 360.0 * (2.0*pi);
+			var elev = msg[3] / 360.0 * (2.0*pi);
+			var dist = msg[4];
+
+			~control_azim_BUS.setAt(msg[1],azim);
+			~control_elev_BUS.setAt(msg[1],elev);
+			~control_dist_BUS.setAt(msg[1],dist);
+
+	}, '/source/aed');
+
+
+/////////////////////////////////////////////////////////////////
+// OSC sends
+/////////////////////////////////////////////////////////////////
+
+	// experimental
+	// output azim, elev, dist
+	~send_OSC_ROUTINE = Routine({
+
+		inf.do({
+
+			var azim, elev, dist;
+
+			// post('sending new position data...');
+			// post(NetAddr.langPort);
+
+			// ~nSystems-1
+			for (0, ~nSystems-1, {
+
+			 	arg i;
+
+			 	azim = ~control_azim_BUS.getnSynchronous(~nInputs)[i];
+			 	elev = ~control_elev_BUS.getnSynchronous(~nInputs)[i];
+			 	dist = ~control_dist_BUS.getnSynchronous(~nInputs)[i];
+
+				~spatial_OSC.sendMsg('/source/aed', i, azim, elev, dist);
+				// s.sendMsg('/source/aed', i, azim, elev, dist);
+			});
+
+			0.01.wait;
+			// 1.00.wait;
+		});
+
+	});
+
+	// ~send_OSC_ROUTINE.next;
+	~send_OSC_ROUTINE.play;
+	// TempoClock.default.sched(0, ~send_OSC_ROUTINE);
+	// ~send_OSC_ROUTINE.stop;
+
+	/////////////////////////////////////////////////////////////////
 

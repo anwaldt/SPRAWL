@@ -1,0 +1,15 @@
+#N canvas 326 360 995 442 10;
+#X obj 68 63 nplace_receiver;
+#X obj 503 68 nplace_source;
+#X floatatom 68 23 5 0 0 0 - - -, f 5;
+#X floatatom 503 32 5 0 0 0 - - -, f 5;
+#X text 541 31 Source index;
+#X text 105 24 Receiver index;
+#X obj 546 366 udpreceive;
+#X msg 546 343 port 5005;
+#X obj 546 389 s OSC;
+#X text 497 323 Receive and distribute globally;
+#X connect 2 0 0 0;
+#X connect 3 0 1 0;
+#X connect 6 0 8 0;
+#X connect 7 0 6 0;

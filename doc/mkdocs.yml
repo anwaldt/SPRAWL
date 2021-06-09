@@ -18,4 +18,4 @@ markdown_extensions:
       generic: true
 docs:
     ../graphics/
-      hufo_flow_1.png
+      single_position.png

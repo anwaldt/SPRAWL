@@ -1,0 +1,22 @@
+<jmess>
+  <connection>
+    <output>system:capture_1</output>
+    <input>SPRAWL_remote:in_1</input>
+  </connection>
+  <connection>
+    <output>system:capture_2</output>
+    <input>SPRAWL_remote:in_1</input>
+  </connection>
+  <connection>
+    <output>SPRAWL_remote:out_1</output>
+    <input>zita-j2n:in_1</input>
+  </connection>
+  <connection>
+    <output>SPRAWL_remote:out_2</output>
+    <input>system:playback_1</input>
+  </connection>
+  <connection>
+    <output>SPRAWL_remote:out_2</output>
+    <input>system:playback_2</input>
+  </connection>
+</jmess>

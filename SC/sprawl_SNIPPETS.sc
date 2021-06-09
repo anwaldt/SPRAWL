@@ -22,5 +22,8 @@ after starting the SPRAWL server.
 
 	s.scope(16,~gain_BUS_pi[1].index, rate: 'control');
 
+	s.scope(8,128);
+
+	s.scope(8,~control_azim_BUS.index, rate: 'control');
 
 }
