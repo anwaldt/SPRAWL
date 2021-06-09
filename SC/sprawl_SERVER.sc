@@ -17,6 +17,7 @@ Henrik von Coler
 
 // get script's directory for relative paths
 ~root_DIR = thisProcess.nowExecutingPath.dirname++"/";
+
 post(~root_DIR);
 
 // some server parameters
@@ -145,6 +146,7 @@ s.waitForBoot({
 
 
 
+
 	/////////////////////////////////////////////////////////////////
 	// Encoder SECTION
 
@@ -201,8 +203,6 @@ s.waitForBoot({
 	s.sync;
 
 	~decoder.set(\out_bus, ~binaural_mix_BUS);
-
-
 
 	////////////////////////////////////////////////////////////////////
 	// partitioned convolution stuff (to be used with convolve-synthdef)
