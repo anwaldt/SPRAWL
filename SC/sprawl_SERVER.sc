@@ -159,7 +159,7 @@ s.waitForBoot({
 		cnt.postln;
 
 		~binaural_encoders = ~binaural_encoders.add(
-			Synth(\binaural_mono_encoder_3,
+			Synth(\hoa_mono_encoder_3,
 				[
 					\in_bus,     ~rendering_send_BUS.index+cnt,
 					\out_bus,    ~ambi_BUS.index,

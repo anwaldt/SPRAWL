@@ -102,7 +102,7 @@ if( ~nChannels!=nil && ~nVirtualSources!=nil && ~nSystems!=nil, {
 
 
 
-SynthDef(\binaural_mono_encoder_3,
+SynthDef(\hoa_mono_encoder_3,
 	{
 		|
 		in_bus     = 0,
