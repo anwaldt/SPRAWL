@@ -29,4 +29,4 @@ jackd -P 90 -d alsa -d hw:1,0 -r 48000 -p 256 &
 
 sleep 2
 
-bin/jacktrip_nils -C 85.214.78.6 --numincoming 2 --numoutgoing $OUTCHANS -K AP_$NAME
+../bin/jacktrip_nils -C 85.214.78.6 --numincoming 2 --numoutgoing $OUTCHANS -K AP_$NAME
