@@ -14,7 +14,7 @@
     
     
       
-        <title>The Basic Server - SPRAWL System</title>
+        <title>The Multi Site Server - SPRAWL System</title>
       
     
     
@@ -58,7 +58,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#the-basic-server" class="md-skip">
+        <a href="#the-multi-site-server" class="md-skip">
           Skip to content
         </a>
       
@@ -90,7 +90,7 @@
         <div class="md-header-nav__topic">
           <span class="md-ellipsis">
             
-              The Basic Server
+              The Multi Site Server
             
           </span>
         </div>
@@ -183,6 +183,21 @@
 
   
   
+  
+    <li class="md-nav__item">
+      <a href="../basic_server/" class="md-nav__link">
+        The Basic Server
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
     
   
   
@@ -194,12 +209,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          The Basic Server
+          The Multi Site Server
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        The Basic Server
+        The Multi Site Server
       </a>
       
         
@@ -222,59 +237,10 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#osc-messages" class="md-nav__link">
-    OSC Messages
-  </a>
-  
-    <nav class="md-nav" aria-label="OSC Messages">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#routing" class="md-nav__link">
-    Routing
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#spatial" class="md-nav__link">
-    Spatial
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#monitoring" class="md-nav__link">
-    Monitoring
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
     </ul>
   
 </nav>
       
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../multi_site_server/" class="md-nav__link">
-        The Multi Site Server
-      </a>
     </li>
   
 
@@ -355,40 +321,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#osc-messages" class="md-nav__link">
-    OSC Messages
-  </a>
-  
-    <nav class="md-nav" aria-label="OSC Messages">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#routing" class="md-nav__link">
-    Routing
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#spatial" class="md-nav__link">
-    Spatial
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#monitoring" class="md-nav__link">
-    Monitoring
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -402,52 +334,9 @@
               
                 
                 
-                <h1 id="the-basic-server">The Basic Server</h1>
-<p>The basic server works with a single listening position
-in the center for all access points. All sound source positions are
-thus defined by their absolute position:</p>
-<p><img alt="Single Position" src="../graphics/single_position.png" /></p>
-<!-- {width=100% height=400} -->
-
-<hr />
-<p>The basic SC server offers binaural rendering with OSC control.
-In the recent version, all access points send and receive two
-channels of audio to the server. Signals from the access
-points can be routed to specific targets via OSC command.
-All access points receive the full binaural mix and selected
-sources. The server is per default configured for up to 16 access points,
-each with two channels:</p>
-<table>
-<thead>
-<tr>
-<th>Access Point</th>
-<th>Sources</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0</td>
-<td>0,1</td>
-</tr>
-<tr>
-<td>1</td>
-<td>2,3</td>
-</tr>
-<tr>
-<td>2</td>
-<td>4,5</td>
-</tr>
-<tr>
-<td>...</td>
-<td>...</td>
-</tr>
-<tr>
-<td>15</td>
-<td>30,31</td>
-</tr>
-</tbody>
-</table>
+                <h1 id="the-multi-site-server">The Multi Site Server</h1>
 <h2 id="sc-output-channel-assignment">SC Output Channel Assignment</h2>
+<p>Counting from 0 (as in SC buses)</p>
 <table>
 <thead>
 <tr>
@@ -457,103 +346,15 @@ each with two channels:</p>
 </thead>
 <tbody>
 <tr>
-<td>00-31</td>
-<td>direct to access points</td>
-</tr>
-<tr>
-<td>32-63</td>
-<td>binaural to access point</td>
-</tr>
-<tr>
-<td>64-65</td>
-<td>main binaural</td>
+<td>32-47</td>
+<td>Binaural outputs (8x2)</td>
 </tr>
 <tr>
 <td>64-81</td>
-<td>main 3rd order Ambisonics</td>
+<td>Main 3rd order Ambisonics</td>
 </tr>
 </tbody>
 </table>
-<h2 id="osc-messages">OSC Messages</h2>
-<p>Sending OSC messages can be tested with the PD patches
-<code>control_position.pd</code> and <code>control_sends.pd</code>.
-The default server listens to the following messages:</p>
-<h3 id="routing">Routing</h3>
-<p>For each access point, the server adds two virtual sound sources.
-Individual channels from each access point can be routed to any virtual sound source:</p>
-<pre><code>/route/spatial i i i f
-</code></pre>
-<ul>
-<li>first argument: send access point index (0...15)</li>
-<li>second argument: send channel to use (0,1)</li>
-<li>third argument: virtual sound source index (0...31)</li>
-<li>fourth argument: gain (0...1)</li>
-</ul>
-<p>The default routing can be restored at any time with the OSC message:</p>
-<pre><code>/default_spatial_routing
-</code></pre>
-<p>All spatial routing gains can be set to 0 with the following OSC message:</p>
-<pre><code>/mute_all_spatial
-</code></pre>
-<p>Individual channels from each access point can be routed
-to individual channels of other access points:</p>
-<pre><code>/route/pi i i i f
-</code></pre>
-<ul>
-<li>first argument: send access point index (0...15)</li>
-<li>second argument: send channel to use (0,1)</li>
-<li>third argument: receive access point index (0...15)</li>
-<li>fourth argument: receive channel to use (0,1)</li>
-<li>fifth argument: gain (0...1)</li>
-</ul>
-<p>All AP routing gains can be set to 0 with the following OSC message:</p>
-<pre><code>/mute_all_ap
-</code></pre>
-<h3 id="spatial">Spatial</h3>
-<p>Source positions are controlled in spherical coordinates.</p>
-<pre><code>/source/azim i f
-</code></pre>
-<ul>
-<li>first argument: virtual sound source index (0...32)</li>
-<li>
-<p>second argument: azimuth angle (-pi ... pi)</p>
-<p>/source/elev i f</p>
-</li>
-<li>
-<p>first argument: virtual sound source index (0...32)</p>
-</li>
-<li>
-<p>second argument: elevation angle (-pi ... pi)</p>
-<p>/source/dist i f</p>
-</li>
-<li>
-<p>first argument: virtual sound source index (0...32)</p>
-</li>
-<li>second argument: distance in meters (0 ... 10)</li>
-</ul>
-<p>Sources can be routed to a convolution reverb, which is
-independent from the spatial source position:</p>
-<pre><code>/source/reverb i f
-</code></pre>
-<ul>
-<li>first argument: virtual sound source index (0...32)</li>
-<li>second argument: reverb gain (0 ... 1)</li>
-</ul>
-<h3 id="monitoring">Monitoring</h3>
-<p>For each access point, the gain of the binaural mix can be set:</p>
-<pre><code>/monitor/gain f
-</code></pre>
-<ul>
-<li>argument: the monitor gain (0...1)</li>
-</ul>
-<p>The binaural mix can also be summed to a single channel.
-In that case, only the first (left) channel of the acces
-point is used for monitoring:</p>
-<pre><code>/monitor/mono f
-</code></pre>
-<ul>
-<li>argument: (0....1) 0=stereo, 1=mono</li>
-</ul>
                 
               
               
@@ -572,7 +373,7 @@ point is used for monitoring:</p>
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href=".." class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../basic_server/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -581,19 +382,19 @@ point is used for monitoring:</p>
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Home
+                The Basic Server
               </div>
             </div>
           </a>
         
         
-          <a href="../multi_site_server/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../nplace_server/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                The Multi Site Server
+                The NPlace Server
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">
