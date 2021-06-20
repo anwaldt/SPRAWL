@@ -21,7 +21,7 @@ post(~root_DIR);
 // some server parameters
 s.options.device               = "SPRAWL_Server";
 s.options.numInputBusChannels  = 32;
-s.options.numOutputBusChannels = 128;
+s.options.numOutputBusChannels = 88;
 s.options.maxLogins            = 4;
 s.options.bindAddress          = "0.0.0.0";
 // s.options.numBuffers           = 1024 * 256 * 4;
@@ -323,9 +323,9 @@ s.waitForBoot({
 
 	~hoa_reverb_sources = {
 		Out.ar(~ambi_BUS.index+0,  In.ar(~reverb_stereo_BUS.index+3));
-		Out.ar(~ambi_BUS.index+1,  In.ar(~reverb_stereo_BUS.index+2));
+		Out.ar(~ambi_BUS.index+1,  In.ar(~reverb_stereo_BUS.index+0));
 		Out.ar(~ambi_BUS.index+2,  In.ar(~reverb_stereo_BUS.index+1));
-		Out.ar(~ambi_BUS.index+3,  In.ar(~reverb_stereo_BUS.index+0));
+		Out.ar(~ambi_BUS.index+3,  In.ar(~reverb_stereo_BUS.index+2));
 	}.play;
 	s.sync;
 ~hoa_reverb_sources.free
