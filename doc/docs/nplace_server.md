@@ -1,4 +1,4 @@
-## The NPlace Server
+# The NPlace Server
 
 
-### SC Output Channel Assignment
+## SC Output Channel Assignment

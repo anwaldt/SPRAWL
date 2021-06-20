@@ -1,4 +1,4 @@
-## The Basic Server
+# The Basic Server
 
 The basic server works with a single listening position
 in the center for all access points. All sound source positions are
@@ -25,7 +25,7 @@ Access Point | Sources
 ...     | ...   
 15      | 30,31
 
-### SC Output Channel Assignment
+## SC Output Channel Assignment
 
 Channels    | Description
 ---         | ---   
@@ -35,14 +35,14 @@ Channels    | Description
 64-81       | main 3rd order Ambisonics
 
 
-### OSC Messages
+## OSC Messages
 
 Sending OSC messages can be tested with the PD patches
 `control_position.pd` and `control_sends.pd`.
 The default server listens to the following messages:
 
 
-#### Routing
+### Routing
 
 For each access point, the server adds two virtual sound sources.
 Individual channels from each access point can be routed to any virtual sound source:
@@ -80,7 +80,7 @@ All AP routing gains can be set to 0 with the following OSC message:
 
 
 
-#### Spatial
+### Spatial
 
 Source positions are controlled in spherical coordinates.
 
@@ -107,7 +107,7 @@ independent from the spatial source position:
 - first argument: virtual sound source index (0...32)
 - second argument: reverb gain (0 ... 1)
 
-#### Monitoring
+### Monitoring
 
 For each access point, the gain of the binaural mix can be set:
 
