@@ -82,7 +82,7 @@ s.waitForBoot({
 
 	// reverb send level
 	~control_reverb_BUS   = Bus.control(s,~nSystems);
-	~control_reverb_BUS.setAll(0.2);
+	~control_reverb_BUS.setAll(1);
 
 	// audio reverb bus
 	~reverb_send_BUS      = Bus.audio(s,2);
@@ -322,10 +322,10 @@ s.waitForBoot({
 	s.sync;*/
 
 	~hoa_reverb_sources = {
-		Out.ar(~ambi_BUS.index+0,  In.ar(~reverb_stereo_BUS.index+0));
+		Out.ar(~ambi_BUS.index+0,  In.ar(~reverb_stereo_BUS.index+3));
 		Out.ar(~ambi_BUS.index+1,  In.ar(~reverb_stereo_BUS.index+2));
-		Out.ar(~ambi_BUS.index+2,  In.ar(~reverb_stereo_BUS.index+3));
-		Out.ar(~ambi_BUS.index+3,  In.ar(~reverb_stereo_BUS.index+1));
+		Out.ar(~ambi_BUS.index+2,  In.ar(~reverb_stereo_BUS.index+1));
+		Out.ar(~ambi_BUS.index+3,  In.ar(~reverb_stereo_BUS.index+0));
 	}.play;
 	s.sync;
 ~hoa_reverb_sources.free
