@@ -324,8 +324,8 @@ s.waitForBoot({
 	~hoa_reverb_sources = {
 		Out.ar(~ambi_BUS.index+0,  In.ar(~reverb_stereo_BUS.index+0));
 		Out.ar(~ambi_BUS.index+1,  In.ar(~reverb_stereo_BUS.index+2));
-		Out.ar(~ambi_BUS.index+2,  In.ar(~reverb_stereo_BUS.index+1));
-		Out.ar(~ambi_BUS.index+3,  In.ar(~reverb_stereo_BUS.index+3));
+		Out.ar(~ambi_BUS.index+2,  In.ar(~reverb_stereo_BUS.index+3));
+		Out.ar(~ambi_BUS.index+3,  In.ar(~reverb_stereo_BUS.index+1));
 	}.play;
 	s.sync;
 ~hoa_reverb_sources.free
