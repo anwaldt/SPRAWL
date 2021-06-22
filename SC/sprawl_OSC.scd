@@ -109,7 +109,7 @@ OSCdef(\mute_all_ap,
 /////////////////////////////////////////////////////////////////
 
 
-~azim_OSC = OSCFunc(
+OSCdef(\source_azim,
 	{
 		arg msg, time, addr, recvPort;
 		var azim = msg[2];
@@ -117,7 +117,7 @@ OSCdef(\mute_all_ap,
 
 }, '/source/azim');
 
-~elev_OSC = OSCFunc(
+OSCdef(\source_elev,
 	{
 		arg msg, time, addr, recvPort;
 		var elev = msg[2];
@@ -125,7 +125,7 @@ OSCdef(\mute_all_ap,
 
 }, '/source/elev');
 
-~dist_OSC = OSCFunc(
+OSCdef(\source_dist,
 	{
 		arg msg, time, addr, recvPort;
 		var dist = msg[2]*~distance_scaling;
@@ -133,7 +133,7 @@ OSCdef(\mute_all_ap,
 
 }, '/source/dist');
 
-~scaling_OSC = OSCFunc(
+OSCdef(\global_scaling,
 	{
 		arg msg, time, addr, recvPort;
 
@@ -141,7 +141,7 @@ OSCdef(\mute_all_ap,
 
 }, '/global/scaling');
 
-~reverb_OSC = OSCFunc(
+OSCdef(\source_reverb,
 	{
 		arg msg, time, addr, recvPort;
 		var amnt = msg[2];
@@ -159,7 +159,7 @@ OSCdef(\mute_all_ap,
 
 			var azim = msg[2] / 360.0 * (2.0*pi);
 			var elev = msg[3] / 360.0 * (2.0*pi);
-			var dist = msg[4]*;
+			var dist = msg[4];
 
 			~control_azim_BUS.setAt(msg[1],azim);
 			~control_elev_BUS.setAt(msg[1],elev);
