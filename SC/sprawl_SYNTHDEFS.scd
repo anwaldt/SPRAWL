@@ -118,7 +118,7 @@ SynthDef(\hoa_mono_encoder_3,
 
 		var sound = gain * In.ar(in_bus);
 
-		var level =  min(1,(1/(max(0,dist))));
+		var level =  0.5*min(1,(1/(max(0,dist))));
 
 		var bform = HOASphericalHarmonics.coefN3D(3, azim, elev) * sound * level;
 
