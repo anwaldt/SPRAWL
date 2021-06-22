@@ -328,7 +328,7 @@ s.waitForBoot({
 		Out.ar(~ambi_BUS.index+3,  In.ar(~reverb_stereo_BUS.index+2));
 	}.play;
 	s.sync;
-~hoa_reverb_sources.free
+
 	~hoa_reverb_sources.moveToTail(~reverb_GROUP);
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 	// DECODER
