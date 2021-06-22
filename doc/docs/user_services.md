@@ -13,6 +13,11 @@ SPRAWL offers following SystemD User Services:
 The SC Sprawl and Multi Site Server services rely on the SPRAWL repo to be found
 under ~/SPRAWL/.
 
+## Installation
+
+The `install.sh` script in the systemd directory installs all service files to
+`/usr/lib/systemd/user/`. So all service files should be user services.
+
 ## Configuration
 
 All SPRAWL related configuration is located in `~/.sprawl/`.
