@@ -15,7 +15,7 @@ under ~/SPRAWL/.
 
 ## Configuration
 
-All SPRAWL related configuration is located in `~/.sprawl/'.
+All SPRAWL related configuration is located in `~/.sprawl/`.
 `jack.conf` respectively `jack-dummy.conf` are the corresponding jack configurations.
 There the sampling rate and period size are defined.
 
