@@ -79,10 +79,11 @@ s.waitForBoot({
 	~control_azim_BUS     = Bus.control(s,~nSystems);
 	~control_elev_BUS     = Bus.control(s,~nSystems);
 	~control_dist_BUS     = Bus.control(s,~nSystems);
+	~distance_scaling     = 1; // additional factor
 
 	// reverb send level
 	~control_reverb_BUS   = Bus.control(s,~nSystems);
-	~control_reverb_BUS.setAll(1);
+	~control_reverb_BUS.setAll(0.3);
 
 	// audio reverb bus
 	~reverb_send_BUS      = Bus.audio(s,2);

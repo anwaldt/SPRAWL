@@ -18,7 +18,7 @@ Henrik von Coler
 /////////////////////////////////////////////////////////////////////////////////
 
 // some server parameters
-s.options.device               = "simple_SERVER";
+s.options.device               = "sprawl_SERVER";
 s.options.numInputBusChannels  = 32;
 s.options.numOutputBusChannels = 2;
 s.options.maxLogins            = 4;
