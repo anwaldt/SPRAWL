@@ -14,8 +14,7 @@ Henrik von Coler
 
 (
 
-o = ServerOptions.new;
-
+o                      = ServerOptions.new;
 o.maxLogins            = 4;
 o.numInputBusChannels  = 32;
 o.numOutputBusChannels = 2;

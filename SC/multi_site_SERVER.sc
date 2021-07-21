@@ -47,7 +47,7 @@ s.options.numWireBufs          = 512;
 ~n_hoa_channels  = pow(~hoa_order + 1.0 ,2.0);
 
 // setting spacial_OSC to send position data
-~spatial_OSC  = NetAddr("127.0.0.1", 5005);
+~spatial_OSC  = NetAddr("127.0.0.1", 9595);
 
 
 
@@ -328,7 +328,7 @@ s.waitForBoot({
 		Out.ar(~ambi_BUS.index+3,  In.ar(~reverb_stereo_BUS.index+2));
 	}.play;
 	s.sync;
-~hoa_reverb_sources.free
+
 	~hoa_reverb_sources.moveToTail(~reverb_GROUP);
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 	// DECODER
